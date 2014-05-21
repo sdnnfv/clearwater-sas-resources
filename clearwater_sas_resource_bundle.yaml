@@ -1,0 +1,821 @@
+# @file clearwater_sas_resource_bundle.yaml
+#
+# Project Clearwater - IMS in the Cloud
+# Copyright (C) 2014  Metaswitch Networks Ltd
+#
+# This program is free software: you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by the
+# Free Software Foundation, either version 3 of the License, or (at your
+# option) any later version, along with the "Special Exception" for use of
+# the program along with SSL, set forth below. This program is distributed
+# in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+# without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+# A PARTICULAR PURPOSE.  See the GNU General Public License for more
+# details. You should have received a copy of the GNU General Public
+# License along with this program.  If not, see
+# <http://www.gnu.org/licenses/>.
+#
+# The author can be reached by email at clearwater@metaswitch.com or by
+# post at Metaswitch Networks Ltd, 100 Church St, Enfield EN2 6BQ, UK
+#
+# Special Exception
+# Metaswitch Networks Ltd  grants you permission to copy, modify,
+# propagate, and distribute a work formed by combining OpenSSL with The
+# Software, or a work derivative of such a combination, even if such
+# copying, modification, propagation, or distribution would otherwise
+# violate the terms of the GPL. You must comply with the GPL in all
+# respects for all of the code used other than OpenSSL.
+# "OpenSSL" means OpenSSL toolkit software distributed by the OpenSSL
+# Project and licensed under the OpenSSL Licenses, or a work based on such
+# software and licensed under the OpenSSL Licenses.
+# "OpenSSL Licenses" means the OpenSSL License and Original SSLeay License
+# under which the OpenSSL Project distributes the OpenSSL toolkit software,
+# as those licenses appear in the file LICENSE-OPENSSL.
+
+info:
+  identifier: "org.projectclearwater.20140407"
+
+events:
+  #
+  # Common events and protocol flows (0x000000 - 0x7FFFFF).
+  #
+  0x000001:
+    summary: "SIP message received: {{ var_data[1] | decode_sip_summary }}"
+    details: |
+      SIP message received:
+
+      <sas:fixed-width-font>{{ var_data[1] | decode_sip_details }}</sas:fixed-width-font>
+    call_flow:
+      data: "{{ var_data[1] }}"
+      protocol: sip
+      direction: in
+      remote_address: "{{var_data[0]}}:{{static_data[1]}}"
+    level:   60
+
+  0x000002:
+    summary: "SIP message sent: {{ var_data[1] | decode_sip_summary }}"
+    details: |
+      SIP message sent:
+
+      <sas:fixed-width-font>{{ var_data[1] | decode_sip_details }}</sas:fixed-width-font>
+    call_flow:
+      data: "{{ var_data[1] }}"
+      protocol: sip
+      direction: out
+      remote_address: "{{var_data[0]}}:{{static_data[1]}}"
+    level:   60
+
+  #
+  # HTTP flows.
+  #
+  0x000003: &http_request_sent
+    summary: 'Sending HTTP {{ var_data[0] }} to {{ var_data[1] }}'
+    details: |
+      Sending HTTP {{ var_data[0] }} to {{ var_data[1] }}
+
+      Body:
+      <sas:fixed-width-font>{{ var_data[2] | if_blank: "<none>" }}</sas:fixed-width-font>
+    level: 60
+
+  0x000004: &http_request_received
+    summary: 'Received HTTP {{ static_data[0] | enum: "LIBEVHTP_METHODS" }} for {{ var_data[0] }}'
+    details: |
+      Received HTTP {{ static_data[0] | enum: "LIBEVHTP_METHODS" }} for {{ var_data[0] }}
+
+      Body:
+      <sas:fixed-width-font>{{ var_data[1] | if_blank: "<none>" }}</sas:fixed-width-font>
+    level: 60
+
+  0x000005: &http_response_sent
+    summary: 'Sending HTTP {{ static_data[0] }} response for {{ static_data[1] | enum: "LIBEVHTP_METHODS" }} of {{ var_data[0] }}'
+    details: |
+      Sending HTTP {{ static_data[0] }} response for {{ static_data[0] | enum: "LIBEVHTP_METHODS" }} of {{ var_data[0] }}
+
+      Body:
+      <sas:fixed-width-font>{{ var_data[1] | if_blank: "<none>" }}</sas:fixed-width-font>
+    level: 60
+
+  0x000006: &http_response_received
+    summary: 'Receiving HTTP {{ static_data[0] }} response for {{ var_data[0] }} to {{ var_data[1] }}'
+    details: |
+      Receiving HTTP {{static_data[0] }} response for {{ var_data[0] }} to {{ var_data[1] }} / {{ var_data[3] }}
+
+      Body:
+      <sas:fixed-width-font>{{ var_data[2] | if_blank: "<none>" }}</sas:fixed-width-font>
+    level: 60
+
+  0x000007: &http_request_error
+    summary: 'Error sending HTTP {{ var_data[0] }} request to {{ var_data[1] }}'
+    details: |
+      Error sending HTTP {{ var_data[0] }} request to {{ var_data[1] }} / {{ var_data[3] }}
+
+      {{ var_data[2] }} ({{ static_data[0] }})
+    level: 60
+
+  0x000008: &http_rejected_overload
+    summary: 'HTTP {{ static_data[1] | enum: "LIBEVHTP_METHODS" }} to {{ var_data[0] }} rejected due to overload'
+    details: |
+      HTTP {{ static_data[1] | enum: "LIBEVHTP_METHODS" }} to {{ var_data[0] }} rejected due to overload.
+      Response code: {{ static_data[0] }}
+    level: 60
+
+  # Duplicates of the above HTTP events, but logged at level 40 rather than 60.
+  0x000009:
+    <<: *http_request_sent
+    level: 40
+
+  0x00000A:
+    <<: *http_request_received
+    level: 40
+
+  0x00000B:
+    <<: *http_response_sent
+    level: 40
+
+  0x00000C:
+    <<: *http_response_received
+    level: 40
+
+  0x00000D:
+    <<: *http_request_error
+    level: 40
+
+  0x00000E:
+    <<: *http_rejected_overload
+    level: 40
+
+  #
+  # Diameter flows.
+  #
+  0x00000F:
+    summary: 'Sending diameter {{ var_data[0] | decode_diameter_summary }}'
+    details: |
+      Sending diameter message:
+
+      <sas:fixed-width-font>{{ var_data[0] | decode_diameter_details }}</sas:fixed-width-font>
+    level: 60
+
+  0x000010:
+    summary: 'Received diameter {{ var_data[0] | decode_diameter_summary }}'
+    details: |
+      Received diameter message:
+      <sas:fixed-width-font>{{ var_data[0] | decode_diameter_details }}</sas:fixed-width-font>
+    level: 60
+
+  0x000011:
+    summary: 'Timeout sending diameter {{ var_data[0] | decode_diameter_summary }}'
+    details: |
+      Timeout sending diameter message:
+      <sas:fixed-width-font>{{ var_data[0] | decode_diameter_details }}</sas:fixed-width-font>
+    level: 60
+
+  #
+  # Memcached flows.
+  #
+
+  0x000100:
+    summary: "Sending get request to memcached for key {{ var_data[0] }} with CAS {{ static_data[0] | uint32 }}"
+    level: 40
+
+  0x000101:
+    summary: "Memcached get request succeeded for key {{ var_data[0] }}"
+    level: 40
+
+  0x000102:
+    summary: "Memcached get request found no data for key {{ var_data[0] }}"
+    level: 40
+
+  0x000103:
+    summary: "Memcached get request failed for key {{ var_data[0] }}"
+    level: 40
+
+  0x000104:
+    summary: "Sending set request to memcached for key {{ var_data[0] }} with CAS {{ static_data[0] | uint32 }}, due to expire in {{ static_data[1] | uint32 }} seconds"
+    level: 40
+
+  0x000105:
+    summary: "Memcached set request for key {{ var_data[0] }} failed due to data contention"
+    level: 40
+
+  0x000106:
+    summary: "Memcached set request for key {{ var_data[0] }} failed (not due to data contention)"
+    level: 40
+
+  0x000107:
+    summary: "Deleting memcached data for key {{ var_data[0] }}"
+    level: 40
+
+  0x000108:
+    summary: 'The SRV lookup has returned for target: {{ var_data[0] }}'
+    details: |
+      Available addresses: {{ var_data[1] }}
+      Blacklisted values: {{ var_data[2] }}
+      Addresses added from Blacklist: {{ var_data[3] }}
+    level:   40
+
+  0x000109:
+    summary: 'The A/AAAA lookup has returned for target: {{ var_data[0] }}'
+    details: |
+      Available addresses: {{ var_data[1] }}
+      Blacklisted values: {{ var_data[2] }}
+      Addresses added from Blacklist: {{ var_data[3] }}
+    level:   40
+
+  #
+  # Sprout events (0x810000 - 0x81FFFF)
+  #
+  0x810000:
+    summary: "Starting ENUM processing for digits: {{ var_data[0] | dn }}"
+    level:   60
+
+  0x810001:
+    summary: "An ENUM rule has translated {{ var_data[0] }} to {{ var_data[3] }}"
+    details: |
+      An ENUM rule has translated {{ var_data[0] }} to {{ var_data[3] }}
+      Regular expression: {{ var_data[1] }}
+      Replacement: {{ var_data[2] }}
+      Terminal? {{ static_data[0] }}
+    level:   40
+
+  0x810002:
+    summary: "ENUM processing for {{ var_data[0] | dn }} failed to find a terminal rule"
+    level:   80
+
+  0x810003:
+    summary: "ENUM translated {{ var_data[0] | dn }} to {{ var_data[1] }}"
+    level:   60
+
+  0x810004:
+    summary: "ENUM (DNS NAPTR) request sent for domain {{ var_data[0] }}"
+    level:   60
+
+  0x810005:
+    summary: "ENUM (DNS NAPTR) response received for domain {{ var_data[0] }}"
+    details: |
+      ENUM (DNS NAPTR) response received for domain {{ var_data[0] }}:
+
+      <sas:fixed-width-font>{{ var_data[1] | decode_dns_details }}</sas:fixed-width-font>
+    level:   60
+
+  0x810006:
+    summary: 'ENUM (DNS NAPTR) request for domain {{ var_data[0] }} failed: {{ static_data[0] | enum: "C_ARES_ERRORS" }}'
+    level:   60
+
+  0x810010:
+    summary: 'BGCF route "{{ var_data[0] }}" selected for domain "{{ var_data[1] }}"'
+    level:   40
+
+  0x810011:
+    summary: 'Default BGCF route "{{ var_data[0] }}" selected for domain "{{ var_data[1] }}"'
+    level:   40
+
+  0x810012:
+    summary: 'BGCF lookup for domain "{{ var_data[0] }}" failed - routing directly'
+    level:   40
+
+  0x810020:
+    summary: 'There are no configured S-CSCFs - request cannot be processed'
+    level:   80
+
+  0x810021:
+    summary: 'There are no configured S-CSCFs that have the required capabilities'
+    details: |
+      Mandatory capabilities: {{ var_data[0] }}
+      Optional capabilities: {{ var_data[1] }}
+      S-CSCF rejected as they've already been tried: {{ var_data[2] }}
+    level:   80
+
+  0x810022:
+    summary: 'S-CSCF "{{ var_data[0] }}" selected'
+    details: |
+      Mandatory capabilities: {{ var_data[1] }}
+      Optional capabilities: {{ var_data[2] }}
+      Priority: {{ var_data[3] }}
+      Weight: {{ var_data[4] }}
+      S-CSCF rejected as they've already been tried: {{ var_data[5] }}
+    level:   40
+
+  0x810023:
+    summary: 'Selecting an S-CSCF succeeded'
+    details: |
+      S-CSCF selected: {{ var_data[0] }}
+      Assigned S-CSCF from HSS (may be empty): {{ var_data[1] }}
+    level:   40
+
+  0x810024:
+    summary: 'Retrying S-CSCF request for {{ var_data[0] }} operation - previous attempt returned status: {{ var_data[1] }}'
+    level:   40
+
+  0x810025:
+    summary: 'Selecting an S-CSCF failed'
+    details: |
+      Status code: {{ var_data[0] }}
+    level:   80
+
+  0x810030:
+    summary: 'Starting SIP resolving for address: {{ var_data[0] }}'
+    details: |
+      Port: {{ var_data[1] }}
+      Transport: {{ var_data[2] }}
+    level:   40
+
+  0x810031:
+    summary: 'The port ({{ var_data[2] }}) is specified, so move straight to A/AAAA lookups for target: {{ var_data[0] }}, with transport {{ var_data[1] }}'
+    level:   40
+
+  0x810032:
+    summary: 'Starting NAPTR lookup for target: {{ var_data[1] }}'
+    level:   40
+
+  0x810033:
+    summary: 'The NAPTR lookup was successful for target: {{ var_data[0] }} and returned the SRV target: {{ var_data[1] }} with transport: {{ var_data[2] }}'
+    level:   40
+
+  0x810034:
+    summary: 'The NAPTR lookup was successful for target: {{ var_data[0] }} and returned the A/AAAA target: {{ var_data[1] }}'
+    level:   40
+
+  0x810035:
+    summary: 'The NAPTR lookup failed. Performing SRV lookups for target: {{ var_data[0] }} for UDP and TCP'
+    level:   40
+
+  0x810036:
+    summary: 'The transport {{ var_data[1] }} is specified, so move straight to SRV lookups for target: {{ var_data[0] }}'
+    level:   40
+
+  0x810037:
+    summary: 'Starting SRV lookup for target: "{{ var_data[0] }}" with transport "{{ var_data[1] }}"'
+    level:   40
+
+  0x810038:
+    summary: 'Starting A/AAAA lookup for target: {{ var_data[0] }}'
+    details: |
+      Port: {{ var_data[2] }}
+      Transport: {{ var_data[1] }}
+    level:   40
+
+  0x810039:
+    summary: 'The target: {{ var_data[0] }} is already an IP address - no resolving is needed'
+    details: |
+      Transport: {{ var_data[1] }}
+      Port: {{ var_data[2] }}
+    level:   40
+
+  0x810040:
+    summary: 'Authentication is not needed: {{ var_data[0] }}'
+    level:   40
+
+  0x810042:
+    summary: 'Authentication failed: {{ var_data[0] }}'
+    level:   80
+
+  0x810043:
+    summary: 'Request authenticated successfully'
+    level:   40
+
+  0x810044:
+    summary: 'Challenge the request. Request an authentication vector of type: {{ var_data[0] }} from memcached'
+    level:   40
+
+  0x810050:
+    summary: 'Subscription started for "{{ var_data[0] }}"'
+    level:   40
+
+  0x810051:
+    summary: 'Subscription failed for "{{ var_data[0] }}". Reason: "{{ var_data[0] }}"'
+    level:   80
+
+  0x810052:
+    summary: 'Subscription will not be processed by the subscription module, because: "{{ var_data[0] }}"'
+    level:   40
+
+  0x810060:
+    summary: 'Notification failed with reason: "{{ var_data[0] }}"'
+    level:   80
+
+  0x810070:
+    summary: 'RegStore GET found AoR: "{{ var_data[0] }}"'
+    level:   40
+
+  0x810071:
+    summary: 'RegStore GET created empty AoR: "{{ var_data[0] }}"'
+    level:   40
+
+  0x810072:
+    summary: 'RegStore GET for AoR: "{{ var_data[0] }}" failed'
+    level:   80
+
+  0x810073:
+    summary: 'RegStore SET started for AoR: "{{ var_data[0] }}"'
+    level:   40
+
+  0x810074:
+    summary: 'RegStore SET for AoR: "{{ var_data[0] }}" succeeded'
+    level:   40
+
+  0x810075:
+    summary: 'RegStore SET for AoR: "{{ var_data[0] }}" failed'
+    level:   80
+
+  0x810080:
+    summary: 'Registration started for: Public ID: "{{ var_data[0] }}", Private ID: "{{ var_data[1] }}"'
+    level:   40
+
+  0x810081:
+    summary: 'Registration failed for Public ID "{{ var_data[0] }}"'
+    details: |
+      Reason: {{ var_data[1] }}
+    level:   80
+
+  0x810082:
+    summary: 'Registration with application servers started for user: "{{ var_data[0] }}"'
+    level:   40
+
+  0x810083:
+    summary: 'Registration with application servers failed with reason: "{{ var_data[0] }}"'
+    level:   80
+
+  0x810090:
+    summary: 'Authentication vector store operation "{{ var_data[0] }}" succeeded for private ID: "{{ var_data[1] }}"'
+    level:   40
+
+  0x810091:
+    summary: 'Authentication vector store operation "{{ var_data[0] }}" failed'
+    details: |
+      Reason: {{ var_data[1] }}
+    level:   40
+
+  0x8100A0:
+    summary: 'Requesting digest data from Homestead'
+    details: |
+      Public ID: {{ var_data[0] }}
+      Private ID: {{ var_data[1] }}
+    level:   40
+
+  0x8100A1:
+    summary: 'Requesting authentication vector from Homestead'
+    details: |
+      Public ID: {{ var_data[0] }}
+      Private ID: {{ var_data[1] }}
+      Authentication type (may be empty): {{ var_data[2] }}
+    level:   40
+
+  0x8100A2:
+    summary: "Updating user's registration state"
+    details: |
+      Public ID: {{ var_data[0] }}
+      Private ID (may be empty): {{ var_data[1] }}
+    level:   40
+
+  0x8100A3:
+    summary: "Get user's registration state from Homestead"
+    details: |
+      Public ID: {{ var_data[0] }}
+    level:   40
+
+  0x8100A4:
+    summary: "Get user's authorization status from Homestead"
+    details: |
+      Private ID: {{ var_data[0] }}
+      Public ID: {{ var_data[1] }}
+    level:   40
+
+  0x8100A5:
+    summary: "Get user's location data from Homestead"
+    details: |
+      Public ID: {{ var_data[0] }}
+    level:   40
+
+  0x8100B0:
+    summary: "Get user's simservs from Homer"
+    details: |
+      User: {{ var_data[0] }}
+    level:   40
+
+  0x8100C0:
+    summary: "The iFC is invalid"
+    details: |
+      Error Message: {{ var_data[1] }}
+      iFC: {{ var_data[0] }}
+    level:   80
+
+  0x8100C1:
+    summary: "The iFC does not match"
+    details: |
+      Error Message: {{ var_data[1] }}
+      iFC: {{ var_data[0] }}
+    level:   40
+
+  0x8100C2:
+    summary: "Testing whether the iFC matches"
+    details: |
+      iFC: {{ var_data[0] }}
+    level:   40
+
+  0x8100C3:
+    summary: "The iFC matches"
+    level:   40
+
+  #
+  # Homestead events (0x820000 - 0x82FFFF)
+  #
+  0x820000:
+    summary: "Failed to parse scheme on authentication request"
+    details: |
+      Scheme: {{ var_data[0] }}
+    level:   80
+
+  0x820010:
+    summary: "No public ID supplied on AKA request"
+    level:   80
+
+  0x820020:
+    summary: "Failed to find an authentication vector in the cache - unable to authenticate subscriber"
+    level:   80
+
+  0x820030:
+    summary: "Failed to retrieve an authentication vector from the HSS - unable to authenticate subscriber"
+    level:   80
+
+  0x820040:
+    summary: "Invalid registration type specified on registration data request"
+    level:   80
+
+  0x820050:
+    summary: "Unable to deregister subscriber who is not registered"
+    level:   80
+
+  0x820060:
+    summary: "Unable to find subscriber in the cache and no HSS configured"
+    level:   80
+
+  0x820070:
+    summary: "Failed to get registration information from the cache - reject the request"
+    level:   80
+
+  0x820080:
+    summary: "Successfully updated the HSS and retrieved subscriber's IMS subscription"
+    level:   80
+
+  0x820090:
+    summary: "Failed to update the HSS and retrieve the subscriber's IMS subscription"
+    level:   80
+
+  0x8200A0:
+    summary: "No HSS configured - returning default server name"
+    level:   40
+
+  0x8200B0:
+    summary: "Failed to retrieve subscriber's registration status from the HSS"
+    level:   80
+
+  0x8200C0:
+    summary: "Failed to retrieve location information for subscriber from the HSS"
+    level:   80
+
+  0x8200D0:
+    summary: "Invalid deregistration reason on RTR - no subscribers deregistered"
+    level:   80
+
+  0x8200E0:
+    summary: "Found no public identities to deregister"
+    level:   80
+
+  0x8200F0:
+    summary: "Failed to deregister subscribers"
+    level:   80
+
+  0x820100:
+    summary: "Successfully deregistered subscribers"
+    level:   80
+
+  0x820110:
+    summary: "Updated IMS subscriptions"
+    level:   40
+
+  0x820120:
+    summary: "Failed to connect to Cassandra"
+    details: |
+      Error text: {{ var_data[0] }}
+    level:   80
+
+  0x820130:
+    summary: "Querying cache for authentication vector"
+    details: |
+      Private ID: {{ var_data[0] }}
+      Public ID: {{ var_data[1] }}
+    level:   40
+
+  0x820140:
+    summary: "Found authentication vector in the cache"
+    level:   40
+
+  0x820150:
+    summary: "Associating public identity with private identity"
+    details: |
+      Private ID: {{ var_data[0] }}
+      Public ID: {{ var_data[1] }}
+    level:   40
+
+  0x820160:
+    summary: "Looking up associated public identities in the cache"
+    details: |
+      Private ID: {{ var_data[0] }}
+    level:   40
+
+  0x820170:
+    summary: "Found cached associated default public identity"
+    details: |
+      Public ID: {{ var_data[0] }}
+    level:   40
+
+  0x820180:
+    summary: "Unable to find any cached associated public identities"
+    level:   40
+
+  0x820190:
+    summary: "Querying cache for IMS subscription"
+    details: |
+      Public ID: {{ var_data[0] }}
+    level:   40
+
+  0x8201A0:
+    summary: "Found IMS subscription in the cache"
+    details: |
+      IMS subscription: {{ var_data[0] }}
+      Registration state: {{ static_data[0] | enum: "HOMESTEAD_REGISTRATION_STATES" }}
+      Associated private IDs: {{ var_data[1] }}
+    level:   40
+
+  0x8201B0:
+    summary: "Associating private identity to registration set in the cache"
+    details: |
+      Private ID: {{ var_data[0] }}
+      Registration set: {{ var_data[1] }}
+    level:   40
+
+  0x8201C0:
+    summary: "Caching subscriber's IMS subscription"
+    details: |
+      Public ID: {{ var_data[0] }}
+      IMS subscription: {{ var_data[1] }}
+      Registration state: {{ static_data[0] | enum: "HOMESTEAD_REGISTRATION_STATES" }}
+      Associated private IDs: {{ var_data[2] }}
+    level:   40
+
+  0x8201D0:
+    summary: "Deleting public identities from the cache"
+    details: |
+      Public IDs: {{ var_data[0] }}
+      Associated private IDs: {{ var_data[1] }}
+    level:   40
+
+  0x8201E0:
+    summary: "Querying cache for all associated default public identities"
+    details: |
+      Private IDs: {{ var_data[0] }}
+    level:   40
+
+  0x8202F0:
+    summary: "Found cached associated default public identities"
+    details: |
+      Public IDs: {{ var_data[0] }}
+    level:   40
+
+  0x820200:
+    summary: "Dissociating registration set from private identities in the cache"
+    details: |
+      Registration set: {{ var_data[0] }}
+      Private IDs: {{ var_data[1] }}
+    level:   40
+
+  0x820210:
+    summary: "Deleting private identities completely from the cache"
+    details: |
+      Private IDs: {{ var_data[0] }}
+    level:   40
+
+  #
+  # Ralf events (0x830000 - 0x83FFFF)
+  #
+
+  0x830000:
+    summary: "New Rf session created: {{ var_data[0] }}"
+    level:   80
+
+  0x830100:
+    summary: "Continuation of existing Rf session: {{ var_data[0] }}"
+    level:   80
+
+  0x830200:
+    summary: "End of Rf session: {{ var_data[0] }}"
+    level:   80
+
+  0x830300:
+    summary: "Accounting message sent to CDF {{var_data[0] }}"
+    details: |
+      Record number: {{ static_data[0] | uint32 }}
+    level:   80
+
+  0x830400:
+    summary: "INTERIM timer has popped"
+    level: 80
+
+  0x830500:
+    summary: "INTERIM timer created for {{ static_data[0] | uint32 }} seconds in the future"
+    level: 80
+
+  0x830600:
+    summary: "INTERIM timer renewed for {{ static_data[0] | uint32 }} seconds in the future"
+    level: 80
+
+  0x830700:
+    summary: 'Incoming {{static_data[0] | enum: "ACR_TYPES" }} request from {{ static_data[1] | enum: "CTF_TYPES" }}'
+    level: 80
+
+  0x830800:
+    summary: "Incoming request rejected"
+    details: "Reason: {{var_data[0] }}"
+    level: 80
+
+  0x830900:
+    summary: "Failover to secondary CDF {{ var_data[0] }}"
+    level:   80
+
+  0x830A00:
+    summary: "Failed to deliver billing message to CDF {{ var_data[0] }}"
+    level:   80
+
+  0x830B00:
+    summary: "CDF rejected billing request for session {{ var_data[0] }}"
+    level:   80
+
+  0x830C00:
+    summary: "CDF accepted billing request for session {{ var_data[0] }}"
+    level:   80
+
+enums:
+  C_ARES_ERRORS:
+    0:  "Successful completion"
+    1:  "DNS server returned answer with no data"
+    2:  "DNS server claims query was misformatted"
+    3:  "DNS server returned general failure"
+    4:  "Domain name not found"
+    5:  "DNS server does not implement requested operation"
+    6:  "DNS server refused query"
+    7:  "Misformatted DNS query"
+    8:  "Misformatted domain name"
+    9:  "Unsupported address family"
+    10: "Misformatted DNS reply"
+    11: "Could not contact DNS servers"
+    12: "Timeout while contacting DNS servers"
+    13: "End of file"
+    14: "Error reading file"
+    15: "Out of memory"
+    16: "Channel is being destroyed"
+    17: "Misformatted string"
+    18: "Illegal flags specified"
+    19: "Given hostname is not numeric"
+    20: "Illegal hints flags specified"
+    21: "c-ares library initialization not yet performed"
+    22: "Error loading iphlpapi.dll"
+    23: "Could not find GetNetworkParams function"
+    24: "DNS query cancelled"
+
+  LIBEVHTP_METHODS:
+    0: "GET"
+    1: "HEAD"
+    2: "POST"
+    3: "PUT"
+    4: "DELETE"
+    5: "MKCOL"
+    6: "COPY"
+    7: "MOVE"
+    8: "OPTIONS"
+    9: "PROPFIND"
+    10: "PROPPATCH"
+    11: "LOCK"
+    12: "UNLOCK"
+    13: "TRACE"
+    14: "CONNECT"
+    15: "PATCH,"
+    16: "UNKNOWN"
+
+  HOMESTEAD_REGISTRATION_STATES:
+    0: "REGISTERED"
+    1: "UNREGISTERED"
+    2: "NOT_REGISTERED"
+    3: "UNCHANGED"
+
+  CTF_TYPES:
+    0: "Sprout S-CSCF"
+    1: "Bono P-CSCF"
+    2: "Sprout I-CSCF"
+    5: "Sprout BGCF"
+    7: "Bono IBCF"
+
+  ACR_TYPES:
+    1: "EVENT"
+    2: "START"
+    3: "INTERIM"
+    4: "STOP"
