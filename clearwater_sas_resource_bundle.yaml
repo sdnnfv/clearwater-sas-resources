@@ -313,9 +313,9 @@ events:
     level:   80
 
   0x810026:
-    summary: 'Provided ODI token is expired or invalid - treating request as out-of-the-blue'
+    summary: 'The request will be treated as out-of-the-blue since the ODI token is expired or invalid'
     details: |
-      Provided ODI token, {{ var_data[0] }}, is not recognised.  The request will be treated as a new, out-of-the-blue request, rather than as a continuation of any existing client-triggered attempt.
+      The provided ODI token, {{ var_data[0] }}, is not recognised.  The request will be treated as a new, out-of-the-blue request, rather than as a continuation of any existing client-triggered attempt.
 
       This may be due to an Application Server responding to the incoming request before forwarding the continuation request back to Sprout.
 
