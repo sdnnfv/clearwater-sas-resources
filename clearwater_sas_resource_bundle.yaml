@@ -33,7 +33,7 @@
 # as those licenses appear in the file LICENSE-OPENSSL.
 
 info:
-  identifier: "org.projectclearwater.20140407"
+  identifier: "org.projectclearwater.20140612"
 
 events:
   #
@@ -311,6 +311,16 @@ events:
     details: |
       Status code: {{ var_data[0] }}
     level:   80
+
+  0x810026:
+    summary: 'Provided ODI token is expired or invalid - treating request as out-of-the-blue'
+    details: |
+      Provided ODI token, {{ var_data[0] }}, is not recognised.  The request will be treated as a new, out-of-the-blue request, rather than as a continuation of any existing client-triggered attempt.
+
+      This may be due to an Application Server responding to the incoming request before forwarding the continuation request back to Sprout.
+
+      Note that this situation will lead to a complete phase of originating processing being performed on this request, which may lead to requests cycling between Sprout and a misbehaving Application Server.
+    level:   60
 
   0x810030:
     summary: 'Starting SIP resolving for address: {{ var_data[0] }}'
