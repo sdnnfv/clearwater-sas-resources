@@ -320,7 +320,7 @@ events:
       This may be due to an Application Server responding to the incoming request before forwarding the continuation request back to Sprout.
 
       Note that this situation will lead to a complete phase of originating processing being performed on this request, which may lead to requests cycling between Sprout and a misbehaving Application Server.
-    level:   60
+    level:   80
 
   0x810030:
     summary: 'Starting SIP resolving for address: {{ var_data[0] }}'
