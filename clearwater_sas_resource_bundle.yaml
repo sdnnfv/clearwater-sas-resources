@@ -74,7 +74,7 @@ events:
       Sending HTTP {{ var_data[0] }} to {{ var_data[1] }}
 
       Body:
-      <sas:fixed-width-font>{{ var_data[2] | if_blank: "<none>" }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[2] | if_blank: "<Not present in message>" }}</sas:fixed-width-font>
     level: 60
 
   0x000004: &http_request_received
@@ -83,7 +83,7 @@ events:
       Received HTTP {{ static_data[0] | enum: "LIBEVHTP_METHODS" }} for {{ var_data[0] }}
 
       Body:
-      <sas:fixed-width-font>{{ var_data[1] | if_blank: "<none>" }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[1] | if_blank: "<Not present in message>" }}</sas:fixed-width-font>
     level: 60
 
   0x000005: &http_response_sent
@@ -92,7 +92,7 @@ events:
       Sending HTTP {{ static_data[0] }} response for {{ static_data[0] | enum: "LIBEVHTP_METHODS" }} of {{ var_data[0] }}
 
       Body:
-      <sas:fixed-width-font>{{ var_data[1] | if_blank: "<none>" }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[1] | if_blank: "<Not present in message>" }}</sas:fixed-width-font>
     level: 60
 
   0x000006: &http_response_received
@@ -101,7 +101,7 @@ events:
       Receiving HTTP {{static_data[0] }} response for {{ var_data[0] }} to {{ var_data[1] }} / {{ var_data[3] }}
 
       Body:
-      <sas:fixed-width-font>{{ var_data[2] | if_blank: "<none>" }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[2] | if_blank: "<Not present in message>" }}</sas:fixed-width-font>
     level: 60
 
   0x000007: &http_request_error
