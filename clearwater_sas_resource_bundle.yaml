@@ -764,6 +764,66 @@ events:
     summary: "CDF accepted billing request for session {{ var_data[0] }}"
     level:   80
 
+  #
+  # Memento events (0x840000 - 0x84FFFF)
+  #
+  0x840000:
+    summary: 'Requesting digest from Homestead'
+    details: |
+      Private ID: {{ var_data[0] }}
+      Public ID: {{ var_data[1] }}
+    level: 60
+
+  0x840001:
+    summary: "Digest successfully recieved from Homestead"
+    details: |
+      Private ID: {{ var_data[0] }}
+      Public ID: {{ var_data[1] }}
+    level: 60
+
+  0x840002:
+    summary: "Failed to retrieve digest from Homestead. The private ID may not exist, or may not be allowed to access the public ID"
+    details: |
+      Private ID: {{ var_data[0] }}
+      Public ID: {{ var_data[1] }}
+      Result: {{ static_data[0] }}
+    level: 80
+
+  0x840010:
+    summary: "Auth store operation succeeded"
+    details: |
+      Operation Performed: {{ var_data[0] }}
+      Key: {{ var_data[1] }}
+    level: 40
+
+  0x840011:
+    summary: "Auth store operation failed"
+    details: |
+      Operation Performed: {{ var_data[0] }}
+      Key: {{ var_data[1] }}
+    level: 40
+
+  0x840020:
+    summary: "No authentication credentials present in the request"
+    level: 80
+
+  0x840021:
+    summary: "Authentication credentials present in the request"
+    details: "Authorization header: {{var_data[0] }}"
+    level: 80
+
+  0x840022:
+    summary: "Credentials provided are stale"
+    level: 80
+
+  0x840023:
+    summary: "Credentials provided are incorrect"
+    level: 80
+
+  0x840024:
+    summary: "Credentials provided are correct"
+    level: 80
+
 enums:
   C_ARES_ERRORS:
     0:  "Successful completion"
