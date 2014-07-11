@@ -772,14 +772,14 @@ events:
     details: |
       Private ID: {{ var_data[0] }}
       Public ID: {{ var_data[1] }}
-    level: 60
+    level: 80
 
   0x840001:
     summary: "Digest successfully recieved from Homestead"
     details: |
       Private ID: {{ var_data[0] }}
       Public ID: {{ var_data[1] }}
-    level: 60
+    level: 80
 
   0x840002:
     summary: "Failed to retrieve digest from Homestead. The private ID may not exist, or may not be allowed to access the public ID"
@@ -790,17 +790,30 @@ events:
     level: 80
 
   0x840010:
-    summary: "Auth store operation succeeded"
+    summary: "Auth store GET operation succeeded"
     details: |
-      Operation Performed: {{ var_data[0] }}
-      Key: {{ var_data[1] }}
+      Key: {{ var_data[0] }}
+      <sas:fixed-width-font>{{ var_data[1] | hex_and_ascii }}</sas:fixed-width-font>
     level: 40
 
   0x840011:
-    summary: "Auth store operation failed"
+    summary: "Auth store GET operation failed"
     details: |
-      Operation Performed: {{ var_data[0] }}
-      Key: {{ var_data[1] }}
+      Key: {{ var_data[0] }}
+    level: 40
+
+  0x840012:
+    summary: "Auth store SET operation succeeded"
+    details: |
+      Key: {{ var_data[0] }}
+      <sas:fixed-width-font>{{ var_data[1] | hex_and_ascii }}</sas:fixed-width-font>
+    level: 40
+
+  0x840013:
+    summary: "Auth store SET operation failed"
+    details: |
+      Key: {{ var_data[0] }}
+      <sas:fixed-width-font>{{ var_data[1] | hex_and_ascii }}</sas:fixed-width-font>
     level: 40
 
   0x840020:
