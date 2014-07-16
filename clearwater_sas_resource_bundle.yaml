@@ -98,7 +98,7 @@ events:
   0x000006: &http_response_received
     summary: 'Receiving HTTP {{ static_data[0] }} response for {{ var_data[0] }} to {{ var_data[1] }}'
     details: |
-      Receiving HTTP {{static_data[0] }} response for {{ var_data[0] }} to {{ var_data[1] }} / {{ var_data[3] }}
+      Receiving HTTP {{static_data[0] }} response for {{ var_data[0] }} to {{ var_data[1] }}
 
       Body:
       <sas:fixed-width-font>{{ var_data[2] | if_blank: "<none>" }}</sas:fixed-width-font>
