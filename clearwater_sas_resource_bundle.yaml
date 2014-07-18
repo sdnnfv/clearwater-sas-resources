@@ -33,7 +33,7 @@
 # as those licenses appear in the file LICENSE-OPENSSL.
 
 info:
-  identifier: "org.projectclearwater.20140711"
+  identifier: "org.projectclearwater.20140717"
 
 events:
   #
@@ -205,7 +205,7 @@ events:
     summary: "Deleting memcached data for key {{ var_data[0] }}"
     level: 40
 
-  0x000108:
+  0x000200:
     summary: 'The SRV lookup has returned for target: {{ var_data[0] }}'
     details: |
       Available addresses: {{ var_data[1] }}
@@ -213,13 +213,19 @@ events:
       Addresses added from Blacklist: {{ var_data[3] }}
     level:   40
 
-  0x000109:
+  0x000201:
     summary: 'The A/AAAA lookup has returned for target: {{ var_data[0] }}'
     details: |
       Available addresses: {{ var_data[1] }}
       Blacklisted values: {{ var_data[2] }}
       Addresses added from Blacklist: {{ var_data[3] }}
     level:   40
+
+  0x000300:
+    summary: "Failed to connect to Cassandra"
+    details: |
+      Error text: {{ var_data[0] }}
+    level:   80
 
   #
   # Sprout events (0x810000 - 0x81FFFF)
@@ -602,12 +608,6 @@ events:
   0x820110:
     summary: "Updated IMS subscriptions"
     level:   40
-
-  0x820120:
-    summary: "Failed to connect to Cassandra"
-    details: |
-      Error text: {{ var_data[0] }}
-    level:   80
 
   0x820130:
     summary: "Querying cache for authentication vector"
