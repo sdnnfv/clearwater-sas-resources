@@ -33,7 +33,7 @@
 # as those licenses appear in the file LICENSE-OPENSSL.
 
 info:
-  identifier: "org.projectclearwater.20140717"
+  identifier: "org.projectclearwater.20140724"
 
 events:
   #
@@ -835,6 +835,50 @@ events:
 
   0x840024:
     summary: "Credentials provided are correct"
+    level: 80
+
+  0x840030:
+    summary: 'Received call list request for user {{ var_data[0] }}'
+    level: 80
+
+  0x840031:
+    summary: 'Sent call list XML for user {{ var_data[0] }}'
+    level: 80
+
+  0x840032:
+    summary: 'Starting database query for call list records for user {{ var_data[0] }}'
+    level: 40
+
+  0x840033:
+    summary: 'Retrieved {{ static_data[0] }} call list records for user {{ var_data[0] }}'
+    level: 80
+
+  0x840034:
+    summary: 'Failed to retrieve call list records for user {{ var_data[0] }}'
+    level: 80
+
+  0x840035:
+    summary: 'Did not process invalid call record {{ var_data[0] }}'
+    details: "Single record fragment of type {{ static_data[0] | enum: "CALL_LIST_FRAGMENT_TYPES" }}, expected 'rejected'"
+    level: 80
+
+  0x840036:
+    summary: 'Did not process invalid call record {{ var_data[0] }}'
+    details: "Two record fragments of type {{ static_data[0] | enum: "CALL_LIST_FRAGMENT_TYPES" }} and {{ static_data[1] | enum: "CALL_LIST_FRAGMENT_TYPES" }}, expected 'begin' and 'end'"
+    level: 80
+
+  0x840037:
+    summary: 'Did not process invalid call record {{ var_data[0] }}'
+    details: "{{ static_data[0] }} record fragments found, expected 1 or 2"
+    level: 80
+
+  0x840038:
+    summary: 'Did not process invalid call record {{ var_data[0] }}'
+    details: |
+      XML parsing failed with error: '{{ var_data[1] }}'
+
+      XML was:
+      {{ var_data[2] }}
     level: 80
 
   0x840200:
