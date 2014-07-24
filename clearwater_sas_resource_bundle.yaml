@@ -843,7 +843,7 @@ events:
       Timestamp: {{ var_data[1] }}
 
       Contents:
-      <sas::fixed-width-font>{{ var_data[2] }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[2] }}</sas:fixed-width-font>
     level: 40
 
   0x840201:
