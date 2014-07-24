@@ -838,7 +838,7 @@ events:
     level: 80
 
   0x840200:
-    summary: 'Writing call list {{ static_data[0] | enum: "CALL_LIST_FRAGMENT_TYPES" }} fragment for {{ var_data[0] }} to cassandra'
+    summary: 'Writing call list "{{ static_data[0] | enum: "CALL_LIST_FRAGMENT_TYPES" }}" fragment for {{ var_data[0] }} to Cassandra'
     details: |
       Timestamp: {{ var_data[1] }}
 
@@ -847,46 +847,46 @@ events:
     level: 40
 
   0x840201:
-    summary: 'Call list fragment was successfully written to cassandra'
+    summary: 'Call list fragment was successfully written to Cassandra'
     level: 40
 
   0x840202:
-    summary: 'Failed to write call list fragment to cassandra'
+    summary: 'Failed to write call list fragment to Cassandra'
     details: |
       Error code: {{ static_data[0] | enum: "CASSANDRA_ERROR_CODES" }}
       Description: {{ var_data[0] }}
     level: 40
 
   0x840203:
-    summary: 'Retrieving call list fragments for {{ var_data[0] }} from cassandra'
+    summary: 'Retrieving call list fragments for {{ var_data[0] }} from Cassandra'
     level: 40
 
   0x840204:
-    summary: 'Successfully retrieved {{ static_data[0] }} call list fragments from cassandra'
+    summary: 'Successfully retrieved {{ static_data[0] }} call list fragments from Cassandra'
     details: |
       First fragment column name: {{ var_data[0] }}
       Last fragment column name: {{ var_data[1] }}
     level: 40
 
   0x840205:
-    summary: 'Failed to retrieve call list fragments from cassandra'
+    summary: 'Failed to retrieve call list fragments from Cassandra'
     details: |
       Error code: {{ static_data[0] | enum: "CASSANDRA_ERROR_CODES" }}
       Description: {{ var_data[0] }}
     level: 40
 
   0x840206:
-    summary: 'Deleting old call list fragments from cassandra for {{ var_data[0] }}'
+    summary: 'Deleting old call list fragments from Cassandra for {{ var_data[0] }}'
     details: |
       Records from before {{ var_data[1] }} will be deleted.
     level: 40
 
   0x840207:
-    summary: 'Fragments successfully deleted from cassandra'
+    summary: 'Fragments successfully deleted from Cassandra'
     level: 40
 
   0x840208:
-    summary: 'Failed to delete call list fragments from cassandra'
+    summary: 'Failed to delete call list fragments from Cassandra'
     details: |
       Error code: {{ static_data[0] | enum: "CASSANDRA_ERROR_CODES" }}
       Description: {{ var_data[0] }}
