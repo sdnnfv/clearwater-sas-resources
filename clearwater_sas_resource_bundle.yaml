@@ -743,9 +743,12 @@ events:
     summary: 'Incoming {{static_data[0] | enum: "ACR_TYPES" }} request from {{ static_data[1] | enum: "CTF_TYPES" }}'
     level: 80
 
+  0x830710:
+    summary: 'Mandatory peers object missing in incoming {{static_data[0] | enum: "ACR_TYPES" }} request, unable to send to CDF'
+    level: 80
+
   0x830800:
-    summary: "Incoming request rejected"
-    details: "Reason: {{var_data[0] }}"
+    summary: "Incoming request rejected as the JSON body is invalid"
     level: 80
 
   0x830900:
