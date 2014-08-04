@@ -895,6 +895,23 @@ events:
       Description: {{ var_data[0] }}
     level: 40
 
+  #
+  # Gemini events (0x850000 - 0x85FFFF)
+  #
+  0x850000:
+    summary: 'Terminating call to local-roaming subscriber - forking to twinned mobile device'
+    details: |
+      New native mobile URI: {{ var_data[0] }}
+    level: 80
+
+  0x850001:
+    summary: "Terminating call to local-roaming subscriber - rejecting due to no twin-prefix parameter"
+    level: 80
+
+  0x850010:
+    summary: "480 Temporarily Unavailable response to INVITE to native local-roaming subscriber - retrying to VoIP on-phone client"
+    level: 80
+
 enums:
   C_ARES_ERRORS:
     0:  "Successful completion"
