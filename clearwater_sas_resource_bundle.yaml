@@ -174,11 +174,15 @@ events:
   #
 
   0x000100:
-    summary: "Sending get request to memcached for key {{ var_data[0] }} with CAS {{ static_data[0] | uint32 }}"
+    summary: "Sending get request to memcached for key {{ var_data[0] }}"
     level: 40
 
   0x000101:
     summary: "Memcached get request succeeded for key {{ var_data[0] }}"
+    details: |
+        CAS: {{ static_data[0] | uint32 }}
+
+        Body: {{ var_data[1] | hex_and_ascii }}
     level: 40
 
   0x000102:
@@ -190,7 +194,11 @@ events:
     level: 40
 
   0x000104:
-    summary: "Sending set request to memcached for key {{ var_data[0] }} with CAS {{ static_data[0] | uint32 }}, due to expire in {{ static_data[1] | uint32 }} seconds"
+    summary: "Sending set request to memcached for key {{ var_data[0] }}, due to expire in {{ static_data[1] | uint32 }} seconds"
+    details: |
+        CAS: {{ static_data[0] | uint32 }}
+
+        Body: {{ var_data[1] | hex_and_ascii }}
     level: 40
 
   0x000105:
