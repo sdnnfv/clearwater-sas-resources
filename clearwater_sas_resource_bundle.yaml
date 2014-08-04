@@ -410,8 +410,24 @@ events:
     level:   80
 
   0x810052:
-    summary: 'Subscription will not be processed by the subscription module, because: "{{ var_data[0] }}"'
-    level:   40
+    summary: 'Subscription will not be processed - the Request-URI is not tel: or sip:'
+    level:   80
+
+  0x810053:
+    summary: 'Subscription will not be processed - the Request-URI is not targeted at this domain'
+    level:   80
+
+  0x810054:
+    summary: 'Subscription will not be processed - the Contact address is an emergency registration'
+    level:   80
+
+  0x810055:
+    summary: 'Subscription will not be processed - Accept header is not "application/reginfo+xml"'
+    level:   80
+
+  0x810056:
+    summary: 'Subscription will not be processed - Event header is not "reg"'
+    level:   80
 
   0x810060:
     summary: 'Notification failed with reason: "{{ var_data[0] }}"'
