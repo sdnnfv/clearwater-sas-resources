@@ -556,6 +556,10 @@ events:
     summary: "The iFC matches"
     level:   40
 
+  0x8100D0:
+    summary: "Request failed due to transport error or timeout"
+    level:   60
+
   #
   # Homestead events (0x820000 - 0x82FFFF)
   #
