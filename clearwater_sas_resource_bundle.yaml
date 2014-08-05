@@ -318,7 +318,7 @@ events:
     summary: 'Selecting an S-CSCF succeeded'
     details: |
       S-CSCF selected: {{ var_data[0] }}
-      Assigned S-CSCF from HSS (may be empty): {{ var_data[1] }}
+      Assigned S-CSCF from HSS: {{ var_data[1] | if_blank: "<none>" }}
     level:   40
 
   0x810024:
@@ -502,14 +502,14 @@ events:
     details: |
       Public ID: {{ var_data[0] }}
       Private ID: {{ var_data[1] }}
-      Authentication type (may be empty): {{ var_data[2] }}
+      Authentication type: {{ var_data[2] | if_blank: "<unknown>" }}
     level:   40
 
   0x8100A2:
-    summary: "Updating user's registration state"
+    summary: "Checking subscriber's registration state and iFCs based on a '{{ var_data[2]}}' event"
     details: |
       Public ID: {{ var_data[0] }}
-      Private ID (may be empty): {{ var_data[1] }}
+      Private ID: {{ var_data[1] | if_blank: "<none>"}}
     level:   40
 
   0x8100A3:
