@@ -895,6 +895,31 @@ events:
       Description: {{ var_data[0] }}
     level: 40
 
+  0x840300:
+    summary: 'Writing a BEGIN call list fragment to Cassandra'
+    level: 80
+
+  0x840301:
+    summary: 'Writing a REJECTED call list fragment to Cassandra'
+    level: 80
+
+  0x840302:
+    summary: 'Writing an END call list fragment to Cassandra'
+    level: 80
+
+  0x840303:
+    summary: 'Number of stored calls has exceeded the limit, removing the oldest calls'
+    details: |
+      IMPU: {{ var_data[0] }}
+      Number of stored calls: {{ static_data[0] }}
+      Maximum call list length: {{ static_data[1] }}
+      Removing calls older than: {{ var_data[1] }}
+    level: 80
+
+  0x840304:
+    summary: 'Memento unable to process request due to overload'
+    level: 80
+
 enums:
   C_ARES_ERRORS:
     0:  "Successful completion"
