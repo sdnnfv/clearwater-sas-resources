@@ -117,6 +117,11 @@ events:
     details: |
       HTTP {{ static_data[1] | enum: "LIBEVHTP_METHODS" }} to {{ var_data[0] }} rejected due to overload.
       Response code: {{ static_data[0] }}
+
+      Target latency: {{ static_data[2] }}ms
+      Current latency: {{ static_data[3] }}ms
+      Requests limited to a rate of {{ static_data[4] | float}}/sec
+
     level: 60
 
   # Duplicates of the above HTTP events, but logged at level 40 rather than 60.
@@ -557,8 +562,20 @@ events:
     level:   40
 
   0x8100D0:
-    summary: "Request failed due to transport error or timeout"
+    summary: "Request failed due to transport error"
     level:   60
+
+  0x8100D1:
+    summary: "Request failed due to transaction timeout"
+    level:   60
+
+  0x8100D2:
+    summary: "SIP request rejected due to overload control"
+    details: |
+      Target latency: {{ static_data[0] }}ms
+      Current latency: {{ static_data[1] }}ms
+      Requests limited to a rate of {{ static_data[2] | float}}/sec
+    level:   80
 
   #
   # Homestead events (0x820000 - 0x82FFFF)
