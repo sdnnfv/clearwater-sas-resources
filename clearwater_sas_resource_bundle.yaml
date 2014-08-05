@@ -899,17 +899,21 @@ events:
   # Gemini events (0x850000 - 0x85FFFF)
   #
   0x850000:
-    summary: 'Terminating call to local-roaming subscriber - forking to twinned mobile device'
+    summary: 'Forking the call to the twinned mobile device of a local-roaming subscriber'
     details: |
-      New native mobile URI: {{ var_data[0] }}
+      Mobile device URI: {{ var_data[0] }}
     level: 80
 
   0x850001:
-    summary: "Terminating call to local-roaming subscriber - rejecting due to no twin-prefix parameter"
+    summary: 'Rejecting a call to a local-roaming subscriber'
+    details: |
+      Unable to find twin-prefix parameter on Application Sever Route header.
     level: 80
 
   0x850010:
-    summary: "480 Temporarily Unavailable response to INVITE to native local-roaming subscriber - retrying to VoIP on-phone client"
+    summary: 'Retrying call to VoIP on-phone client'
+    details: |
+      Received 480 Temporarily Unavailable response to INVITE from the native device.
     level: 80
 
 enums:
