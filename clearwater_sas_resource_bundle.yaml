@@ -538,27 +538,22 @@ events:
     level:   40
 
   0x8100C0:
-    summary: "The iFC is invalid"
-    details: |
-      Error Message: {{ var_data[1] }}
-      iFC: {{ var_data[0] }}
+    summary: "The iFC for {{ var_data[0] }} is invalid"
+    details: "{{ var_data[1] }}"
     level:   80
 
   0x8100C1:
-    summary: "The iFC does not match"
-    details: |
-      Error Message: {{ var_data[1] }}
-      iFC: {{ var_data[0] }}
+    summary: "The iFC for {{ var_data[0] }} does not match: {{ var_data[1] }}"
     level:   40
 
   0x8100C2:
-    summary: "Testing whether the iFC matches"
+    summary: "Testing whether an iFC matches"
     details: |
       iFC: {{ var_data[0] }}
     level:   40
 
   0x8100C3:
-    summary: "The iFC matches"
+    summary: "The iFC for {{ var_data[0] }} matches"
     level:   40
 
   0x8100D0:
