@@ -896,24 +896,23 @@ events:
     level: 40
 
   0x840300:
-    summary: 'Writing a BEGIN call list fragment to Cassandra'
+    summary: 'Recording the start of a call'
     level: 80
 
   0x840301:
-    summary: 'Writing a REJECTED call list fragment to Cassandra'
+    summary: 'Recording a rejected call'
     level: 80
 
   0x840302:
-    summary: 'Writing an END call list fragment to Cassandra'
+    summary: 'Recording the end of a call'
     level: 80
 
   0x840303:
-    summary: 'Number of stored calls has exceeded the limit, removing the oldest calls'
+    summary: 'Call list for {{ var_data[0] }} has exceeded the maximum configured length. Old calls will be deleted'
     details: |
-      IMPU: {{ var_data[0] }}
       Number of stored calls: {{ static_data[0] }}
       Maximum call list length: {{ static_data[1] }}
-      Removing calls older than: {{ var_data[1] }}
+      Removing calls older than: {{ var_data[1] }} (in YYYYMMDDHHMMSS format)
     level: 80
 
   0x840304:
