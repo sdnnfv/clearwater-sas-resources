@@ -543,16 +543,24 @@ events:
     level:   80
 
   0x8100C1:
-    summary: "The iFC for {{ var_data[0] }} does not match: {{ var_data[1] }}"
-    level:   40
+    summary: "The iFC is invalid - no Application Server name could be found"
+    level:   80
 
   0x8100C2:
+    summary: "The iFC for {{ var_data[0] }} does not match: the service triggers evaluated to false"
+    level:   40
+
+  0x8100C3:
+    summary: "The iFC for {{ var_data[0] }} does not match the message's Profile Part Indicator"
+    level:   40
+
+  0x8100C4:
     summary: "Testing whether an iFC matches"
     details: |
       iFC: {{ var_data[0] }}
     level:   40
 
-  0x8100C3:
+  0x8100C5:
     summary: "The iFC for {{ var_data[0] }} matches"
     level:   40
 
