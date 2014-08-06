@@ -943,6 +943,51 @@ events:
       Description: {{ var_data[0] }}
     level: 40
 
+  0x840300:
+    summary: 'Recording the start of a call'
+    level: 80
+
+  0x840301:
+    summary: 'Recording a rejected call'
+    level: 80
+
+  0x840302:
+    summary: 'Recording the end of a call'
+    level: 80
+
+  0x840303:
+    summary: 'Call list for {{ var_data[0] }} has exceeded the maximum configured length. Old calls will be deleted'
+    details: |
+      Number of stored calls: {{ static_data[0] }}
+      Maximum call list length: {{ static_data[1] }}
+      Removing calls older than: {{ var_data[1] }} (in YYYYMMDDHHMMSS format)
+    level: 80
+
+  0x840304:
+    summary: 'Memento unable to process request due to overload'
+    level: 80
+
+  #
+  # Gemini events (0x850000 - 0x85FFFF)
+  #
+  0x850000:
+    summary: 'Forking the call to the twinned mobile device of a local-roaming subscriber'
+    details: |
+      Mobile device URI: {{ var_data[0] }}
+    level: 80
+
+  0x850001:
+    summary: 'Rejecting a call to a local-roaming subscriber'
+    details: |
+      Unable to find a twin-prefix parameter on the Application Server Route header.
+    level: 80
+
+  0x850010:
+    summary: 'Retrying call to VoIP on-phone client'
+    details: |
+      Received 480 Temporarily Unavailable response to INVITE from the native device.
+    level: 80
+
 enums:
   C_ARES_ERRORS:
     0:  "Successful completion"
