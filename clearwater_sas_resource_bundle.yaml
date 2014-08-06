@@ -897,6 +897,46 @@ events:
     summary: "Credentials provided are correct"
     level: 80
 
+  0x840030:
+    summary: 'Received call list request for user {{ var_data[0] }}'
+    level: 80
+
+  0x840031:
+    summary: 'Sent call list XML for user {{ var_data[0] }}'
+    level: 80
+
+  0x840032:
+    summary: 'Retrieved {{ static_data[0] }} call list record fragments for user {{ var_data[0] }}'
+    level: 80
+
+  0x840033:
+    summary: 'Failed to retrieve call list records for user {{ var_data[0] }}'
+    level: 80
+
+  0x840034:
+    summary: 'Did not process invalid call record'
+    details |
+      Call record ID {{ var_data[0] }}, start timestamp {{ var_data[1] }}
+
+      Single record fragment of type {{ static_data[0] | enum: "CALL_LIST_FRAGMENT_TYPES" }}, expected 'rejected'
+    level: 80
+
+  0x840035:
+    summary: 'Did not process invalid call record'
+    details |
+      Call record ID {{ var_data[0] }}, start timestamp {{ var_data[1] }}
+
+      Two record fragments of type {{ static_data[0] | enum: "CALL_LIST_FRAGMENT_TYPES" }} and {{ static_data[1] | enum: "CALL_LIST_FRAGMENT_TYPES" }}, expected 'begin' and 'end'
+    level: 80
+
+  0x840036:
+    summary: 'Did not process invalid call record'
+    details |
+      Call record ID {{ var_data[0] }}, start timestamp {{ var_data[1] }}
+
+      {{ static_data[0] }} record fragments found, expected 1 or 2
+    level: 80
+
   0x840200:
     summary: 'Writing call list "{{ static_data[0] | enum: "CALL_LIST_FRAGMENT_TYPES" }}" fragment for {{ var_data[0] }} to Cassandra'
     details: |
