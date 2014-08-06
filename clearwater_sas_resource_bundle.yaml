@@ -199,8 +199,9 @@ events:
     level: 40
 
   0x000104:
-    summary: "Sending set request to memcached for key {{ var_data[0] }}, due to expire in {{ static_data[1] | uint32 }} seconds"
+    summary: "Sending set request to memcached for key {{ var_data[0] }}"
     details: |
+        Expires in {{ static_data[1] | uint32 }} seconds
         CAS: {{ static_data[0] | uint32 }}
 
         Body: {{ var_data[1] | hex_and_ascii }}
@@ -415,23 +416,31 @@ events:
     level:   80
 
   0x810052:
-    summary: 'Subscription will not be processed - the Request-URI is not tel: or sip:'
+    summary: 'Subscription will not be processed because the Request-URI is not tel: or sip:'
     level:   80
 
   0x810053:
-    summary: 'Subscription will not be processed - the Request-URI is not targeted at this domain'
+    summary: 'Subscription will not be processed because the Request-URI is not targeted at this domain'
     level:   80
 
   0x810054:
-    summary: 'Subscription will not be processed - the Contact address is an emergency registration'
+    summary: 'Subscription will not be processed because the Contact address is for an emergency registration'
     level:   80
 
   0x810055:
-    summary: 'Subscription will not be processed - Accept header is not "application/reginfo+xml"'
+    summary: 'Subscription will not be processed due to incorrect Accept header'
+    details: |
+      Expected "application/reginfo+xml" to be present
+
+      Accept header was: '{{ var_data[0] }}'
     level:   80
 
   0x810056:
-    summary: 'Subscription will not be processed - Event header is not "reg"'
+    summary: 'Subscription will not be processed due to incorrect Event header'
+    details: |
+      Expected the "reg" event to be supported
+
+      Event header was: '{{ var_data[0] | if_blank: "<not present>"}}'
     level:   80
 
   0x810060:
