@@ -118,8 +118,8 @@ events:
       HTTP {{ static_data[1] | enum: "LIBEVHTP_METHODS" }} to {{ var_data[0] }} rejected due to overload.
       Response code: {{ static_data[0] }}
 
-      Target latency: {{ static_data[2] }}ms
-      Current latency: {{ static_data[3] }}ms
+      Target latency: {{ static_data[2] }}us
+      Current latency: {{ static_data[3] }}us
       Requests limited to a rate of {{ static_data[4] | float}}/sec
 
     level: 60
@@ -575,8 +575,8 @@ events:
   0x8100D2:
     summary: "SIP request rejected due to overload control"
     details: |
-      Target latency: {{ static_data[0] }}ms
-      Current latency: {{ static_data[1] }}ms
+      Target latency: {{ static_data[0] }}us
+      Current latency: {{ static_data[1] }}us
       Requests limited to a rate of {{ static_data[2] | float}}/sec
     level:   80
 
