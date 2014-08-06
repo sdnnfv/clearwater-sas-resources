@@ -931,7 +931,7 @@ events:
   0x850001:
     summary: 'Rejecting a call to a local-roaming subscriber'
     details: |
-      Unable to find twin-prefix parameter on Application Sever Route header.
+      Unable to find a twin-prefix parameter on the Application Server Route header.
     level: 80
 
   0x850010:
