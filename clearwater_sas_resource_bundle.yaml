@@ -1030,7 +1030,7 @@ events:
       Unable to find a twin-prefix parameter on the Application Server Route header.
     level: 80
 
-  0x850001:
+  0x850002:
     summary: 'Rejecting a call to a local-roaming subscriber'
     details: |
       Twin-prefix parameter is empty on the Application Server Route header.
