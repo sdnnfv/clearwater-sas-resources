@@ -33,7 +33,7 @@
 # as those licenses appear in the file LICENSE-OPENSSL.
 
 info:
-  identifier: "org.projectclearwater.20140806"
+  identifier: "org.projectclearwater.20140902"
 
 events:
   #
@@ -587,6 +587,18 @@ events:
       Target latency: {{ static_data[0] }}us
       Current latency: {{ static_data[1] }}us
       Requests limited to a rate of {{ static_data[2] | float}}/sec
+    level:   80
+
+  0x8100D3:
+    summary: "GRUU filtering removed {{ static_data[0] }} of {{ static_data[1] }} bindings"
+    level:   40
+
+  0x8100D4:
+    summary: "Contact filtering left {{ static_data[0] }} targets from {{ static_data[1] }} bindings"
+    level:   40
+
+  0x8100D5:
+    summary: "Contact filtering removed all bindings - request will fail with 480 Temporarily Unavailable"
     level:   80
 
   #
