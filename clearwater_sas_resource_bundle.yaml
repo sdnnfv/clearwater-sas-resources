@@ -675,7 +675,7 @@ events:
     level:   80
 
   0x820110:
-    summary: "Updated IMS subscriptions"
+    summary: "Updated registration data"
     level:   40
 
   0x820130:
@@ -713,17 +713,18 @@ events:
     level:   40
 
   0x820190:
-    summary: "Querying cache for IMS subscription"
+    summary: "Querying cache for registration data"
     details: |
       Public ID: {{ var_data[0] }}
     level:   40
 
   0x8201A0:
-    summary: "Found IMS subscription in the cache"
+    summary: "Found registration data in the cache"
     details: |
       IMS subscription: {{ var_data[0] }}
       Registration state: {{ static_data[0] | enum: "HOMESTEAD_REGISTRATION_STATES" }}
       Associated private IDs: {{ var_data[1] }}
+      Charging addresses: {{ var_data[2] }}
     level:   40
 
   0x8201B0:
@@ -734,12 +735,13 @@ events:
     level:   40
 
   0x8201C0:
-    summary: "Caching subscriber's IMS subscription"
+    summary: "Caching subscriber's registration data"
     details: |
       Public ID: {{ var_data[0] }}
       IMS subscription: {{ var_data[1] }}
       Registration state: {{ static_data[0] | enum: "HOMESTEAD_REGISTRATION_STATES" }}
       Associated private IDs: {{ var_data[2] }}
+      Charging addresses: {{ var_data[3] }}
     level:   40
 
   0x8201D0:
