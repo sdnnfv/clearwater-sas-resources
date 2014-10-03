@@ -33,7 +33,7 @@
 # as those licenses appear in the file LICENSE-OPENSSL.
 
 info:
-  identifier: "org.projectclearwater.20140912"
+  identifier: "org.projectclearwater.20141002"
 
 events:
   #
@@ -775,6 +775,16 @@ events:
     details: |
       Private IDs: {{ var_data[0] }}
     level:   40
+
+  0x820220:
+    summary: "Implicit Registration Set contains no SIP URIs"
+    details: |
+      The IMS subscription returned by the HSS defines an Implicit Registration Set with no SIP URIs.
+
+      The call will proceed as normal.
+
+      IMS subscription: {{ var_data[0] }}
+    level:   80
 
   #
   # Ralf events (0x830000 - 0x83FFFF)
