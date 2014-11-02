@@ -33,7 +33,7 @@
 # as those licenses appear in the file LICENSE-OPENSSL.
 
 info:
-  identifier: "org.projectclearwater.20141002"
+  identifier: "org.projectclearwater.20141027"
 
 events:
   #
@@ -1066,6 +1066,86 @@ events:
       Received 480 Temporarily Unavailable response to INVITE from the native device.
     level: 80
 
+  #
+  # MMTEL events (0x860000 - 0x86FFFF)
+  #
+  0x860000:
+    summary: 'Retrieving simservs from XDMS'
+    details: |
+      Retrieving simservs document from XDMS for subscriber {{ var_data[0] }}
+    level: 60
+
+  0x860001:
+    summary: 'Failed to retrieve simservs from XDMS'
+    details: |
+      Failed to retrieve simservs from XDMS - disabling MMTEL services
+    level: 60
+
+  0x860002:
+    summary: "Originating services enabled"
+    details: |
+      Privacy: {{ static_data[0] | enum: "ENABLED_DISABLED" }}
+      Communication Barring: {{ static_data[1] | enum: "ENABLED_DISABLED" }}
+    level: 60
+
+  0x860003:
+    summary: "All originating services disabled"
+    details: |
+      All originating services disabled
+    level: 60
+
+  0x860004:
+    summary: "Terminating services enabled"
+    details: |
+      Communication Diversion: {{ static_data[0] | enum: "ENABLED_DISABLED" }}
+      Communication Barring: {{ static_data[1] | enum: "ENABLED_DISABLED" }}
+    level: 60
+
+  0x860005:
+    summary: "All terminating mervices disabled"
+    details: |
+      All terminating services disabled
+    level: 60
+
+  0x860010:
+    summary: "Call Diversion AS invoked"
+    details: |
+      Call Diversion AS invoked via SIP URI {{ var_data[0] }}
+    level: 60
+
+  0x860011:
+    summary: "No target found on Call Diversion AS URI"
+    details: |
+      No target parameter found on Call Diversion AS URI {{ var_data[0] }} - disabled
+    level: 80
+
+  0x860012:
+    summary: "Unrecognized condition on Call Diversion AS URI"
+    details: |
+      Unrecognized condition {{ var_data[0] }} on Call Diversion AS URI - ignoring
+    level: 60
+
+  0x860013:
+    summary: "Unparseable no-reply-timer parameter on Call Diversion AS URI"
+    details: |
+      Unparseable no-reply-timer parameter {{ var_data[0] }} - defaulting
+    level: 60
+
+  0x860014:
+    summary: "Call Diversion enabled to {{ var_data[0] }}"
+    details: |
+      Call Diversion enabled
+      Target: {{ var_data[0] }}
+      Conditions: {{ var_data[1] }}
+      No-reply timer: {{ static_data[0] }}
+    level: 60
+
+  0x860020:
+    summary: "Communication Diversion diverts to {{ var_data[0] }}"
+    details: |
+      Communication Diversion diverts to {{ var_data[0] }}
+    level: 80
+
 enums:
   C_ARES_ERRORS:
     0:  "Successful completion"
@@ -1144,3 +1224,7 @@ enums:
     0: 'begin'
     1: 'end'
     2: 'rejected'
+
+  ENABLED_DISABLED:
+    0: 'Disabled'
+    1: 'Enabled'
