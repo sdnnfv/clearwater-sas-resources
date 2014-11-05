@@ -40,11 +40,11 @@ events:
   # Common events and protocol flows (0x000000 - 0x7FFFFF).
   #
   0x000001:
-    summary: "SIP message received: {{ var_data[1] | decode_sip_summary }}"
+    summary: 'SIP message received: {{ var_data[1] | decompress: "sip" | decode_sip_summary }}'
     details: |
       SIP message received:
 
-      <sas:fixed-width-font>{{ var_data[1] | decode_sip_details }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[1] | decompress: "sip" | decode_sip_details }}</sas:fixed-width-font>
     call_flow:
       data: "{{ var_data[1] }}"
       protocol: sip
@@ -53,11 +53,11 @@ events:
     level:   60
 
   0x000002:
-    summary: "SIP message sent: {{ var_data[1] | decode_sip_summary }}"
+    summary: 'SIP message sent: {{ var_data[1] | decompress: "sip" | decode_sip_summary }}'
     details: |
       SIP message sent:
 
-      <sas:fixed-width-font>{{ var_data[1] | decode_sip_details }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[1] | decompress: "sip" | decode_sip_details }}</sas:fixed-width-font>
     call_flow:
       data: "{{ var_data[1] }}"
       protocol: sip
@@ -74,7 +74,7 @@ events:
       Sending HTTP {{ var_data[0] }} to {{ var_data[1] }}
 
       Body:
-      <sas:fixed-width-font>{{ var_data[2] | if_blank: "<none>" }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[2] | decompress | if_blank: "<none>" }}</sas:fixed-width-font>
     level: 60
 
   0x000004: &http_request_received
@@ -83,7 +83,7 @@ events:
       Received HTTP {{ static_data[0] | enum: "LIBEVHTP_METHODS" }} for {{ var_data[0] }}
 
       Body:
-      <sas:fixed-width-font>{{ var_data[1] | if_blank: "<none>" }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[1] | decompress | if_blank: "<none>" }}</sas:fixed-width-font>
     level: 60
 
   0x000005: &http_response_sent
@@ -92,7 +92,7 @@ events:
       Sending HTTP {{ static_data[0] }} response for {{ static_data[0] | enum: "LIBEVHTP_METHODS" }} of {{ var_data[0] }}
 
       Body:
-      <sas:fixed-width-font>{{ var_data[1] | if_blank: "<none>" }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[1] | decompress | if_blank: "<none>" }}</sas:fixed-width-font>
     level: 60
 
   0x000006: &http_response_received
@@ -101,7 +101,7 @@ events:
       Receiving HTTP {{static_data[0] }} response for {{ var_data[0] }} to {{ var_data[1] }}
 
       Body:
-      <sas:fixed-width-font>{{ var_data[2] | if_blank: "<none>" }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[2] | decompress | if_blank: "<none>" }}</sas:fixed-width-font>
     level: 60
 
   0x000007: &http_request_error
@@ -153,25 +153,25 @@ events:
   # Diameter flows.
   #
   0x00000F:
-    summary: 'Sending diameter {{ var_data[0] | decode_diameter_summary }}'
+    summary: 'Sending diameter {{ var_data[0] | decompress | decode_diameter_summary }}'
     details: |
       Sending diameter message:
 
-      <sas:fixed-width-font>{{ var_data[0] | decode_diameter_details }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[0] | decompress | decode_diameter_details }}</sas:fixed-width-font>
     level: 60
 
   0x000010:
-    summary: 'Received diameter {{ var_data[0] | decode_diameter_summary }}'
+    summary: 'Received diameter {{ var_data[0] | decompress | decode_diameter_summary }}'
     details: |
       Received diameter message:
-      <sas:fixed-width-font>{{ var_data[0] | decode_diameter_details }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[0] | decompress | decode_diameter_details }}</sas:fixed-width-font>
     level: 60
 
   0x000011:
-    summary: 'Timeout sending diameter {{ var_data[0] | decode_diameter_summary }}'
+    summary: 'Timeout sending diameter {{ var_data[0] | decompress | decode_diameter_summary }}'
     details: |
       Timeout sending diameter message:
-      <sas:fixed-width-font>{{ var_data[0] | decode_diameter_details }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[0] | decompress | decode_diameter_details }}</sas:fixed-width-font>
     level: 60
 
   #
@@ -967,7 +967,7 @@ events:
       Timestamp: {{ var_data[1] }}
 
       Contents:
-      <sas:fixed-width-font>{{ var_data[2] }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[2] | decompress }}</sas:fixed-width-font>
     level: 40
 
   0x840201:
@@ -1228,3 +1228,8 @@ enums:
   ENABLED_DISABLED:
     0: 'Disabled'
     1: 'Enabled'
+
+compression_profiles:
+    sip:
+        # This must match SIP_PROFILE defined in https://github.com/Metaswitch/cpp-common/blob/master/include/sasevent.h
+        dictionary: "PCMUACKrportSUBSCRIBEP-Access-Network-Info: BYEusert=0 0 telephone-eventAccept: transportREGISTERSubscription-State: NOTIFYServer: m=audio RTP/AVP c=IN IP4 Expires: 200 OK\r\na=rtpmap:INVITETo: application/sdpVia: Content-Type: From: CSeq: Max-Forwards: Contact: Organization: Content-Length: Call-ID: ;tag=;branch=z9hG4bKSIP/2.0/UDP<sip:"
