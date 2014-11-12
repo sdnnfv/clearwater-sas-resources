@@ -1158,6 +1158,22 @@ events:
       Expected either rot13 or reverse.
     level: 80
 
+  0x870001:
+    summary: 'Mangelwurzel has received an initial request'
+    details: |
+      Mangelwurzel will mangle the request based on configuration in its Route header.
+
+      Route header: {{ var_data[0] }}
+    level: 60
+
+  0x870002:
+    summary: 'Mangelwurzel has received an in dialog request'
+    details: |
+      Mangelwurzel will mangle the request based on configuration in its Route header.
+
+      Route header: {{ var_data[0] }}
+    level: 60
+
 enums:
   C_ARES_ERRORS:
     0:  "Successful completion"
