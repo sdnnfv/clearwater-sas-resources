@@ -33,7 +33,7 @@
 # as those licenses appear in the file LICENSE-OPENSSL.
 
 info:
-  identifier: "org.projectclearwater.20141027"
+  identifier: "org.projectclearwater.20141112"
 
 events:
   #
@@ -1144,6 +1144,18 @@ events:
     summary: "Communication Diversion diverts to {{ var_data[0] }}"
     details: |
       Communication Diversion diverts to {{ var_data[0] }}
+    level: 80
+
+  #
+  # Mangelwurzel events (0x870000 - 0x87FFFF)
+  #
+  0x870000:
+    summary: 'Mangelwurzel Route header contains invalid mangalgorithm'
+    details: |
+      Mangelwurzel will proced as normal using the rot13 mangalgorithm.
+
+      Specified mangalgorithm: {{ var_data[0] }}
+      Expected either rot13 or reverse.
     level: 80
 
 enums:
