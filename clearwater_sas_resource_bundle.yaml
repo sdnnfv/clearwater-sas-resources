@@ -33,7 +33,7 @@
 # as those licenses appear in the file LICENSE-OPENSSL.
 
 info:
-  identifier: "org.projectclearwater.20141110"
+  identifier: "org.projectclearwater.20141112"
 
 events:
   #
@@ -1059,11 +1059,11 @@ events:
     level: 80
 
   0x850020:
-    summary: 'Sending the call to a VoIP client of a mobile-twinned subscriber'
+    summary: 'Sending the call to only the VoIP client of a mobile-twinned subscriber'
     level: 80
 
   0x850021:
-    summary: 'Sending the call to the twinned mobile device of a mobile-twinned subscriber'
+    summary: 'Sending the call to only the twinned-mobile device'
     details: |
       Mobile device URI: {{ var_data[0] }}
     level: 80
