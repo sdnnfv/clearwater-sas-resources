@@ -1148,6 +1148,34 @@ events:
       Communication Diversion diverts to {{ var_data[0] }}
     level: 80
 
+  #
+  # Mangelwurzel events (0x870000 - 0x87FFFF)
+  #
+  0x870000:
+    summary: 'Mangelwurzel Route header contains invalid mangalgorithm'
+    details: |
+      Mangelwurzel will proced as normal using the rot13 mangalgorithm.
+
+      Specified mangalgorithm: {{ var_data[0] }}
+      Expected either rot13 or reverse.
+    level: 80
+
+  0x870001:
+    summary: 'Mangelwurzel has received an initial request'
+    details: |
+      Mangelwurzel will mangle the request based on configuration in its Route header.
+
+      Route header URI: {{ var_data[0] }}
+    level: 60
+
+  0x870002:
+    summary: 'Mangelwurzel has received an in dialog request'
+    details: |
+      Mangelwurzel will mangle the request based on configuration in its Route header.
+
+      Route header URI: {{ var_data[0] }}
+    level: 60
+
 enums:
   C_ARES_ERRORS:
     0:  "Successful completion"
