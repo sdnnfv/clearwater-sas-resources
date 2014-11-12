@@ -1048,22 +1048,24 @@ events:
       Mobile device URI: {{ var_data[0] }}
     level: 80
 
-  0x850001:
-    summary: 'Rejecting a call to a mobile-twinned subscriber'
-    details: |
-      Unable to find a twin-prefix parameter on the Application Server Route header.
-    level: 80
-
-  0x850002:
-    summary: 'Rejecting a call to a mobile-twinned subscriber'
-    details: |
-      Twin-prefix parameter is empty on the Application Server Route header.
-    level: 80
-
   0x850010:
     summary: 'Retrying call to VoIP on-phone client'
     details: |
       Received 480 Temporarily Unavailable response to INVITE from the native device.
+    level: 80
+
+  0x850011:
+    summary: 'Not retrying call to VoIP on-phone client, as the original call was to the twinned mobile device only'
+    level: 80
+
+  0x850020:
+    summary: 'Sending the call to only the VoIP client of a mobile-twinned subscriber'
+    level: 80
+
+  0x850021:
+    summary: 'Sending the call to only the twinned-mobile device'
+    details: |
+      Mobile device URI: {{ var_data[0] }}
     level: 80
 
   #
