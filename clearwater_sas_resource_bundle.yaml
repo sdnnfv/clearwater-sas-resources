@@ -1165,7 +1165,7 @@ events:
     details: |
       Mangelwurzel will mangle the request based on configuration in its Route header.
 
-      Route header: {{ var_data[0] }}
+      Route header URI: {{ var_data[0] }}
     level: 60
 
   0x870002:
@@ -1173,7 +1173,7 @@ events:
     details: |
       Mangelwurzel will mangle the request based on configuration in its Route header.
 
-      Route header: {{ var_data[0] }}
+      Route header URI: {{ var_data[0] }}
     level: 60
 
 enums:
