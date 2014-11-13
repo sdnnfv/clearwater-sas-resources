@@ -33,7 +33,7 @@
 # as those licenses appear in the file LICENSE-OPENSSL.
 
 info:
-  identifier: "org.projectclearwater.20141112"
+  identifier: "org.projectclearwater.20141113"
 
 events:
   #
@@ -153,24 +153,26 @@ events:
   # Diameter flows.
   #
   0x00000F:
-    summary: 'Sending diameter {{ var_data[0] | decompress | decode_diameter_summary }}'
+    summary: 'Sending diameter {{ var_data[2] | decompress | decode_diameter_summary }}'
     details: |
-      Sending diameter message:
+      Sending diameter message to {{ var_data[0] }}:{{ static_data[0] }} from {{ var_data[1] }}:{{ static_data[1] }}
 
-      <sas:fixed-width-font>{{ var_data[0] | decompress | decode_diameter_details }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[2] | decompress | decode_diameter_details }}</sas:fixed-width-font>
     level: 60
 
   0x000010:
-    summary: 'Received diameter {{ var_data[0] | decompress | decode_diameter_summary }}'
+    summary: 'Received diameter {{ var_data[2] | decompress | decode_diameter_summary }}'
     details: |
-      Received diameter message:
-      <sas:fixed-width-font>{{ var_data[0] | decompress | decode_diameter_details }}</sas:fixed-width-font>
+      Received diameter message from {{ var_data[0] }}:{{ static_data[0] }} at {{ var_data[1] }}:{{ static_data[1] }}
+
+      <sas:fixed-width-font>{{ var_data[2] | decompress | decode_diameter_details }}</sas:fixed-width-font>
     level: 60
 
   0x000011:
     summary: 'Timeout sending diameter {{ var_data[0] | decompress | decode_diameter_summary }}'
     details: |
       Timeout sending diameter message:
+
       <sas:fixed-width-font>{{ var_data[0] | decompress | decode_diameter_details }}</sas:fixed-width-font>
     level: 60
 
