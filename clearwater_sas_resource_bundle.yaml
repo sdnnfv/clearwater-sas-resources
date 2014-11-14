@@ -158,6 +158,12 @@ events:
       Sending diameter message to {{ var_data[0] }}:{{ static_data[0] }} from {{ var_data[1] }}:{{ static_data[1] }}
 
       <sas:fixed-width-font>{{ var_data[2] | decompress | decode_diameter_details }}</sas:fixed-width-font>
+    call_flow:
+      data: "{{ var_data[2] | decompress }}"
+      protocol: diameter
+      direction: out
+      remote_address: "{{var_data[0]}}:{{static_data[0]}}"
+      local_address: "{{var_data[1]}}:{{static_data[1]}}"
     level: 60
 
   0x000010:
@@ -166,6 +172,12 @@ events:
       Received diameter message from {{ var_data[0] }}:{{ static_data[0] }} at {{ var_data[1] }}:{{ static_data[1] }}
 
       <sas:fixed-width-font>{{ var_data[2] | decompress | decode_diameter_details }}</sas:fixed-width-font>
+    call_flow:
+      data: "{{ var_data[2] | decompress }}"
+      protocol: diameter
+      direction: in
+      remote_address: "{{var_data[0]}}:{{static_data[0]}}"
+      local_address: "{{var_data[1]}}:{{static_data[1]}}"
     level: 60
 
   0x000011:
