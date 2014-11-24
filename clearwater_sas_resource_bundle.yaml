@@ -33,7 +33,7 @@
 # as those licenses appear in the file LICENSE-OPENSSL.
 
 info:
-  identifier: "org.projectclearwater.20141113"
+  identifier: "org.projectclearwater.20141124"
 
 events:
   #
@@ -69,12 +69,11 @@ events:
   # HTTP flows.
   #
   0x000003: &http_request_sent
-    summary: 'Sending HTTP {{ var_data[0] }} to {{ var_data[1] }}'
+    summary: 'Sent HTTP {{ var_data[3] }} to {{ var_data[4] }}'
     details: |
-      Sending HTTP {{ var_data[0] }} to {{ var_data[1] }}
+      Sent HTTP request to {{ var_data[0] }}:{{ static_data[0] }} from {{ var_data[1] }}:{{ static_data[1] }}
 
-      Body:
-      <sas:fixed-width-font>{{ var_data[2] | if_blank: "<none>" }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[2] }}</sas:fixed-width-font>
     level: 60
 
   0x000004: &http_request_received
@@ -96,20 +95,19 @@ events:
     level: 60
 
   0x000006: &http_response_received
-    summary: 'Receiving HTTP {{ static_data[0] }} response for {{ var_data[0] }} to {{ var_data[1] }}'
+    summary: 'Received HTTP {{ static_data[2] }} response for {{ var_data[3] }} to {{ var_data[4] }}'
     details: |
-      Receiving HTTP {{static_data[0] }} response for {{ var_data[0] }} to {{ var_data[1] }}
+      Received HTTP response from {{ var_data[0] }}:{{ static_data[0] }} at {{ var_data[1] }}:{{ static_data[1] }}
 
-      Body:
-      <sas:fixed-width-font>{{ var_data[2] | if_blank: "<none>" }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[2] }}</sas:fixed-width-font>
     level: 60
 
   0x000007: &http_request_error
-    summary: 'Error sending HTTP {{ var_data[0] }} request to {{ var_data[1] }}'
+    summary: 'Error sending HTTP {{ var_data[1] }} request to {{ var_data[2] }}'
     details: |
-      Error sending HTTP {{ var_data[0] }} request to {{ var_data[1] }} / {{ var_data[3] }}
+      Error sending to {{ var_data[0] }}:{{ static_data[0] }}
 
-      {{ var_data[2] }} ({{ static_data[0] }})
+      {{ var_data[3] }} ({{ static_data[1] }})
     level: 60
 
   0x000008: &http_rejected_overload
