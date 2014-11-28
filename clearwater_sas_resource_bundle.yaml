@@ -46,7 +46,7 @@ events:
 
       <sas:fixed-width-font>{{ var_data[1] | decode_sip_details }}</sas:fixed-width-font>
     call_flow:
-      data: "{{ var_data[1] }}"
+      data: '{{ var_data[1] | decompress: "sip" }}'
       protocol: sip
       direction: in
       remote_address: "{{var_data[0]}}:{{static_data[1]}}"
@@ -59,7 +59,7 @@ events:
 
       <sas:fixed-width-font>{{ var_data[1] | decode_sip_details }}</sas:fixed-width-font>
     call_flow:
-      data: "{{ var_data[1] }}"
+      data: '{{ var_data[1] | decompress: "sip" }}'
       protocol: sip
       direction: out
       remote_address: "{{var_data[0]}}:{{static_data[1]}}"
@@ -73,7 +73,7 @@ events:
     details: |
       Sent HTTP request to {{ var_data[0] }}:{{ static_data[0] }} from {{ var_data[1] }}:{{ static_data[1] }}
 
-      <sas:fixed-width-font>{{ var_data[2] }}</sas:fixed-width-font>
+    <sas:fixed-width-font>{{ var_data[2] | decompress: "http" }}</sas:fixed-width-font>
     level: 60
 
   0x000004: &http_request_received
@@ -81,7 +81,7 @@ events:
     details: |
       Received HTTP request from {{ var_data[0] }}:{{ static_data[0] }} at {{ var_data[1] }}:{{ static_data[1] }}
 
-      <sas:fixed-width-font>{{ var_data[3] }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[3] | decompress: "http" }}</sas:fixed-width-font>
     level: 60
 
   0x000005: &http_response_sent
@@ -89,7 +89,7 @@ events:
     details: |
       Sent HTTP response to {{ var_data[0] }}:{{ static_data[0] }} from {{ var_data[1] }}:{{ static_data[1] }}
 
-      <sas:fixed-width-font>{{ var_data[3] }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[3] | decompress: "http" }}</sas:fixed-width-font>
     level: 60
 
   0x000006: &http_response_received
@@ -97,7 +97,7 @@ events:
     details: |
       Received HTTP response from {{ var_data[0] }}:{{ static_data[0] }} at {{ var_data[1] }}:{{ static_data[1] }}
 
-      <sas:fixed-width-font>{{ var_data[2] }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[2] | decompress: "http" }}</sas:fixed-width-font>
     level: 60
 
   0x000007: &http_request_error
@@ -574,7 +574,7 @@ events:
   0x8100C4:
     summary: "Testing whether an iFC matches"
     details: |
-      iFC: {{ var_data[0] }}
+      iFC: {{ var_data[0] | decompress: "service_profile" }}
     level:   40
 
   0x8100C5:
@@ -729,7 +729,7 @@ events:
   0x8201A0:
     summary: "Found registration data in the cache"
     details: |
-      IMS subscription: {{ var_data[0] }}
+      IMS subscription: {{ var_data[0] | decompress: "service_profile" }}
       Registration state: {{ static_data[0] | enum: "HOMESTEAD_REGISTRATION_STATES" }}
       Associated private IDs: {{ var_data[1] }}
       Charging addresses: {{ var_data[2] }}
@@ -746,7 +746,7 @@ events:
     summary: "Caching subscriber's registration data"
     details: |
       Public ID: {{ var_data[0] }}
-      IMS subscription: {{ var_data[1] }}
+      IMS subscription: {{ var_data[1] | decompress: "service_profile" }}
       Registration state: {{ static_data[0] | enum: "HOMESTEAD_REGISTRATION_STATES" }}
       Associated private IDs: {{ var_data[2] }}
       Charging addresses: {{ var_data[3] }}
@@ -791,7 +791,7 @@ events:
 
       The call will proceed as normal.
 
-      IMS subscription: {{ var_data[0] }}
+      IMS subscription: {{ var_data[0] | decompress: "service_profile" }}
     level:   80
 
   #
@@ -1266,3 +1266,16 @@ enums:
   ENABLED_DISABLED:
     0: 'Disabled'
     1: 'Enabled'
+
+compression_profiles:
+    sip:
+        # This must match PROFILE_SIP defined in https://github.com/Metaswitch/cpp-common/blob/master/include/sasevent.h
+        dictionary: "PCMUACKrportSUBSCRIBEP-Access-Network-Info: BYEusert=0 0 telephone-eventAccept: transportREGISTERSubscription-State: NOTIFYServer: m=audio RTP/AVP c=IN IP4 Expires: 200 OK\r\na=rtpmap:INVITETo: application/sdpVia: Content-Type: From: CSeq: Max-Forwards: Contact: Organization: Content-Length: Call-ID: ;tag=;branch=z9hG4bKSIP/2.0/UDP<sip:"
+
+    http:
+        # This must match PROFILE_HTTP defined in https://github.com/Metaswitch/cpp-common/blob/master/include/sasevent.h
+        dictionary: "\"]}}\"}}}}}]}}},\"Acct-Interim-Interval\":{\"aka\":{\"challenge\":\"\",\"Role-Of-Node\":\"}],\"Called-Party-Address\":\"\",\"Calling-Party-Address\":[\"\"}],\"Calling-Party-Address\":[\"\",\"Cause-Code\":\"],\"Cause-Code\":\",\"Content-Length\":,\"Content-Type\":\"\",\"crypt_key\":\"{\"digest\":{\"ha1\":\"{\"event\":{\"Accounting-Record-Type\":,\"Event-Timestamp\":,\"Event-Type\":{\"Expires\":\"],\"Event-Type\":{\"SIP-Method\":\"\"},\"From-Address\":\"{\"impi\":\"\",\"IMS-Charging-Identifier\":\"\",\"IMS-Visited-Network-Identifier\":\"\",\"Instance-Id\":\"\",\"integrity_key\":\"\",\"Inter-Operator-Identifier\":[{\"Originating-IOI\":\"\",\"mandatory-capabilities\":[\"}],\"Message-Body\":[{\"Content-Disposition\":\"\"}],\"Node-Functionality\":\",\"nonce\":\"],\"optional-capabilities\":[\",\"Originator\":\"}}},\"peers\":{\"ccf\":[\"\",\"qop\":\"\",\"realm\":\"{\"reqtype\":\",\"Requested-Party-Address\":\"\",\"response\":\"{\"result-code\":,\"Role-Of-Node\":\",\"Role-Of-Node\":,\"Route-Header-Received\":\",\"Route-Header-Transmitted\":\"\",\"Route-Header-Transmitted\":\",\"scscf\":\",\"Server-Capabilities\":{\"Server-Name\":[\",\"Service-Information\":{\"IMS-Information\":{\"Application-Server-Information\":[{\"Application-Server\":\",\"SIP-Method\":\",\"SIP-Request-Timestamp-Fraction\":,\"SIP-Response-Timestamp\":,\"SIP-Response-Timestamp-Fraction\":\"},\"Subscription-Id\":[{\"Subscription-Id-Data\":\"\",\"Subscription-Id-Type\":\",\"Terminating-IOI\":\"\"]},\"Time-Stamps\":{\"SIP-Request-Timestamp\":\"}},\"User-Name\":\"},\"User-Session-Id\":\"<ClearwaterRegData><RegistrationState><IMSSubscription xsi=\"http://www.w3.org/2001/XMLSchema-instance\" noNamespaceSchemaLocation=\"CxDataType.xsd\"><PrivateID><ServiceProfile><InitialFilterCriteria><TriggerPoint><ConditionTypeCNF><SPT><ConditionNegated><Group><Method><Extension/><ApplicationServer><ServerName><DefaultHandling><PublicIdentity><Identity><ChargingAddresses><CCF priority=\"\"><ECF priority=\"\"><Present but not logged>"
+
+    service_profile:
+        # This must match PROFILE_SERVICE_PROFILE defined in https://github.com/Metaswitch/cpp-common/blob/master/include/sasevent.h
+        dictionary: "<IMSSubscription xsi=\"http://www.w3.org/2001/XMLSchema-instance\" noNamespaceSchemaLocation=\"CxDataType.xsd\"><PrivateID><ServiceProfile><InitialFilterCriteria><TriggerPoint><ConditionTypeCNF><SPT><ConditionNegated><Group><Method><Extension/><ApplicationServer><ServerName><DefaultHandling><PublicIdentity><Identity>"
