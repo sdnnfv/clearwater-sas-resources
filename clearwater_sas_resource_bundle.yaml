@@ -76,6 +76,7 @@ events:
       <sas:fixed-width-font>{{ var_data[2] | decompress: "http" }}</sas:fixed-width-font>
     call_flow:
       data: '{{ var_data[2] | decompress: "http" }}'
+      caption: '{{ var_data[3] }}'
       protocol: http
       direction: out
       remote_address: '{{var_data[0]}}:{{static_data[0]}}'
@@ -90,6 +91,7 @@ events:
       <sas:fixed-width-font>{{ var_data[3] | decompress: "http" }}</sas:fixed-width-font>
     call_flow:
       data: '{{ var_data[3] | decompress: "http" }}'
+      caption: '{{ static_data[2] | enum: "LIBEVHTP_METHODS" }}'
       protocol: http
       direction: in
       remote_address: '{{var_data[0]}}:{{static_data[0]}}'
@@ -104,6 +106,7 @@ events:
       <sas:fixed-width-font>{{ var_data[3] | decompress: "http" }}</sas:fixed-width-font>
     call_flow:
       data: '{{ var_data[3] | decompress: "http" }}'
+      caption: '{{ static_data[3] }} (for {{ static_data[2] | enum: "LIBEVHTP_METHODS" }})'
       protocol: http
       direction: out
       remote_address: '{{var_data[0]}}:{{static_data[0]}}'
@@ -118,6 +121,7 @@ events:
       <sas:fixed-width-font>{{ var_data[2] | decompress: "http" }}</sas:fixed-width-font>
     call_flow:
       data: '{{ var_data[2] | decompress: "http" }}'
+      caption: '{{ static_data[2] }} (for {{ var_data[3] }})'
       protocol: http
       direction: in
       remote_address: '{{var_data[0]}}:{{static_data[0]}}'
