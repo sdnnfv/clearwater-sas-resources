@@ -47,7 +47,7 @@ events:
       <sas:fixed-width-font>{{ var_data[1] | decode_sip_details }}</sas:fixed-width-font>
     call_flow:
       data: '{{ var_data[1] | decompress: "sip" }}'
-      protocol: sip
+      protocol: _SIP  # The leading underscore means that this is a builtin protocol.
       direction: in
       remote_address: "{{var_data[0]}}:{{static_data[1]}}"
     level:   60
@@ -60,7 +60,7 @@ events:
       <sas:fixed-width-font>{{ var_data[1] | decode_sip_details }}</sas:fixed-width-font>
     call_flow:
       data: '{{ var_data[1] | decompress: "sip" }}'
-      protocol: sip
+      protocol: _SIP  # The leading underscore means that this is a builtin protocol.
       direction: out
       remote_address: "{{var_data[0]}}:{{static_data[1]}}"
     level:   60
@@ -77,7 +77,7 @@ events:
     call_flow:
       data: '{{ var_data[2] | decompress: "http" }}'
       caption: '{{ var_data[3] }}'
-      protocol: http
+      protocol: HTTP
       direction: out
       remote_address: '{{var_data[0]}}:{{static_data[0]}}'
       local_address: '{{var_data[1]}}:{{static_data[1]}}'
@@ -92,7 +92,7 @@ events:
     call_flow:
       data: '{{ var_data[3] | decompress: "http" }}'
       caption: '{{ static_data[2] | enum: "LIBEVHTP_METHODS" }}'
-      protocol: http
+      protocol: HTTP
       direction: in
       remote_address: '{{var_data[0]}}:{{static_data[0]}}'
       local_address: '{{var_data[1]}}:{{static_data[1]}}'
@@ -107,7 +107,7 @@ events:
     call_flow:
       data: '{{ var_data[3] | decompress: "http" }}'
       caption: '{{ static_data[3] }} (for {{ static_data[2] | enum: "LIBEVHTP_METHODS" }})'
-      protocol: http
+      protocol: HTTP
       direction: out
       remote_address: '{{var_data[0]}}:{{static_data[0]}}'
       local_address: '{{var_data[1]}}:{{static_data[1]}}'
@@ -122,7 +122,7 @@ events:
     call_flow:
       data: '{{ var_data[2] | decompress: "http" }}'
       caption: '{{ static_data[2] }} (for {{ var_data[3] }})'
-      protocol: http
+      protocol: HTTP
       direction: in
       remote_address: '{{var_data[0]}}:{{static_data[0]}}'
       local_address: '{{var_data[1]}}:{{static_data[1]}}'
@@ -207,7 +207,7 @@ events:
       <sas:fixed-width-font>{{ var_data[2] | decompress | decode_diameter_details }}</sas:fixed-width-font>
     call_flow:
       data: "{{ var_data[2] | decompress }}"
-      protocol: diameter
+      protocol: _Diameter  # The leading underscore means that this is a builtin protocol.
       direction: out
       remote_address: "{{var_data[0]}}:{{static_data[0]}}"
       local_address: "{{var_data[1]}}:{{static_data[1]}}"
@@ -221,7 +221,7 @@ events:
       <sas:fixed-width-font>{{ var_data[2] | decompress | decode_diameter_details }}</sas:fixed-width-font>
     call_flow:
       data: "{{ var_data[2] | decompress }}"
-      protocol: diameter
+      protocol: _Diameter  # The leading underscore means that this is a builtin protocol.
       direction: in
       remote_address: "{{var_data[0]}}:{{static_data[0]}}"
       local_address: "{{var_data[1]}}:{{static_data[1]}}"
