@@ -33,7 +33,7 @@
 # as those licenses appear in the file LICENSE-OPENSSL.
 
 info:
-  identifier: "org.projectclearwater.20141124"
+  identifier: "org.projectclearwater.20141212"
 
 events:
   #
@@ -705,6 +705,13 @@ events:
 
   0x820090:
     summary: "Failed to update the HSS and retrieve the subscriber's IMS subscription"
+    level:   80
+
+  0x820091:
+    summary: "The retrieved IMS subscription from the HSS had invalid XML"
+    details: |
+      The retrieved XML must be parseable, and contain one IMS subscription
+      IMS subscription: {{ var_data[0] }}
     level:   80
 
   0x8200A0:
