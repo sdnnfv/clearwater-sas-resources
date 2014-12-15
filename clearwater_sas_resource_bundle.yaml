@@ -711,7 +711,7 @@ events:
     summary: "The retrieved IMS subscription from the HSS had invalid XML"
     details: |
       The retrieved XML must be parseable, and contain one IMS subscription
-      IMS subscription: {{ var_data[0] }}
+      IMS subscription: {{ var_data[0] | decompress: "service_profile" }}
     level:   80
 
   0x8200A0:
