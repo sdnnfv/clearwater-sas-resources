@@ -339,6 +339,8 @@ events:
     level:   80
 
   # 0x810027 is reserved for use as a log to indicate an I-CSCF to I-CSCF loop.  Fix to follow shortly.
+  # 0x810028 is reserved for use as a log to indicate a subscriber is registered, but there are no bindings in memcached.
+  # 0x810029 is reserved for use as a log to indicate a subscriber is not registered.
 
   0x810030:
     summary: 'Starting SIP resolving for address: {{ var_data[0] }}'
