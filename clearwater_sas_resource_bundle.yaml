@@ -338,6 +338,8 @@ events:
       Note that this situation will lead to a complete phase of originating processing being performed on this request, which may lead to requests cycling between Sprout and a misbehaving Application Server.
     level:   80
 
+  # 0x810027 is reserved for use as a log to indicate an I-CSCF to I-CSCF loop.  Fix to follow shortly.
+
   0x810030:
     summary: 'Starting SIP resolving for address: {{ var_data[0] }}'
     details: |
