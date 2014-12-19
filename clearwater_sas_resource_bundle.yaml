@@ -338,7 +338,14 @@ events:
       Note that this situation will lead to a complete phase of originating processing being performed on this request, which may lead to requests cycling between Sprout and a misbehaving Application Server.
     level:   80
 
-  # 0x810027 is reserved for use as a log to indicate an I-CSCF to I-CSCF loop.  Fix to follow shortly.
+  0x810027:
+    summary: 'S-CSCF selected matches the I-CSCF address of this node or the cluster'
+    details: |
+      The IP address of S-CSCF selected for this subscriber matches that of the I-CSCF either for this node or for the cluster, and the request is therefore being rejected in order to avoid an infinite loop.
+
+      This may be due to incorrect cluster configuration (for exmaple, accidentally setting the I-CSCF port for the cluster to the S-CSCF port and vice versa).
+    level:   80
+
   # 0x810028 is reserved for use as a log to indicate a subscriber is registered, but there are no bindings in memcached.
   # 0x810029 is reserved for use as a log to indicate a subscriber is not registered.
 
