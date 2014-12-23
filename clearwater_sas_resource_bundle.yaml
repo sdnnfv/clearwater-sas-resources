@@ -215,6 +215,11 @@ events:
     summary: "Deleting memcached data for key {{ var_data[0] }}"
     level: 40
 
+  0x000108:
+    summary: "Deleting memcached data for key {{ var_data[0] }} failed"
+    details: Deletion failed for key {{ var_data[0] }} on replica {{ static_data[0] }} (out of {{ static_data[1] }} replicas)
+    level: 40
+
   0x000200:
     summary: 'The SRV lookup has returned for target: {{ var_data[0] }}'
     details: |
