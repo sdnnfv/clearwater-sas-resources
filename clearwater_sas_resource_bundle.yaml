@@ -428,27 +428,25 @@ events:
 
   0x810053:
     summary: 'Subscription will not be processed because the Request-URI is not targeted at this domain'
-    level:   80
+    level:   40
 
   0x810054:
     summary: 'Subscription will not be processed because the Contact address is for an emergency registration'
     level:   80
 
   0x810055:
-    summary: 'Subscription will not be processed due to incorrect Accept header'
+    summary: "Subscription will not be processed as the endpoint does not accept reginfo notifications"
     details: |
-      Expected "application/reginfo+xml" to be present
-
+      Expected "application/reginfo+xml" in the Accept header (if the Accept header was present)
       Accept header was: '{{ var_data[0] }}'
-    level:   80
+    level:   40
 
   0x810056:
-    summary: 'Subscription will not be processed due to incorrect Event header'
+    summary: "Subscription will not be processed as it's not for the 'reg' package"
     details: |
       Expected the "reg" event to be supported
-
       Event header was: '{{ var_data[0] | if_blank: "<not present>"}}'
-    level:   80
+    level:   40
 
   0x810060:
     summary: 'Notification failed with reason: "{{ var_data[0] }}"'
