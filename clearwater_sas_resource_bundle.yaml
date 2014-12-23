@@ -598,8 +598,7 @@ events:
 
   0x810085:
     summary: 'Registration failed for Public ID "{{ var_data[0] }}"'
-    details: Failed to register the subscriber at the HSS. This can mean that the HSS is unavailable, the public identity doesn't exist, or the public
-identity doesn't belong to the private identity {{ var_data[1] }}
+    details: Failed to register the subscriber at the HSS. This can mean that the HSS is unavailable, the public identity doesn't exist, or the public identity doesn't belong to the private identity {{ var_data[1] }}
     level:   80
 
   0x810086:
