@@ -338,7 +338,14 @@ events:
       Note that this situation will lead to a complete phase of originating processing being performed on this request, which may lead to requests cycling between Sprout and a misbehaving Application Server.
     level:   80
 
-  # 0x810027 is reserved for use as a log to indicate an I-CSCF to I-CSCF loop.  Fix to follow shortly.
+  0x810027:
+    summary: 'S-CSCF selected matches the I-CSCF address of this node or the cluster'
+    details: |
+      The IP address of S-CSCF selected for this subscriber matches that of the I-CSCF either for this node or for the cluster, and the request is therefore being rejected in order to avoid an infinite loop.
+
+      This may be due to incorrect cluster configuration (for example, accidentally setting the I-CSCF port for the cluster to the S-CSCF port and vice versa).
+    level:   80
+
   # 0x810028 is reserved for use as a log to indicate a subscriber is registered, but there are no bindings in memcached.
   # 0x810029 is reserved for use as a log to indicate a subscriber is not registered.
 
@@ -447,27 +454,25 @@ events:
 
   0x810053:
     summary: 'Subscription will not be processed because the Request-URI is not targeted at this domain'
-    level:   80
+    level:   40
 
   0x810054:
     summary: 'Subscription will not be processed because the Contact address is for an emergency registration'
     level:   80
 
   0x810055:
-    summary: 'Subscription will not be processed due to incorrect Accept header'
+    summary: "Subscription will not be processed as the endpoint does not accept reginfo notifications"
     details: |
-      Expected "application/reginfo+xml" to be present
-
+      Expected "application/reginfo+xml" in the Accept header (if the Accept header was present)
       Accept header was: '{{ var_data[0] }}'
-    level:   80
+    level:   40
 
   0x810056:
-    summary: 'Subscription will not be processed due to incorrect Event header'
+    summary: "Subscription will not be processed as it's not for the 'reg' package"
     details: |
       Expected the "reg" event to be supported
-
       Event header was: '{{ var_data[0] | if_blank: "<not present>"}}'
-    level:   80
+    level:   40
 
   0x810060:
     summary: 'Notification failed'
