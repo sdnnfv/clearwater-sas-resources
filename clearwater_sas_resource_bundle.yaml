@@ -399,11 +399,15 @@ events:
     level:   40
 
   0x810040:
-    summary: 'Authentication is not needed: {{ var_data[0] }}'
+    summary: "Authentication is not needed as the request wasn't received on the S-CSCF port"
     level:   40
 
+  0x810041:
+    summary: 'Authentication failed as the downstream node is overloaded or unresponsive'
+    level:   80
+
   0x810042:
-    summary: 'Authentication failed: {{ var_data[0] }}'
+    summary: "Authentication failed as the downstream node didn't return an authentication vector"
     level:   80
 
   0x810043:
@@ -411,7 +415,28 @@ events:
     level:   40
 
   0x810044:
-    summary: 'Challenge the request. Request an authentication vector of type: {{ var_data[0] }} from memcached'
+    summary: 'Challenge the request. Request an AKA authentication vector from memcached'
+    level:   40
+
+  0x810045:
+    summary: 'Challenge the request. Request a DIGEST authentication vector from memcached'
+    level:   40
+
+  0x810046:
+    summary: 'Authentication returned malformed credentials'
+    details: '{{ var_data[0] }}'
+    level:   80
+
+  0x810047:
+    summary: "Authentication is not needed as the request wasn't a register"
+    level:   40
+
+  0x810048:
+    summary: "Authentication is not needed as the request was an emergency register"
+    level:   40
+
+  0x810049:
+    summary: "Authentication is not needed as the request has been integrity protected by the edge proxy"
     level:   40
 
   0x810050:
@@ -419,7 +444,8 @@ events:
     level:   40
 
   0x810051:
-    summary: 'Subscription failed for "{{ var_data[0] }}". Reason: "{{ var_data[0] }}"'
+    summary: 'Subscription failed for "{{ var_data[0] }}".' 
+    details: '{{ var_data[1] }}'
     level:   80
 
   0x810052:
@@ -449,7 +475,8 @@ events:
     level:   40
 
   0x810060:
-    summary: 'Notification failed with reason: "{{ var_data[0] }}"'
+    summary: 'Notification failed'
+    details: '{{ var_data[0] }}'
     level:   80
 
   0x810070:
@@ -491,17 +518,58 @@ events:
     level:   40
 
   0x810083:
-    summary: 'Registration with application servers failed with reason: "{{ var_data[0] }}"'
+    summary: 'Registration with application servers failed'
+    details: '{{ var_data[0] }}'
+    level:   80
+
+  0x810084:
+    summary: 'Registration failed due to invalid URI scheme'
+    level:   80
+
+  0x810085:
+    summary: 'Registration failed for Public ID "{{ var_data[0] }}"'
+    details: Failed to register the subscriber at the HSS. This can mean that the HSS is unavailable, the public identity doesn't exist, or the public
+identity doesn't belong to the private identity {{ var_data[1] }}
+    level:   80
+
+  0x810086:
+    summary: 'Deregistration failed for Public ID "{{ var_data[0] }}"'
+    details: Attempted to deregister all bindings (as the Contact header was '*'), but the request didn't include an expiry of 0 
+    level:   80
+
+  0x810087:
+    summary: 'Deregistration failed for Public ID "{{ var_data[0] }}"'
+    details: Unable to deregister an emergency registration
+    level:   80
+
+  0x810088:
+    summary: 'Registration failed for Public ID "{{ var_data[0] }}"'
+    details: Unable to contact the underlying registration store
+    level:   80
+
+  0x810089:
+    summary: 'Registration failed for Public ID "{{ var_data[0] }}"'
+    details: Failed to add RFC 5636 headers
     level:   80
 
   0x810090:
-    summary: 'Authentication vector store operation "{{ var_data[0] }}" succeeded for private ID: "{{ var_data[1] }}"'
+    summary: 'Authentication vector store operation SET succeeded for private ID: "{{ var_data[0] }}"'
     level:   40
 
   0x810091:
-    summary: 'Authentication vector store operation "{{ var_data[0] }}" failed'
+    summary: 'Authentication vector store operation GET succeeded for private ID: "{{ var_data[0] }}"'
+    level:   40
+
+  0x810092:
+    summary: 'Authentication vector store operation SET failed'
     details: |
-      Reason: {{ var_data[1] }}
+      Reason: {{ var_data[0] }}
+    level:   40
+
+  0x810093:
+    summary: 'Authentication vector store operation GET failed'
+    details: |
+      Reason: {{ var_data[0] }}
     level:   40
 
   0x8100A0:
