@@ -68,7 +68,11 @@ events:
   #
   # HTTP flows.
   #
-  0x000003: &http_request_sent
+  # These events are duplicated below, but where the duplicates are logged at
+  # level 40 instead of level 60, and are not included in the call flow.  The
+  # two sets must be kept in sync.
+  #
+  0x000003:
     summary: 'Sent HTTP {{ var_data[3] }} to {{ var_data[4] }}'
     details: |
       Sent HTTP request to {{ var_data[0] }}:{{ static_data[0] }} from {{ var_data[1] }}:{{ static_data[1] }}
@@ -83,7 +87,7 @@ events:
       local_address: '{{var_data[1]}}:{{static_data[1]}}'
     level: 60
 
-  0x000004: &http_request_received
+  0x000004:
     summary: 'Received HTTP {{ static_data[2] | enum: "LIBEVHTP_METHODS" }} for {{ var_data[2] }}'
     details: |
       Received HTTP request from {{ var_data[0] }}:{{ static_data[0] }} at {{ var_data[1] }}:{{ static_data[1] }}
@@ -98,7 +102,7 @@ events:
       local_address: '{{var_data[1]}}:{{static_data[1]}}'
     level: 60
 
-  0x000005: &http_response_sent
+  0x000005:
     summary: 'Sent HTTP {{ static_data[3] }} response for {{ static_data[2] | enum: "LIBEVHTP_METHODS" }} of {{ var_data[2] }}'
     details: |
       Sent HTTP response to {{ var_data[0] }}:{{ static_data[0] }} from {{ var_data[1] }}:{{ static_data[1] }}
@@ -113,7 +117,7 @@ events:
       local_address: '{{var_data[1]}}:{{static_data[1]}}'
     level: 60
 
-  0x000006: &http_response_received
+  0x000006:
     summary: 'Received HTTP {{ static_data[2] }} response for {{ var_data[3] }} to {{ var_data[4] }}'
     details: |
       Received HTTP response from {{ var_data[0] }}:{{ static_data[0] }} at {{ var_data[1] }}:{{ static_data[1] }}
@@ -128,7 +132,7 @@ events:
       local_address: '{{var_data[1]}}:{{static_data[1]}}'
     level: 60
 
-  0x000007: &http_request_error
+  0x000007:
     summary: 'Error sending HTTP {{ var_data[1] }} to {{ var_data[2] }}'
     details: |
       Error sending to {{ var_data[0] }}:{{ static_data[0] }}
@@ -136,7 +140,7 @@ events:
       {{ var_data[3] }} ({{ static_data[1] }})
     level: 60
 
-  0x000008: &http_rejected_overload
+  0x000008:
     summary: 'HTTP {{ static_data[0] | enum: "LIBEVHTP_METHODS" }} to {{ var_data[0] }} rejected due to overload'
     details: |
       Response code: {{ static_data[1] }}
@@ -145,9 +149,11 @@ events:
       Requests limited to a rate of {{ static_data[4] | float}}/sec
     level: 60
 
+  #
   # Duplicates of the above HTTP events, but logged at level 40 rather than 60,
-  # and not included in the call flow.
-  0x000009: &http_request_sent
+  # and not included in the call flow. The two sets must be kept in sync.
+  #
+  0x000009:
     summary: 'Sent HTTP {{ var_data[3] }} to {{ var_data[4] }}'
     details: |
       Sent HTTP request to {{ var_data[0] }}:{{ static_data[0] }} from {{ var_data[1] }}:{{ static_data[1] }}
@@ -155,7 +161,7 @@ events:
       <sas:fixed-width-font>{{ var_data[2] | decompress: "http" }}</sas:fixed-width-font>
     level: 40
 
-  0x00000A: &http_request_received
+  0x00000A:
     summary: 'Received HTTP {{ static_data[2] | enum: "LIBEVHTP_METHODS" }} for {{ var_data[2] }}'
     details: |
       Received HTTP request from {{ var_data[0] }}:{{ static_data[0] }} at {{ var_data[1] }}:{{ static_data[1] }}
@@ -163,7 +169,7 @@ events:
       <sas:fixed-width-font>{{ var_data[3] | decompress: "http" }}</sas:fixed-width-font>
     level: 40
 
-  0x00000B: &http_response_sent
+  0x00000B:
     summary: 'Sent HTTP {{ static_data[3] }} response for {{ static_data[2] | enum: "LIBEVHTP_METHODS" }} of {{ var_data[2] }}'
     details: |
       Sent HTTP response to {{ var_data[0] }}:{{ static_data[0] }} from {{ var_data[1] }}:{{ static_data[1] }}
@@ -171,7 +177,7 @@ events:
       <sas:fixed-width-font>{{ var_data[3] | decompress: "http" }}</sas:fixed-width-font>
     level: 40
 
-  0x00000C: &http_response_received
+  0x00000C:
     summary: 'Received HTTP {{ static_data[2] }} response for {{ var_data[3] }} to {{ var_data[4] }}'
     details: |
       Received HTTP response from {{ var_data[0] }}:{{ static_data[0] }} at {{ var_data[1] }}:{{ static_data[1] }}
@@ -179,7 +185,7 @@ events:
       <sas:fixed-width-font>{{ var_data[2] | decompress: "http" }}</sas:fixed-width-font>
     level: 40
 
-  0x00000D: &http_request_error
+  0x00000D:
     summary: 'Error sending HTTP {{ var_data[1] }} to {{ var_data[2] }}'
     details: |
       Error sending to {{ var_data[0] }}:{{ static_data[0] }}
@@ -187,7 +193,7 @@ events:
       {{ var_data[3] }} ({{ static_data[1] }})
     level: 40
 
-  0x00000E: &http_rejected_overload
+  0x00000E:
     summary: 'HTTP {{ static_data[0] | enum: "LIBEVHTP_METHODS" }} to {{ var_data[0] }} rejected due to overload'
     details: |
       Response code: {{ static_data[1] }}
@@ -514,7 +520,7 @@ events:
     level:   40
 
   0x810051:
-    summary: 'Subscription failed for "{{ var_data[0] }}".' 
+    summary: 'Subscription failed for "{{ var_data[0] }}".'
     details: '{{ var_data[1] }}'
     level:   80
 
@@ -603,7 +609,7 @@ events:
 
   0x810086:
     summary: 'Deregistration failed for Public ID "{{ var_data[0] }}"'
-    details: Attempted to deregister all bindings (as the Contact header was '*'), but the request didn't include an expiry of 0 
+    details: Attempted to deregister all bindings (as the Contact header was '*'), but the request didn't include an expiry of 0
     level:   80
 
   0x810087:
