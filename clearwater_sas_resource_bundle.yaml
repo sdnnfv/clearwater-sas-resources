@@ -46,7 +46,7 @@ events:
 
       <sas:fixed-width-font>{{ var_data[1] | decode_sip_details }}</sas:fixed-width-font>
     call_flow:
-      data: '{{ var_data[1] | decompress: "sip" }}'
+      data: '{{ var_data[1] }}'
       protocol: _SIP  # The leading underscore means that this is a builtin protocol.
       direction: in
       remote_address: "{{var_data[0]}}:{{static_data[1]}}"
@@ -59,7 +59,7 @@ events:
 
       <sas:fixed-width-font>{{ var_data[1] | decode_sip_details }}</sas:fixed-width-font>
     call_flow:
-      data: '{{ var_data[1] | decompress: "sip" }}'
+      data: '{{ var_data[1] }}'
       protocol: _SIP  # The leading underscore means that this is a builtin protocol.
       direction: out
       remote_address: "{{var_data[0]}}:{{static_data[1]}}"
@@ -77,9 +77,9 @@ events:
     details: |
       Sent HTTP request to {{ var_data[0] }}:{{ static_data[0] }} from {{ var_data[1] }}:{{ static_data[1] }}
 
-      <sas:fixed-width-font>{{ var_data[2] | decompress: "http" }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[2] }}</sas:fixed-width-font>
     call_flow:
-      data: '{{ var_data[2] | decompress: "http" }}'
+      data: '{{ var_data[2] }}'
       caption: '{{ var_data[3] }}'
       protocol: HTTP
       direction: out
@@ -92,9 +92,9 @@ events:
     details: |
       Received HTTP request from {{ var_data[0] }}:{{ static_data[0] }} at {{ var_data[1] }}:{{ static_data[1] }}
 
-      <sas:fixed-width-font>{{ var_data[3] | decompress: "http" }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[3] }}</sas:fixed-width-font>
     call_flow:
-      data: '{{ var_data[3] | decompress: "http" }}'
+      data: '{{ var_data[3] }}'
       caption: '{{ static_data[2] | enum: "LIBEVHTP_METHODS" }}'
       protocol: HTTP
       direction: in
@@ -107,9 +107,9 @@ events:
     details: |
       Sent HTTP response to {{ var_data[0] }}:{{ static_data[0] }} from {{ var_data[1] }}:{{ static_data[1] }}
 
-      <sas:fixed-width-font>{{ var_data[3] | decompress: "http" }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[3] }}</sas:fixed-width-font>
     call_flow:
-      data: '{{ var_data[3] | decompress: "http" }}'
+      data: '{{ var_data[3] }}'
       caption: '{{ static_data[3] }} (for {{ static_data[2] | enum: "LIBEVHTP_METHODS" }})'
       protocol: HTTP
       direction: out
@@ -122,9 +122,9 @@ events:
     details: |
       Received HTTP response from {{ var_data[0] }}:{{ static_data[0] }} at {{ var_data[1] }}:{{ static_data[1] }}
 
-      <sas:fixed-width-font>{{ var_data[2] | decompress: "http" }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[2] }}</sas:fixed-width-font>
     call_flow:
-      data: '{{ var_data[2] | decompress: "http" }}'
+      data: '{{ var_data[2] }}'
       caption: '{{ static_data[2] }} (for {{ var_data[3] }})'
       protocol: HTTP
       direction: in
@@ -158,7 +158,7 @@ events:
     details: |
       Sent HTTP request to {{ var_data[0] }}:{{ static_data[0] }} from {{ var_data[1] }}:{{ static_data[1] }}
 
-      <sas:fixed-width-font>{{ var_data[2] | decompress: "http" }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[2] }}</sas:fixed-width-font>
     level: 40
 
   0x00000A:
@@ -166,7 +166,7 @@ events:
     details: |
       Received HTTP request from {{ var_data[0] }}:{{ static_data[0] }} at {{ var_data[1] }}:{{ static_data[1] }}
 
-      <sas:fixed-width-font>{{ var_data[3] | decompress: "http" }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[3] }}</sas:fixed-width-font>
     level: 40
 
   0x00000B:
@@ -174,7 +174,7 @@ events:
     details: |
       Sent HTTP response to {{ var_data[0] }}:{{ static_data[0] }} from {{ var_data[1] }}:{{ static_data[1] }}
 
-      <sas:fixed-width-font>{{ var_data[3] | decompress: "http" }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[3] }}</sas:fixed-width-font>
     level: 40
 
   0x00000C:
@@ -182,7 +182,7 @@ events:
     details: |
       Received HTTP response from {{ var_data[0] }}:{{ static_data[0] }} at {{ var_data[1] }}:{{ static_data[1] }}
 
-      <sas:fixed-width-font>{{ var_data[2] | decompress: "http" }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[2] }}</sas:fixed-width-font>
     level: 40
 
   0x00000D:
@@ -206,13 +206,13 @@ events:
   # Diameter flows.
   #
   0x00000F:
-    summary: 'Sending diameter {{ var_data[2] | decompress | decode_diameter_summary }}'
+    summary: 'Sending diameter {{ var_data[2] | decode_diameter_summary }}'
     details: |
       Sending diameter message to {{ var_data[0] }}:{{ static_data[0] }} from {{ var_data[1] }}:{{ static_data[1] }}
 
-      <sas:fixed-width-font>{{ var_data[2] | decompress | decode_diameter_details }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[2] | decode_diameter_details }}</sas:fixed-width-font>
     call_flow:
-      data: "{{ var_data[2] | decompress }}"
+      data: "{{ var_data[2] }}"
       protocol: _Diameter  # The leading underscore means that this is a builtin protocol.
       direction: out
       remote_address: "{{var_data[0]}}:{{static_data[0]}}"
@@ -220,13 +220,13 @@ events:
     level: 60
 
   0x000010:
-    summary: 'Received diameter {{ var_data[2] | decompress | decode_diameter_summary }}'
+    summary: 'Received diameter {{ var_data[2] | decode_diameter_summary }}'
     details: |
       Received diameter message from {{ var_data[0] }}:{{ static_data[0] }} at {{ var_data[1] }}:{{ static_data[1] }}
 
-      <sas:fixed-width-font>{{ var_data[2] | decompress | decode_diameter_details }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[2] | decode_diameter_details }}</sas:fixed-width-font>
     call_flow:
-      data: "{{ var_data[2] | decompress }}"
+      data: "{{ var_data[2] }}"
       protocol: _Diameter  # The leading underscore means that this is a builtin protocol.
       direction: in
       remote_address: "{{var_data[0]}}:{{static_data[0]}}"
@@ -238,7 +238,7 @@ events:
     details: |
       Timeout sending diameter message:
 
-      <sas:fixed-width-font>{{ var_data[0] | decompress | decode_diameter_details }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[0] | decode_diameter_details }}</sas:fixed-width-font>
     level: 60
 
   #
@@ -714,7 +714,7 @@ events:
   0x8100C4:
     summary: "Testing whether an iFC matches"
     details: |
-      iFC: {{ var_data[0] | decompress: "service_profile" }}
+      iFC: {{ var_data[0] }}
     level:   40
 
   0x8100C5:
@@ -798,7 +798,7 @@ events:
     summary: "The retrieved IMS subscription from the HSS had invalid XML"
     details: |
       The retrieved XML must be parseable, and contain one IMS subscription
-      IMS subscription: {{ var_data[0] | decompress: "service_profile" }}
+      IMS subscription: {{ var_data[0] }}
     level:   80
 
   0x8200A0:
@@ -876,7 +876,7 @@ events:
   0x8201A0:
     summary: "Found registration data in the cache"
     details: |
-      IMS subscription: {{ var_data[0] | decompress: "service_profile" }}
+      IMS subscription: {{ var_data[0] }}
       Registration state: {{ static_data[0] | enum: "HOMESTEAD_REGISTRATION_STATES" }}
       Associated private IDs: {{ var_data[1] }}
       Charging addresses: {{ var_data[2] }}
@@ -893,7 +893,7 @@ events:
     summary: "Caching subscriber's registration data"
     details: |
       Public ID: {{ var_data[0] }}
-      IMS subscription: {{ var_data[1] | decompress: "service_profile" }}
+      IMS subscription: {{ var_data[1] }}
       Registration state: {{ static_data[0] | enum: "HOMESTEAD_REGISTRATION_STATES" }}
       Associated private IDs: {{ var_data[2] }}
       Charging addresses: {{ var_data[3] }}
@@ -938,7 +938,7 @@ events:
 
       The call will proceed as normal.
 
-      IMS subscription: {{ var_data[0] | decompress: "service_profile" }}
+      IMS subscription: {{ var_data[0] }}
     level:   80
 
   #
