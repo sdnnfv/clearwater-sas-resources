@@ -68,9 +68,9 @@ events:
   #
   # HTTP flows.
   #
-  # These events are duplicated below, but where the duplicates are logged at
-  # level 40 instead of level 60, and are not included in the call flow.  The
-  # two sets must be kept in sync.
+  # These events are duplicated below, but the duplicates are logged at level 40
+  # instead of level 60, and are not included in the call flow.  The two sets
+  # must be kept in sync.
   #
   0x000003:
     summary: 'Sent HTTP {{ var_data[3] }} to {{ var_data[4] }}'
