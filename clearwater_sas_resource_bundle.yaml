@@ -212,7 +212,7 @@ events:
 
       <sas:fixed-width-font>{{ var_data[2] | decode_diameter_details }}</sas:fixed-width-font>
     call_flow:
-      data: "{{ var_data[2] }}"
+      data: "{{ var_data[2] | binary }}"
       protocol: _Diameter  # The leading underscore means that this is a builtin protocol.
       direction: out
       remote_address: "{{var_data[0]}}:{{static_data[0]}}"
@@ -226,7 +226,7 @@ events:
 
       <sas:fixed-width-font>{{ var_data[2] | decode_diameter_details }}</sas:fixed-width-font>
     call_flow:
-      data: "{{ var_data[2] }}"
+      data: "{{ var_data[2] | binary }}"
       protocol: _Diameter  # The leading underscore means that this is a builtin protocol.
       direction: in
       remote_address: "{{var_data[0]}}:{{static_data[0]}}"
