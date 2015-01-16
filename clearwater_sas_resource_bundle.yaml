@@ -687,6 +687,10 @@ events:
     summary: "Contact filtering removed all bindings - request will fail with 480 Temporarily Unavailable"
     level:   80
 
+  0x8100D6:
+    summary: "'{{ var_data[0] }}' header could not be parsed - request will be rejected with 400 Bad Request"
+    level:   80
+
   #
   # Homestead events (0x820000 - 0x82FFFF)
   #
