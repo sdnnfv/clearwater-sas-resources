@@ -33,7 +33,7 @@
 # as those licenses appear in the file LICENSE-OPENSSL.
 
 info:
-  identifier: "org.projectclearwater.20141223"
+  identifier: "org.projectclearwater.20150116"
 
 events:
   #
@@ -351,8 +351,17 @@ events:
       This may be due to incorrect cluster configuration (for example, accidentally setting the I-CSCF port for the cluster to the S-CSCF port and vice versa).
     level:   80
 
-  # 0x810028 is reserved for use as a log to indicate a subscriber is registered, but there are no bindings in memcached.
-  # 0x810029 is reserved for use as a log to indicate a subscriber is not registered.
+  0x810028:
+    summary: 'Public ID {{ var_data[0] }} is registered, but there are no bindings in memcached'
+    details: |
+      The public ID {{ var_data[0] }} is registered, but there are no bindings in memcached.
+
+      This may indicate that a previous de-registration of this subscriber has failed.
+    level:   80
+
+  0x810029:
+    summary: 'Public ID {{ var_data[0] }} is not registered'
+    level:   40
 
   0x810030:
     summary: 'Starting SIP resolving for address: {{ var_data[0] }}'
