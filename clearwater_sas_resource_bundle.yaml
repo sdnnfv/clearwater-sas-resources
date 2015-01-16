@@ -33,7 +33,7 @@
 # as those licenses appear in the file LICENSE-OPENSSL.
 
 info:
-  identifier: "org.projectclearwater.20141223"
+  identifier: "org.projectclearwater.20150116"
 
 events:
   #
@@ -676,6 +676,10 @@ events:
 
   0x8100D5:
     summary: "Contact filtering removed all bindings - request will fail with 480 Temporarily Unavailable"
+    level:   80
+
+  0x8100D6:
+    summary: "'{{ var_data[0] }}' header could not be parsed - request will be rejected with 400 Bad Request"
     level:   80
 
   #
