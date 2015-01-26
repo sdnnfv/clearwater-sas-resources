@@ -33,7 +33,7 @@
 # as those licenses appear in the file LICENSE-OPENSSL.
 
 info:
-  identifier: "org.projectclearwater.20150116"
+  identifier: "org.projectclearwater.20150126"
 
 events:
   #
@@ -458,7 +458,7 @@ events:
     level:   40
 
   0x810051:
-    summary: 'Subscription failed for "{{ var_data[0] }}".' 
+    summary: 'Subscription failed for "{{ var_data[0] }}".'
     details: '{{ var_data[1] }}'
     level:   80
 
@@ -517,6 +517,14 @@ events:
     summary: 'RegStore SET for AoR: "{{ var_data[0] }}" failed'
     level:   80
 
+  0x810076:
+    summary: 'Failed to deserialize AoR for {{ var_data[0] }}'
+    details: |
+      AoR data:
+
+      {{ var_data[1] | hex_and_ascii }}
+    level:   80
+
   0x810080:
     summary: 'Registration started for: Public ID: "{{ var_data[0] }}", Private ID: "{{ var_data[1] }}"'
     level:   40
@@ -547,7 +555,7 @@ events:
 
   0x810086:
     summary: 'Deregistration failed for Public ID "{{ var_data[0] }}"'
-    details: Attempted to deregister all bindings (as the Contact header was '*'), but the request didn't include an expiry of 0 
+    details: Attempted to deregister all bindings (as the Contact header was '*'), but the request didn't include an expiry of 0
     level:   80
 
   0x810087:
