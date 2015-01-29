@@ -520,9 +520,9 @@ events:
   0x810076:
     summary: 'Failed to deserialize AoR for {{ var_data[0] }}'
     details: |
-      AoR data:
+      AoR data for {{ var_data[0] }}:
 
-      {{ var_data[1] | hex_and_ascii }}
+      <sas:fixed-width-font>{{ var_data[1] | hex_and_ascii }}</sas:fixed-width-font>
     level:   80
 
   0x810080:
