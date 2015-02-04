@@ -752,7 +752,7 @@ events:
     level:   80
 
   0x8200A0:
-    summary: "No HSS configured - returning default server name"
+    summary: "No HSS configured - returning default server name if subscriber exists"
     level:   40
 
   0x8200B0:
