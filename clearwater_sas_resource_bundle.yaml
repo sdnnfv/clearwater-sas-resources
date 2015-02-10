@@ -33,7 +33,7 @@
 # as those licenses appear in the file LICENSE-OPENSSL.
 
 info:
-  identifier: "org.projectclearwater.20141223"
+  identifier: "org.projectclearwater.20150126"
 
 events:
   #
@@ -424,8 +424,17 @@ events:
       This may be due to incorrect cluster configuration (for example, accidentally setting the I-CSCF port for the cluster to the S-CSCF port and vice versa).
     level:   80
 
-  # 0x810028 is reserved for use as a log to indicate a subscriber is registered, but there are no bindings in memcached.
-  # 0x810029 is reserved for use as a log to indicate a subscriber is not registered.
+  0x810028:
+    summary: 'Public ID {{ var_data[0] }} is registered, but there are no bindings in memcached'
+    details: |
+      The public ID {{ var_data[0] }} is registered, but there are no bindings in memcached.
+
+      This may indicate that a previous de-registration of this subscriber has failed.
+    level:   80
+
+  0x810029:
+    summary: 'Public ID {{ var_data[0] }} is not registered'
+    level:   40
 
   0x810030:
     summary: 'Starting SIP resolving for address: {{ var_data[0] }}'
@@ -579,6 +588,14 @@ events:
 
   0x810075:
     summary: 'RegStore SET for AoR: "{{ var_data[0] }}" failed'
+    level:   80
+
+  0x810076:
+    summary: 'Failed to deserialize AoR for {{ var_data[0] }}'
+    details: |
+      AoR data for {{ var_data[0] }}:
+
+      <sas:fixed-width-font>{{ var_data[1] | hex_and_ascii }}</sas:fixed-width-font>
     level:   80
 
   0x810080:
@@ -751,6 +768,10 @@ events:
     summary: "Contact filtering removed all bindings - request will fail with 480 Temporarily Unavailable"
     level:   80
 
+  0x8100D6:
+    summary: "'{{ var_data[0] }}' header could not be parsed - request will be rejected with 400 Bad Request"
+    level:   80
+
   #
   # Homestead events (0x820000 - 0x82FFFF)
   #
@@ -804,7 +825,7 @@ events:
     level:   80
 
   0x8200A0:
-    summary: "No HSS configured - returning default server name"
+    summary: "No HSS configured - returning default server name if subscriber exists"
     level:   40
 
   0x8200B0:
