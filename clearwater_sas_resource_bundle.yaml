@@ -294,6 +294,14 @@ events:
     summary: 'BGCF lookup for domain "{{ var_data[0] }}" failed - routing directly'
     level:   40
 
+  0x810013:
+    summary: 'BGCF route "{{ var_data[0] }}" selected for number "{{ var_data[1] }}"'
+    level:   40
+
+  0x810014:
+    summary: 'BGCF lookup for number "{{ var_data[0] }}" failed - routing directly'
+    level:   40
+
   0x810020:
     summary: 'There are no configured S-CSCFs - request cannot be processed'
     level:   80
