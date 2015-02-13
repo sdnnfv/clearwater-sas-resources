@@ -33,7 +33,7 @@
 # as those licenses appear in the file LICENSE-OPENSSL.
 
 info:
-  identifier: "org.projectclearwater.20150126"
+  identifier: "org.projectclearwater.20150210"
 
 events:
   #
@@ -1026,6 +1026,13 @@ events:
     summary: "CDF accepted billing request for session {{ var_data[0] }}"
     level:   80
 
+  0x830D00:
+    summary: "Failed to deserialize data for session {{ var_data[0] }}"
+    details: |
+      Call ID: {{ var_data[0] }}
+      <sas:fixed-width-font>{{ var_data[1] | hex_and_ascii }}</sas:fixed-width-font>
+    level: 80
+
   #
   # Memento events (0x840000 - 0x84FFFF)
   #
@@ -1077,6 +1084,13 @@ events:
       Key: {{ var_data[0] }}
       <sas:fixed-width-font>{{ var_data[1] | hex_and_ascii }}</sas:fixed-width-font>
     level: 40
+
+  0x840014:
+    summary: "Failed to deserialize authentication details"
+    details: |
+      Key: {{ var_data[0] }}
+      <sas::fixed-width-font>{{ var_data[1] | hex_and_ascii }}</sas::fixed-width-font>
+    level: 80
 
   0x840020:
     summary: "No authentication credentials present in the request"
