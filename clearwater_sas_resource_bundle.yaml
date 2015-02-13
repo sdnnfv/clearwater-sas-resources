@@ -33,7 +33,7 @@
 # as those licenses appear in the file LICENSE-OPENSSL.
 
 info:
-  identifier: "org.projectclearwater.20150210"
+  identifier: "org.projectclearwater.20150213"
 
 events:
   #
@@ -282,16 +282,32 @@ events:
     summary: 'ENUM (DNS NAPTR) request for domain {{ var_data[0] }} failed: {{ static_data[0] | enum: "C_ARES_ERRORS" }}'
     level:   60
 
+  0x810007:
+    summary: 'No ENUM lookups performed as the ENUM service is not enabled.'
+    level:   40
+
+  0x810008:
+    summary: 'ENUM lookup returned an invalid URI: {{ var_data[0] }}'
+    level:   80
+
   0x810010:
-    summary: 'BGCF route "{{ var_data[0] }}" selected for domain "{{ var_data[1] }}"'
+    summary: 'BGCF route "{{ var_data[1] }}" selected for domain "{{ var_data[0] }}"'
     level:   40
 
   0x810011:
-    summary: 'Default BGCF route "{{ var_data[0] }}" selected for domain "{{ var_data[1] }}"'
+    summary: 'Default BGCF route "{{ var_data[1] }}" selected for domain "{{ var_data[0] }}"'
     level:   40
 
   0x810012:
     summary: 'BGCF lookup for domain "{{ var_data[0] }}" failed - routing directly'
+    level:   40
+
+  0x810013:
+    summary: 'BGCF route "{{ var_data[1] }}" selected for number "{{ var_data[0]}}"'
+    level:   40
+
+  0x810014:
+    summary: 'BGCF lookup for number "{{ var_data[0] }}" failed - routing directly'
     level:   40
 
   0x810020:
