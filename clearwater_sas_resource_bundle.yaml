@@ -1239,7 +1239,7 @@ events:
     level: 60
 
   0x860005:
-    summary: "All terminating mervices disabled"
+    summary: "All terminating services disabled"
     details: |
       All terminating services disabled
     level: 60
