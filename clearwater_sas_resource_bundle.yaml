@@ -33,7 +33,7 @@
 # as those licenses appear in the file LICENSE-OPENSSL.
 
 info:
-  identifier: "org.projectclearwater.20150213"
+  identifier: "org.projectclearwater.20150224"
 
 events:
   #
@@ -187,14 +187,20 @@ events:
     level: 40
 
   0x000102:
+    summary: "Memcached get request returned tombstone for {{ var_data[0] }}"
+    details: |
+      CAS of tombstone: {{ static_data[0] | uint32 }}
+    level:
+
+  0x000103:
     summary: "Memcached get request found no data for key {{ var_data[0] }}"
     level: 40
 
-  0x000103:
+  0x000104:
     summary: "Memcached get request failed for key {{ var_data[0] }}"
     level: 40
 
-  0x000104:
+  0x000105:
     summary: "Sending set request to memcached for key {{ var_data[0] }}"
     details: |
         Expires in {{ static_data[1] | uint32 }} seconds
@@ -203,19 +209,39 @@ events:
         Body: {{ var_data[1] | hex_and_ascii }}
     level: 40
 
-  0x000105:
+  0x000106:
     summary: "Memcached set request for key {{ var_data[0] }} failed due to data contention"
     level: 40
 
-  0x000106:
+  0x000107:
     summary: "Memcached set request for key {{ var_data[0] }} failed (not due to data contention)"
     level: 40
 
-  0x000107:
+  0x000108:
+    summary: "Memcached set request for key {{ var_data[0] }} was blocked by a tombstone record"
+    details: |
+      Memcached set request for key {{ var_data[0] }} was blocked by a tombstone record. The request will be retried.
+
+      Tombstone CAS: {{ static_data[0] }}
+    level: 40
+
+  0x000109:
+    summary: "Memcached set request for key {{ var_data[0] }} was blocked by an expired record"
+    details: |
+      Memcached set request for key {{ var_data[0] }} was blocked by a record that has now expired.  The request will be retried.
+    level: 40
+
+  0x00010A:
     summary: "Deleting memcached data for key {{ var_data[0] }}"
     level: 40
 
-  0x000108:
+  0x00010B:
+    summary: "Writing tombstone for key {{ var_data[0] }}"
+    details: |
+      Writing tombstone record for key {{ var_data[0] }} with expiry of {{ static_data[0] }} seconds.
+    level: 40
+
+  0x00010C:
     summary: "Deleting memcached data for key {{ var_data[0] }} failed"
     details: Deletion failed for key {{ var_data[0] }} on replica {{ static_data[0] }} (out of {{ static_data[1] }} replicas)
     level: 40
