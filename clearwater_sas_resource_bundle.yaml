@@ -33,7 +33,7 @@
 # as those licenses appear in the file LICENSE-OPENSSL.
 
 info:
-  identifier: "org.projectclearwater.20150213"
+  identifier: "org.projectclearwater.20150302"
 
 events:
   #
@@ -467,6 +467,10 @@ events:
 
   0x810049:
     summary: "Authentication is not needed as the request has been integrity protected by the edge proxy"
+    level:   40
+
+  0x81004A:
+    summary: "Authentication timer pop ignored: the registration completed successfully and did not time out"
     level:   40
 
   0x810050:
