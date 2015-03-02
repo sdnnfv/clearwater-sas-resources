@@ -222,7 +222,7 @@ events:
     details: |
       Memcached set request for key {{ var_data[0] }} was blocked by a tombstone record. The request will be retried.
 
-    Tombstone CAS: {{ static_data[0] }}
+      Tombstone CAS: {{ static_data[0] }}
     level: 40
 
   0x000109:
