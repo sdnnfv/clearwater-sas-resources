@@ -190,7 +190,7 @@ events:
     summary: "Memcached get request returned tombstone for {{ var_data[0] }}"
     details: |
       CAS of tombstone: {{ static_data[0] | uint32 }}
-    level:
+    level: 40
 
   0x000103:
     summary: "Memcached get request found no data for key {{ var_data[0] }}"
