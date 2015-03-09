@@ -33,7 +33,7 @@
 # as those licenses appear in the file LICENSE-OPENSSL.
 
 info:
-  identifier: "org.projectclearwater.20150302"
+  identifier: "org.projectclearwater.20150310"
 
 events:
   #
@@ -617,6 +617,11 @@ events:
   0x810089:
     summary: 'Registration failed for Public ID "{{ var_data[0] }}"'
     details: Failed to add RFC 5636 headers
+    level:   80
+
+  0x81008A:
+    summary: 'Deregistration with an application server failed'
+    details: Unable to deregister with an application server for user: '{{ var_data[0] }}'
     level:   80
 
   0x810090:
