@@ -472,11 +472,11 @@ events:
     level:   80
 
   0x810044:
-    summary: 'Challenge the request using AKA authentication'
+    summary: 'The request will be challenged using AKA authentication'
     level:   80
 
   0x810045:
-    summary: 'Challenge the request using DIGEST authentication'
+    summary: 'The request will be challenged using Digest authentication'
     level:   80
 
   0x810046:
