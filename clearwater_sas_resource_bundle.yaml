@@ -243,7 +243,8 @@ events:
 
   0x00010C:
     summary: "Deleting memcached data for key {{ var_data[0] }} failed"
-    details: Deletion failed for key {{ var_data[0] }} on replica {{ static_data[0] }} (out of {{ static_data[1] }} replicas)
+    details: |
+      Deletion failed for key {{ var_data[0] }} on replica {{ static_data[0] }} (out of {{ static_data[1] }} replicas)
     level: 40
 
   0x000200:
@@ -266,14 +267,14 @@ events:
     summary: "Failed to connect to Cassandra"
     details: |
       Error text: {{ var_data[0] }}
-    level:   80
+    level:   40
 
   #
   # Sprout events (0x810000 - 0x81FFFF)
   #
   0x810000:
     summary: "Starting ENUM processing for digits: {{ var_data[0] | dn }}"
-    level:   60
+    level:   80
 
   0x810001:
     summary: "An ENUM rule has translated {{ var_data[0] }} to {{ var_data[3] }}"
@@ -290,7 +291,7 @@ events:
 
   0x810003:
     summary: "ENUM translated {{ var_data[0] | dn }} to {{ var_data[1] }}"
-    level:   60
+    level:   80
 
   0x810004:
     summary: "ENUM (DNS NAPTR) request sent for domain {{ var_data[0] }}"
@@ -310,7 +311,7 @@ events:
 
   0x810007:
     summary: 'No ENUM lookups performed as the ENUM service is not enabled.'
-    level:   40
+    level:   80
 
   0x810008:
     summary: 'ENUM lookup returned an invalid URI: {{ var_data[0] }}'
@@ -318,23 +319,23 @@ events:
 
   0x810010:
     summary: 'BGCF route "{{ var_data[1] }}" selected for domain "{{ var_data[0] }}"'
-    level:   40
+    level:   80
 
   0x810011:
     summary: 'Default BGCF route "{{ var_data[1] }}" selected for domain "{{ var_data[0] }}"'
-    level:   40
+    level:   80
 
   0x810012:
     summary: 'BGCF lookup for domain "{{ var_data[0] }}" failed - routing directly'
-    level:   40
+    level:   80
 
   0x810013:
     summary: 'BGCF route "{{ var_data[1] }}" selected for number "{{ var_data[0]}}"'
-    level:   40
+    level:   80
 
   0x810014:
     summary: 'BGCF lookup for number "{{ var_data[0] }}" failed - routing directly'
-    level:   40
+    level:   80
 
   0x810020:
     summary: 'There are no configured S-CSCFs - request cannot be processed'
@@ -346,7 +347,7 @@ events:
       Mandatory capabilities: {{ var_data[0] }}
       Optional capabilities: {{ var_data[1] }}
       S-CSCF rejected as they've already been tried: {{ var_data[2] }}
-    level:   80
+    level:   40
 
   0x810022:
     summary: 'S-CSCF "{{ var_data[0] }}" selected'
@@ -363,7 +364,7 @@ events:
     details: |
       S-CSCF selected: {{ var_data[0] }}
       Assigned S-CSCF from HSS: {{ var_data[1] | if_blank: "<none>" }}
-    level:   40
+    level:   80
 
   0x810024:
     summary: 'Retrying S-CSCF request for {{ var_data[0] }} operation - previous attempt returned status: {{ var_data[1] }}'
@@ -376,9 +377,9 @@ events:
     level:   80
 
   0x810026:
-    summary: 'The request will be treated as out-of-the-blue since the ODI token is expired or invalid'
+    summary: 'The request will be treated as an out-of-the-blue request'
     details: |
-      The provided ODI token, {{ var_data[0] }}, is not recognised.  The request will be treated as a new, out-of-the-blue request, rather than as a continuation of any existing client-triggered attempt.
+      A request was received where the provided ODI token, {{ var_data[0] }}, was not recognised.  The request will be treated as a new, out-of-the-blue request, rather than as a continuation of any existing client-triggered attempt.
 
       This may be due to an Application Server responding to the incoming request before forwarding the continuation request back to Sprout.
 
@@ -386,7 +387,7 @@ events:
     level:   80
 
   0x810027:
-    summary: 'S-CSCF selected matches the I-CSCF address of this node or the cluster'
+    summary: 'Request will be rejected to avoid a routing loop'
     details: |
       The IP address of S-CSCF selected for this subscriber matches that of the I-CSCF either for this node or for the cluster, and the request is therefore being rejected in order to avoid an infinite loop.
 
@@ -394,16 +395,16 @@ events:
     level:   80
 
   0x810028:
-    summary: 'Public ID {{ var_data[0] }} is registered, but there are no bindings in memcached'
+    summary: 'Public ID {{ var_data[0] }} is registered, but no bindings could be found'
     details: |
-      The public ID {{ var_data[0] }} is registered, but there are no bindings in memcached.
+      The public ID {{ var_data[0] }} is registered, but there are no SIP bindings could be found.
 
       This may indicate that a previous de-registration of this subscriber has failed.
     level:   80
 
   0x810029:
     summary: 'Public ID {{ var_data[0] }} is not registered'
-    level:   40
+    level:   80
 
   0x810030:
     summary: 'Starting SIP resolving for address: {{ var_data[0] }}'
@@ -468,15 +469,15 @@ events:
 
   0x810043:
     summary: 'Request authenticated successfully'
-    level:   40
+    level:   80
 
   0x810044:
-    summary: 'Challenge the request. Request an AKA authentication vector from memcached'
-    level:   40
+    summary: 'The request will be challenged using AKA authentication'
+    level:   80
 
   0x810045:
-    summary: 'Challenge the request. Request a DIGEST authentication vector from memcached'
-    level:   40
+    summary: 'The request will be challenged using Digest authentication'
+    level:   80
 
   0x810046:
     summary: 'Authentication returned malformed credentials'
@@ -489,19 +490,19 @@ events:
 
   0x810048:
     summary: "Authentication is not needed as the request was an emergency register"
-    level:   40
+    level:   80
 
   0x810049:
     summary: "Authentication is not needed as the request has been integrity protected by the edge proxy"
-    level:   40
+    level:   80
 
   0x81004A:
     summary: "Authentication timer pop ignored: the registration completed successfully and did not time out"
     level:   40
 
   0x810050:
-    summary: 'Subscription started for "{{ var_data[0] }}"'
-    level:   40
+    summary: 'Subscription request for "{{ var_data[0] }}"'
+    level:   80
 
   0x810051:
     summary: 'Subscription failed for "{{ var_data[0] }}".'
@@ -549,7 +550,7 @@ events:
 
   0x810072:
     summary: 'RegStore GET for AoR: "{{ var_data[0] }}" failed'
-    level:   80
+    level:   40
 
   0x810073:
     summary: 'RegStore SET started for AoR: "{{ var_data[0] }}"'
@@ -561,7 +562,7 @@ events:
 
   0x810075:
     summary: 'RegStore SET for AoR: "{{ var_data[0] }}" failed'
-    level:   80
+    level:   40
 
   0x810076:
     summary: 'Failed to deserialize AoR for {{ var_data[0] }}'
@@ -569,11 +570,11 @@ events:
       AoR data for {{ var_data[0] }}:
 
       <sas:fixed-width-font>{{ var_data[1] | hex_and_ascii }}</sas:fixed-width-font>
-    level:   80
+    level:   40
 
   0x810080:
-    summary: 'Registration started for: Public ID: "{{ var_data[0] }}", Private ID: "{{ var_data[1] }}"'
-    level:   40
+    summary: 'Registration request for: Public ID: "{{ var_data[0] }}", Private ID: "{{ var_data[1] }}"'
+    level:   80
 
   0x810081:
     summary: 'Registration failed for Public ID "{{ var_data[0] }}"'
@@ -583,7 +584,7 @@ events:
 
   0x810082:
     summary: 'Registration with application servers started for user: "{{ var_data[0] }}"'
-    level:   40
+    level:   80
 
   0x810083:
     summary: 'Registration with application servers failed'
@@ -596,27 +597,31 @@ events:
 
   0x810085:
     summary: 'Registration failed for Public ID "{{ var_data[0] }}"'
-    details: Failed to register the subscriber at the HSS. This can mean that the HSS is unavailable, the public identity doesn't exist, or the public identity doesn't belong to the private identity {{ var_data[1] }}
+    details: |
+      Failed to register the subscriber at the HSS.
+
+      This can mean that the HSS is unavailable, the public identity doesn't exist, or the public identity doesn't belong to private identity "{{ var_data[1] }}"
     level:   80
 
   0x810086:
     summary: 'Deregistration failed for Public ID "{{ var_data[0] }}"'
-    details: Attempted to deregister all bindings (as the Contact header was '*'), but the request didn't include an expiry of 0
+    details: |
+      Attempted to deregister all bindings (as the Contact header was '*'), but the request didn't include an expiry of 0
     level:   80
 
   0x810087:
     summary: 'Deregistration failed for Public ID "{{ var_data[0] }}"'
-    details: Unable to deregister an emergency registration
+    details: 'Unable to deregister an emergency registration'
     level:   80
 
   0x810088:
     summary: 'Registration failed for Public ID "{{ var_data[0] }}"'
-    details: Unable to contact the underlying registration store
+    details: 'Unable to contact the underlying registration store'
     level:   80
 
   0x810089:
     summary: 'Registration failed for Public ID "{{ var_data[0] }}"'
-    details: Failed to add RFC 5636 headers
+    details: 'Failed to add RFC 5636 headers'
     level:   80
 
   0x810090:
@@ -644,7 +649,7 @@ events:
     details: |
       Public ID: {{ var_data[0] }}
       Private ID: {{ var_data[1] }}
-    level:   40
+    level:   80
 
   0x8100A1:
     summary: 'Requesting authentication vector from Homestead'
@@ -652,7 +657,7 @@ events:
       Public ID: {{ var_data[0] }}
       Private ID: {{ var_data[1] }}
       Authentication type: {{ var_data[2] | if_blank: "<unknown>" }}
-    level:   40
+    level:   80
 
   0x8100A2:
     summary: "Checking subscriber's registration state and iFCs based on a '{{ var_data[2]}}' event"
@@ -665,26 +670,26 @@ events:
     summary: "Get user's registration state from Homestead"
     details: |
       Public ID: {{ var_data[0] }}
-    level:   40
+    level:   80
 
   0x8100A4:
     summary: "Get user's authorization status from Homestead"
     details: |
       Private ID: {{ var_data[0] }}
       Public ID: {{ var_data[1] }}
-    level:   40
+    level:   80
 
   0x8100A5:
     summary: "Get user's location data from Homestead"
     details: |
       Public ID: {{ var_data[0] }}
-    level:   40
+    level:   80
 
   0x8100B0:
     summary: "Get user's simservs from Homer"
     details: |
       User: {{ var_data[0] }}
-    level:   40
+    level:   80
 
   0x8100C0:
     summary: "The iFC for {{ var_data[0] }} is invalid"
@@ -743,7 +748,7 @@ events:
 
   0x8100D6:
     summary: "'{{ var_data[0] }}' header could not be parsed - request will be rejected with 400 Bad Request"
-    level:   80
+    level:   40
 
   #
   # Homestead events (0x820000 - 0x82FFFF)
@@ -798,8 +803,8 @@ events:
     level:   80
 
   0x8200A0:
-    summary: "No HSS configured - returning default server name if subscriber exists"
-    level:   40
+    summary: "No HSS configured - returning default server name"
+    level:   80
 
   0x8200B0:
     summary: "Failed to retrieve subscriber's registration status from the HSS"
@@ -810,7 +815,7 @@ events:
     level:   80
 
   0x8200D0:
-    summary: "Invalid deregistration reason on RTR - no subscribers deregistered"
+    summary: "Invalid deregistration reason on Registration Termination Request - no subscribers deregistered"
     level:   80
 
   0x8200E0:
@@ -930,12 +935,10 @@ events:
   0x820220:
     summary: "Implicit Registration Set contains no SIP URIs"
     details: |
-      The IMS subscription returned by the HSS defines an Implicit Registration Set with no SIP URIs.
-
-      The call will proceed as normal.
+      The IMS subscription returned by the HSS defines an Implicit Registration Set with no SIP URIs. This is not IMS-compliant, but the call will proceed as normal.
 
       IMS subscription: {{ var_data[0] }}
-    level:   80
+    level:   40
 
   #
   # Ralf events (0x830000 - 0x83FFFF)
@@ -947,7 +950,7 @@ events:
 
   0x830100:
     summary: "Continuation of existing Rf session: {{ var_data[0] }}"
-    level:   80
+    level:   40
 
   0x830200:
     summary: "End of Rf session: {{ var_data[0] }}"
@@ -957,54 +960,54 @@ events:
     summary: "Accounting message sent to CDF {{var_data[0] }}"
     details: |
       Record number: {{ static_data[0] | uint32 }}
-    level:   80
+    level:   60
 
   0x830400:
     summary: "INTERIM timer has popped"
-    level: 80
+    level: 40
 
   0x830500:
     summary: "INTERIM timer created for {{ static_data[0] | uint32 }} seconds in the future"
-    level: 80
+    level: 40
 
   0x830600:
     summary: "INTERIM timer renewed for {{ static_data[0] | uint32 }} seconds in the future"
-    level: 80
+    level: 40
 
   0x830700:
     summary: 'Incoming {{static_data[0] | enum: "ACR_TYPES" }} request from {{ static_data[1] | enum: "CTF_TYPES" }}'
-    level: 80
+    level: 40
 
   0x830710:
     summary: 'Mandatory peers object missing in incoming {{static_data[0] | enum: "ACR_TYPES" }} request, unable to send to CDF'
-    level: 80
+    level: 40
 
   0x830800:
     summary: "Incoming request rejected as the JSON body is invalid"
-    level: 80
+    level: 40
 
   0x830900:
     summary: "Failover to secondary CDF {{ var_data[0] }}"
-    level:   80
+    level:   40
 
   0x830A00:
     summary: "Failed to deliver billing message to CDF {{ var_data[0] }}"
-    level:   80
+    level:   40
 
   0x830B00:
     summary: "CDF rejected billing request for session {{ var_data[0] }}"
-    level:   80
+    level:   40
 
   0x830C00:
     summary: "CDF accepted billing request for session {{ var_data[0] }}"
-    level:   80
+    level:   40
 
   0x830D00:
     summary: "Failed to deserialize data for session {{ var_data[0] }}"
     details: |
       Call ID: {{ var_data[0] }}
       <sas:fixed-width-font>{{ var_data[1] | hex_and_ascii }}</sas:fixed-width-font>
-    level: 80
+    level: 40
 
   #
   # Memento events (0x840000 - 0x84FFFF)
@@ -1017,7 +1020,7 @@ events:
     level: 80
 
   0x840001:
-    summary: "Digest successfully recieved from Homestead"
+    summary: "Digest successfully received from Homestead"
     details: |
       Private ID: {{ var_data[0] }}
       Public ID: {{ var_data[1] }}
@@ -1063,7 +1066,7 @@ events:
     details: |
       Key: {{ var_data[0] }}
       <sas::fixed-width-font>{{ var_data[1] | hex_and_ascii }}</sas::fixed-width-font>
-    level: 80
+    level: 40
 
   0x840020:
     summary: "No authentication credentials present in the request"
@@ -1108,7 +1111,7 @@ events:
       Call record ID {{ var_data[0] }}, start timestamp {{ var_data[1] }}
 
       Single record fragment of type {{ static_data[0] | enum: "CALL_LIST_FRAGMENT_TYPES" }}, expected 'rejected'
-    level: 80
+    level: 40
 
   0x840035:
     summary: 'Did not process invalid call record'
@@ -1116,7 +1119,7 @@ events:
       Call record ID {{ var_data[0] }}, start timestamp {{ var_data[1] }}
 
       Two record fragments of type {{ static_data[0] | enum: "CALL_LIST_FRAGMENT_TYPES" }} and {{ static_data[1] | enum: "CALL_LIST_FRAGMENT_TYPES" }}, expected 'begin' and 'end'
-    level: 80
+    level: 40
 
   0x840036:
     summary: 'Did not process invalid call record'
@@ -1124,7 +1127,7 @@ events:
       Call record ID {{ var_data[0] }}, start timestamp {{ var_data[1] }}
 
       {{ static_data[0] }} record fragments found, expected 1 or 2
-    level: 80
+    level: 40
 
   0x840200:
     summary: 'Writing call list "{{ static_data[0] | enum: "CALL_LIST_FRAGMENT_TYPES" }}" fragment for {{ var_data[0] }} to Cassandra'
@@ -1240,45 +1243,45 @@ events:
     summary: 'Retrieving simservs from XDMS'
     details: |
       Retrieving simservs document from XDMS for subscriber {{ var_data[0] }}
-    level: 60
+    level: 80
 
   0x860001:
     summary: 'Failed to retrieve simservs from XDMS'
     details: |
       Failed to retrieve simservs from XDMS - disabling MMTEL services
-    level: 60
+    level: 80
 
   0x860002:
     summary: "Originating services enabled"
     details: |
       Privacy: {{ static_data[0] | enum: "ENABLED_DISABLED" }}
       Communication Barring: {{ static_data[1] | enum: "ENABLED_DISABLED" }}
-    level: 60
+    level: 80
 
   0x860003:
     summary: "All originating services disabled"
     details: |
       All originating services disabled
-    level: 60
+    level: 80
 
   0x860004:
     summary: "Terminating services enabled"
     details: |
       Communication Diversion: {{ static_data[0] | enum: "ENABLED_DISABLED" }}
       Communication Barring: {{ static_data[1] | enum: "ENABLED_DISABLED" }}
-    level: 60
+    level: 80
 
   0x860005:
     summary: "All terminating services disabled"
     details: |
       All terminating services disabled
-    level: 60
+    level: 80
 
   0x860010:
     summary: "Call Diversion AS invoked"
     details: |
       Call Diversion AS invoked via SIP URI {{ var_data[0] }}
-    level: 60
+    level: 80
 
   0x860011:
     summary: "No target found on Call Diversion AS URI"
@@ -1290,13 +1293,13 @@ events:
     summary: "Unrecognized condition on Call Diversion AS URI"
     details: |
       Unrecognized condition {{ var_data[0] }} on Call Diversion AS URI - ignoring
-    level: 60
+    level: 80
 
   0x860013:
     summary: "Unparseable no-reply-timer parameter on Call Diversion AS URI"
     details: |
       Unparseable no-reply-timer parameter {{ var_data[0] }} - defaulting
-    level: 60
+    level: 80
 
   0x860014:
     summary: "Call Diversion enabled to {{ var_data[0] }}"
@@ -1305,7 +1308,7 @@ events:
       Target: {{ var_data[0] }}
       Conditions: {{ var_data[1] }}
       No-reply timer: {{ static_data[0] }}
-    level: 60
+    level: 80
 
   0x860020:
     summary: "Communication Diversion diverts to {{ var_data[0] }}"
@@ -1323,7 +1326,7 @@ events:
 
       Specified mangalgorithm: {{ var_data[0] }}
       Expected either rot13 or reverse.
-    level: 80
+    level: 40
 
   0x870001:
     summary: 'Mangelwurzel has received an initial request'
@@ -1331,7 +1334,7 @@ events:
       Mangelwurzel will mangle the request based on configuration in its Route header.
 
       Route header URI: {{ var_data[0] }}
-    level: 60
+    level: 40
 
   0x870002:
     summary: 'Mangelwurzel has received an in dialog request'
@@ -1339,7 +1342,7 @@ events:
       Mangelwurzel will mangle the request based on configuration in its Route header.
 
       Route header URI: {{ var_data[0] }}
-    level: 60
+    level: 40
 
 enums:
   C_ARES_ERRORS:
