@@ -660,11 +660,12 @@ events:
     level:   80
 
   0x8100A2:
-    summary: "Checking subscriber's registration state and iFCs based on a '{{ var_data[2]}}' event"
+    summary: "Checking subscriber's registration state and iFCs"
     details: |
       Public ID: {{ var_data[0] }}
       Private ID: {{ var_data[1] | if_blank: "<none>"}}
-    level:   40
+      Triggering event: {{ var_data[2] }}
+    level:   80
 
   0x8100A3:
     summary: "Get user's registration state from Homestead"
@@ -683,12 +684,6 @@ events:
     summary: "Get user's location data from Homestead"
     details: |
       Public ID: {{ var_data[0] }}
-    level:   80
-
-  0x8100B0:
-    summary: "Get user's simservs from Homer"
-    details: |
-      User: {{ var_data[0] }}
     level:   80
 
   0x8100C0:
@@ -749,6 +744,50 @@ events:
   0x8100D6:
     summary: "'{{ var_data[0] }}' header could not be parsed - request will be rejected with 400 Bad Request"
     level:   40
+
+  0x8100D7:
+    summary: "I-CSCF received a REGISTER request for {{ var_data[0] }}"
+    level: 80
+
+  0x8100D8:
+    summary: 'I-CSCF received an originating non-REGISTER request for {{ var_data[0] }}'
+    level: 80
+
+  0x8100D9:
+    summary: 'I-CSCF received a terminating non-REGISTER request for {{ var_data[0] }}'
+    level: 80
+
+  0x8100DA:
+    summary: "S-CSCF started originating service processing for {{ var_data[0] }}"
+    level: 80
+
+  0x8100DB:
+    summary: "S-CSCF started terminating service processing for {{ var_data[0] }}"
+    level: 80
+
+  0x8100DC:
+    summary: "S-CSCF started originating call diversion service processing for {{ var_data[0] }}"
+    level: 80
+
+  0x8100DD:
+    summary: "Invoking application server {{ var_data[0] }}"
+    level: 80
+
+  0x8100DE:
+    summary: "Routing request to terminating devices"
+    level: 80
+
+  0x8100DF:
+    summary: "Registration request accepted"
+    level: 80
+
+  0x8100E0:
+    summary: "Subscription to registration state accepted"
+    level: 80
+
+  0x8100E1:
+    summary: "Routing request internally to sproutlet {{ var_data[0] }}"
+    level: 20
 
   #
   # Homestead events (0x820000 - 0x82FFFF)
@@ -940,20 +979,42 @@ events:
       IMS subscription: {{ var_data[0] }}
     level:   40
 
+  0x820230:
+    summary: "Received Push Profile Request from the HSS"
+    level: 80
+
+  0x820240:
+    summary: "Received Registration Termination Request from the HSS"
+    details: |
+      Received Registration Termination request from the HSS for the IMPI {{ var_data[0] }}, and {{ static_data[0] }} associated IMPI(s).
+    level: 80
+
   #
   # Ralf events (0x830000 - 0x83FFFF)
   #
 
   0x830000:
-    summary: "New Rf session created: {{ var_data[0] }}"
+    summary: "Started Rf session: {{ var_data[0] }}"
+    level:   80
+
+  0x830001:
+    summary: "Failed to start new Rf session"
     level:   80
 
   0x830100:
     summary: "Continuation of existing Rf session: {{ var_data[0] }}"
     level:   40
 
+  0x830100:
+    summary: "Failure when continuing existing Rf session: {{ var_data[0] }}"
+    level:   40
+
   0x830200:
-    summary: "End of Rf session: {{ var_data[0] }}"
+    summary: "Ended Rf session: {{ var_data[0] }}"
+    level:   80
+
+  0x830201:
+    summary: "Failed to end Rf session: {{ var_data[0] }}"
     level:   80
 
   0x830300:
