@@ -759,14 +759,26 @@ events:
 
   0x8100DA:
     summary: "S-CSCF started originating service processing for {{ var_data[0] }}"
+    detail: |
+      S-CSCF started originating service processing on an initial SIP request.
+      Served user: {{ var_data[0] }}
+      Request method: {{ var_data[1] }}
     level: 80
 
   0x8100DB:
     summary: "S-CSCF started terminating service processing for {{ var_data[0] }}"
+    detail: |
+      S-CSCF started terminating service processing on an initial SIP request.
+      Served user: {{ var_data[0] }}
+      Request method: {{ var_data[1] }}
     level: 80
 
   0x8100DC:
-    summary: "S-CSCF started originating call diversion service processing for {{ var_data[0] }}"
+    summary: "S-CSCF started originating service processing for {{ var_data[0] }} (following call diversion)"
+    detail: |
+      S-CSCF started orig-cdiv service processing on an initial SIP request.
+      Served user: {{ var_data[0] }}
+      Request method: {{ var_data[1] }}
     level: 80
 
   0x8100DD:
