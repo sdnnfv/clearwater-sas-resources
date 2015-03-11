@@ -797,10 +797,6 @@ events:
     summary: "Subscription to registration state accepted"
     level: 80
 
-  0x8100E1:
-    summary: "Routing request internally to sproutlet {{ var_data[0] }}"
-    level: 20
-
   #
   # Homestead events (0x820000 - 0x82FFFF)
   #
@@ -991,6 +987,8 @@ events:
       IMS subscription: {{ var_data[0] }}
     level:   40
 
+  # Push Profile Requests are difficult to work with until they have been
+  # heavily parsed, which is why this log is a bit generic.
   0x820230:
     summary: "Received Push Profile Request from the HSS"
     level: 80
@@ -1006,27 +1004,39 @@ events:
   #
 
   0x830000:
-    summary: "Started Rf session: {{ var_data[0] }}"
+    summary: "Started Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE }} {{ static_data[1] | enum: 'CTF_TYPES' }}"
+    details: |
+      Started Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE }} {{ static_data[1] | enum: 'CTF_TYPES' }} with session ID {{ var_data[0] }}
     level:   80
 
   0x830001:
-    summary: "Failed to start new Rf session"
+    summary: "Failed to start Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE }} {{ static_data[1] | enum: 'CTF_TYPES' }}"
+    details: |
+      Failed to start Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE }} {{ static_data[1] | enum: 'CTF_TYPES' }}
     level:   80
 
   0x830100:
-    summary: "Continuation of existing Rf session: {{ var_data[0] }}"
+    summary: "Continued Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE }} {{ static_data[1] | enum: 'CTF_TYPES' }}"
+    details: |
+      Continued Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE }} {{ static_data[1] | enum: 'CTF_TYPES' }} with session ID {{ var_data[0] }}
     level:   40
 
   0x830100:
-    summary: "Failure when continuing existing Rf session: {{ var_data[0] }}"
+    summary: "Failed to continue Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE }} {{ static_data[1] | enum: 'CTF_TYPES' }}"
+    details: |
+      Failed to continue Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE }} {{ static_data[1] | enum: 'CTF_TYPES' }} with session ID {{ var_data[0] }}
     level:   40
 
   0x830200:
-    summary: "Ended Rf session: {{ var_data[0] }}"
+    summary: "Ended Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE }} {{ static_data[1] | enum: 'CTF_TYPES' }}"
+    details: |
+      Ended Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE }} {{ static_data[1] | enum: 'CTF_TYPES' }} with session ID {{ var_data[0] }}
     level:   80
 
   0x830201:
-    summary: "Failed to end Rf session: {{ var_data[0] }}"
+    summary: "Failed to end Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE }} {{ static_data[1] | enum: 'CTF_TYPES' }}"
+    details: |
+      Failed to end Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE }} {{ static_data[1] | enum: 'CTF_TYPES' }} with session ID {{ var_data[0] }}
     level:   80
 
   0x830300:
@@ -1476,6 +1486,10 @@ enums:
     2: "Sprout I-CSCF"
     5: "Sprout BGCF"
     7: "Bono IBCF"
+
+  CTF_ROLE_OF_NODE:
+    0: 'originating'
+    1: 'terminating'
 
   ACR_TYPES:
     1: "EVENT"
