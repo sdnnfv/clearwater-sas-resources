@@ -1021,7 +1021,7 @@ events:
       Continued Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE }} {{ static_data[1] | enum: 'CTF_TYPES' }} with session ID {{ var_data[0] }}
     level:   40
 
-  0x830100:
+  0x830101:
     summary: "Failed to continue Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE }} {{ static_data[1] | enum: 'CTF_TYPES' }}"
     details: |
       Failed to continue Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE }} {{ static_data[1] | enum: 'CTF_TYPES' }} with session ID {{ var_data[0] }}
