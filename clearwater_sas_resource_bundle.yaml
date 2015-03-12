@@ -786,7 +786,7 @@ events:
     level: 80
 
   0x8100DE:
-    summary: "Routing request to {{ static_param[0] }} terminating devices"
+    summary: "Routing request to {{ static_data[0] }} terminating device(s)"
     level: 80
 
   0x8100DF:
@@ -1004,39 +1004,39 @@ events:
   #
 
   0x830000:
-    summary: "Started Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE }} {{ static_data[1] | enum: 'CTF_TYPES' }}"
+    summary: "Started Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE' }} {{ static_data[1] | enum: 'CTF_TYPES' }}"
     details: |
-      Started Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE }} {{ static_data[1] | enum: 'CTF_TYPES' }} with session ID {{ var_data[0] }}
+      Started Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE' }} {{ static_data[1] | enum: 'CTF_TYPES' }} with session ID {{ var_data[0] }}
     level:   80
 
   0x830001:
-    summary: "Failed to start Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE }} {{ static_data[1] | enum: 'CTF_TYPES' }}"
+    summary: "Failed to start Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE' }} {{ static_data[1] | enum: 'CTF_TYPES' }}"
     details: |
-      Failed to start Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE }} {{ static_data[1] | enum: 'CTF_TYPES' }}
+      Failed to start Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE' }} {{ static_data[1] | enum: 'CTF_TYPES' }}
     level:   80
 
   0x830100:
-    summary: "Continued Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE }} {{ static_data[1] | enum: 'CTF_TYPES' }}"
+    summary: "Continued Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE' }} {{ static_data[1] | enum: 'CTF_TYPES' }}"
     details: |
-      Continued Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE }} {{ static_data[1] | enum: 'CTF_TYPES' }} with session ID {{ var_data[0] }}
+      Continued Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE' }} {{ static_data[1] | enum: 'CTF_TYPES' }} with session ID {{ var_data[0] }}
     level:   40
 
   0x830101:
-    summary: "Failed to continue Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE }} {{ static_data[1] | enum: 'CTF_TYPES' }}"
+    summary: "Failed to continue Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE' }} {{ static_data[1] | enum: 'CTF_TYPES' }}"
     details: |
-      Failed to continue Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE }} {{ static_data[1] | enum: 'CTF_TYPES' }} with session ID {{ var_data[0] }}
+      Failed to continue Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE' }} {{ static_data[1] | enum: 'CTF_TYPES' }} with session ID {{ var_data[0] }}
     level:   40
 
   0x830200:
-    summary: "Ended Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE }} {{ static_data[1] | enum: 'CTF_TYPES' }}"
+    summary: "Ended Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE' }} {{ static_data[1] | enum: 'CTF_TYPES' }}"
     details: |
-      Ended Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE }} {{ static_data[1] | enum: 'CTF_TYPES' }} with session ID {{ var_data[0] }}
+      Ended Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE' }} {{ static_data[1] | enum: 'CTF_TYPES' }} with session ID {{ var_data[0] }}
     level:   80
 
   0x830201:
-    summary: "Failed to end Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE }} {{ static_data[1] | enum: 'CTF_TYPES' }}"
+    summary: "Failed to end Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE' }} {{ static_data[1] | enum: 'CTF_TYPES' }}"
     details: |
-      Failed to end Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE }} {{ static_data[1] | enum: 'CTF_TYPES' }} with session ID {{ var_data[0] }}
+      Failed to end Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE' }} {{ static_data[1] | enum: 'CTF_TYPES' }} with session ID {{ var_data[0] }}
     level:   80
 
   0x830300:
