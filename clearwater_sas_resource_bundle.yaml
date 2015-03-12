@@ -803,6 +803,32 @@ events:
     summary: "Subscription to registration state accepted"
     level: 80
 
+  0x8100E1:
+    summary: "Request was rejected as the Initial Filter Criteria could not be retrieved"
+    level: 80
+
+  0x8100E2:
+    summary: "Request was rejected because the application server URI was invalid"
+    level: 80
+
+  0x8100E3:
+    summary: "Request was rejected as the net hop was a Tel URI"
+    details: |
+      The request was rejected because the next hop was specified as a Tel URI (which are not routeable)
+    level: 80
+
+  0x8100E4:
+    summary: "The current application server was bypassed"
+    details: |
+      The current application server was bypassed. This could be because it failed to respond to an initial SIP request, or it responded with a 5xx return code.
+    level: 80
+
+  0x8100E5:
+    summary: "The request was rejected because the current application server failed"
+    details: |
+      The request was rejected because the current application server failed to respond to an initial SIP request, and the iFCs specify that the server should not be bypassed.
+    level: 80
+
   #
   # Homestead events (0x820000 - 0x82FFFF)
   #
