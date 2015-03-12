@@ -786,7 +786,7 @@ events:
     level: 80
 
   0x8100DE:
-    summary: "Routing request to terminating devices"
+    summary: "Routing request to {{ static_param[0] }} terminating devices"
     level: 80
 
   0x8100DF:
