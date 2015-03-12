@@ -751,10 +751,16 @@ events:
 
   0x8100D8:
     summary: 'I-CSCF received an originating non-REGISTER request for {{ var_data[0] }}'
+    details: |
+      I-CSCF received an originating non-REGISTER request for {{ var_data[0] }}
+      Request method: {{ var_data[1] }}
     level: 80
 
   0x8100D9:
     summary: 'I-CSCF received a terminating non-REGISTER request for {{ var_data[0] }}'
+    details: |
+      I-CSCF received a terminating non-REGISTER request for {{ var_data[0] }}
+      Request method: {{ var_data[1] }}
     level: 80
 
   0x8100DA:
