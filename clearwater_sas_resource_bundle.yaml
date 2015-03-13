@@ -33,7 +33,7 @@
 # as those licenses appear in the file LICENSE-OPENSSL.
 
 info:
-  identifier: "org.projectclearwater.20150302"
+  identifier: "org.projectclearwater.20150312"
 
 events:
   #
@@ -697,6 +697,11 @@ events:
     details: 'Failed to add RFC 5636 headers'
     level:   80
 
+  0x81008A:
+    summary: 'Deregistration with an application server as part of a RTR failed'
+    details: Unable to deregister with an application server as part of a Registration Termination Request. Served User: '{{ var_data[0] }}'
+    level:   80
+
   0x810090:
     summary: 'Authentication vector store operation SET succeeded for private ID: "{{ var_data[0] }}"'
     level:   40
@@ -733,11 +738,12 @@ events:
     level:   80
 
   0x8100A2:
-    summary: "Checking subscriber's registration state and iFCs based on a '{{ var_data[2]}}' event"
+    summary: "Checking subscriber's registration state and iFCs"
     details: |
       Public ID: {{ var_data[0] }}
       Private ID: {{ var_data[1] | if_blank: "<none>"}}
-    level:   40
+      Triggering event: {{ var_data[2] }}
+    level:   80
 
   0x8100A3:
     summary: "Get user's registration state from Homestead"
@@ -756,12 +762,6 @@ events:
     summary: "Get user's location data from Homestead"
     details: |
       Public ID: {{ var_data[0] }}
-    level:   80
-
-  0x8100B0:
-    summary: "Get user's simservs from Homer"
-    details: |
-      User: {{ var_data[0] }}
     level:   80
 
   0x8100C0:
@@ -822,6 +822,90 @@ events:
   0x8100D6:
     summary: "'{{ var_data[0] }}' header could not be parsed - request will be rejected with 400 Bad Request"
     level:   40
+
+  0x8100D7:
+    summary: "I-CSCF received a REGISTER request for {{ var_data[0] }}"
+    level: 80
+
+  0x8100D8:
+    summary: 'I-CSCF received an originating non-REGISTER request for {{ var_data[0] }}'
+    details: |
+      I-CSCF received an originating non-REGISTER request for {{ var_data[0] }}
+      Request method: {{ var_data[1] }}
+    level: 80
+
+  0x8100D9:
+    summary: 'I-CSCF received a terminating non-REGISTER request for {{ var_data[0] }}'
+    details: |
+      I-CSCF received a terminating non-REGISTER request for {{ var_data[0] }}
+      Request method: {{ var_data[1] }}
+    level: 80
+
+  0x8100DA:
+    summary: "S-CSCF started originating service processing for {{ var_data[0] }}"
+    details: |
+      S-CSCF started originating service processing on an initial SIP request.
+      Served user: {{ var_data[0] }}
+      Request method: {{ var_data[1] }}
+    level: 80
+
+  0x8100DB:
+    summary: "S-CSCF started terminating service processing for {{ var_data[0] }}"
+    details: |
+      S-CSCF started terminating service processing on an initial SIP request.
+      Served user: {{ var_data[0] }}
+      Request method: {{ var_data[1] }}
+    level: 80
+
+  0x8100DC:
+    summary: "S-CSCF started originating service processing for {{ var_data[0] }} (following call diversion)"
+    details: |
+      S-CSCF started orig-cdiv service processing on an initial SIP request.
+      Served user: {{ var_data[0] }}
+      Request method: {{ var_data[1] }}
+    level: 80
+
+  0x8100DD:
+    summary: "Invoking application server {{ var_data[0] }}"
+    level: 80
+
+  0x8100DE:
+    summary: "Routing request to {{ static_data[0] }} terminating device(s)"
+    level: 80
+
+  0x8100DF:
+    summary: "Registration request accepted"
+    level: 80
+
+  0x8100E0:
+    summary: "Subscription to registration state accepted"
+    level: 80
+
+  0x8100E1:
+    summary: "Request was rejected as the Initial Filter Criteria could not be retrieved"
+    level: 80
+
+  0x8100E2:
+    summary: "Request was rejected because the application server URI was invalid"
+    level: 80
+
+  0x8100E3:
+    summary: "Request was rejected as the net hop was a Tel URI"
+    details: |
+      The request was rejected because the next hop was specified as a Tel URI (which are not routeable)
+    level: 80
+
+  0x8100E4:
+    summary: "The current application server was bypassed"
+    details: |
+      The current application server was bypassed. This could be because it failed to respond to an initial SIP request, or it responded with a 5xx return code.
+    level: 80
+
+  0x8100E5:
+    summary: "The request was rejected because the current application server failed"
+    details: |
+      The request was rejected because the current application server failed to respond to an initial SIP request, and the iFCs specify that the server should not be bypassed.
+    level: 80
 
   #
   # Homestead events (0x820000 - 0x82FFFF)
@@ -1013,20 +1097,56 @@ events:
       IMS subscription: {{ var_data[0] | decompress: "service_profile" }}
     level:   40
 
+  # Push Profile Requests are difficult to work with until they have been
+  # heavily parsed, which is why this log is a bit generic.
+  0x820230:
+    summary: "Received Push Profile Request from the HSS"
+    level: 80
+
+  0x820240:
+    summary: "Received Registration Termination Request from the HSS"
+    details: |
+      Received Registration Termination request from the HSS for the IMPI {{ var_data[0] }}, and {{ static_data[0] }} associated IMPI(s).
+    level: 80
+
   #
   # Ralf events (0x830000 - 0x83FFFF)
   #
 
   0x830000:
-    summary: "New Rf session created: {{ var_data[0] }}"
+    summary: "Started Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE' }} {{ static_data[1] | enum: 'CTF_TYPES' }}"
+    details: |
+      Started Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE' }} {{ static_data[1] | enum: 'CTF_TYPES' }} with session ID {{ var_data[0] }}
+    level:   80
+
+  0x830001:
+    summary: "Failed to start Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE' }} {{ static_data[1] | enum: 'CTF_TYPES' }}"
+    details: |
+      Failed to start Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE' }} {{ static_data[1] | enum: 'CTF_TYPES' }}
     level:   80
 
   0x830100:
-    summary: "Continuation of existing Rf session: {{ var_data[0] }}"
+    summary: "Continued Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE' }} {{ static_data[1] | enum: 'CTF_TYPES' }}"
+    details: |
+      Continued Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE' }} {{ static_data[1] | enum: 'CTF_TYPES' }} with session ID {{ var_data[0] }}
+    level:   40
+
+  0x830101:
+    summary: "Failed to continue Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE' }} {{ static_data[1] | enum: 'CTF_TYPES' }}"
+    details: |
+      Failed to continue Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE' }} {{ static_data[1] | enum: 'CTF_TYPES' }} with session ID {{ var_data[0] }}
     level:   40
 
   0x830200:
-    summary: "End of Rf session: {{ var_data[0] }}"
+    summary: "Ended Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE' }} {{ static_data[1] | enum: 'CTF_TYPES' }}"
+    details: |
+      Ended Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE' }} {{ static_data[1] | enum: 'CTF_TYPES' }} with session ID {{ var_data[0] }}
+    level:   80
+
+  0x830201:
+    summary: "Failed to end Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE' }} {{ static_data[1] | enum: 'CTF_TYPES' }}"
+    details: |
+      Failed to end Rf session for {{ static_data[0] | enum: 'CTF_ROLE_OF_NODE' }} {{ static_data[1] | enum: 'CTF_TYPES' }} with session ID {{ var_data[0] }}
     level:   80
 
   0x830300:
@@ -1476,6 +1596,10 @@ enums:
     2: "Sprout I-CSCF"
     5: "Sprout BGCF"
     7: "Bono IBCF"
+
+  CTF_ROLE_OF_NODE:
+    0: 'originating'
+    1: 'terminating'
 
   ACR_TYPES:
     1: "EVENT"
