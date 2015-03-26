@@ -33,7 +33,7 @@
 # as those licenses appear in the file LICENSE-OPENSSL.
 
 info:
-  identifier: "org.projectclearwater.20150312"
+  identifier: "org.projectclearwater.20150324"
 
 events:
   #
@@ -1541,6 +1541,7 @@ enums:
     3: 'Connection Error'
     4: 'Resource Error'
     5: 'Unknown Error'
+    6: 'Unavailable'
 
   CALL_LIST_FRAGMENT_TYPES:
     0: 'begin'
