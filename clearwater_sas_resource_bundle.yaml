@@ -33,7 +33,7 @@
 # as those licenses appear in the file LICENSE-OPENSSL.
 
 info:
-  identifier: "org.projectclearwater.20150312"
+  identifier: "org.projectclearwater.20150324"
 
 events:
   #
@@ -146,7 +146,8 @@ events:
       Response code: {{ static_data[1] }}
       Target latency: {{ static_data[2] }}us
       Current latency: {{ static_data[3] }}us
-      Requests limited to a rate of {{ static_data[4] | float}}/sec
+      Requests limited to a rate of {{ static_data[4] }}/sec
+
     level: 60
 
   #
@@ -804,7 +805,7 @@ events:
     details: |
       Target latency: {{ static_data[0] }}us
       Current latency: {{ static_data[1] }}us
-      Requests limited to a rate of {{ static_data[2] | float}}/sec
+      Requests limited to a rate of {{ static_data[2] }}/sec
     level:   80
 
   0x8100D3:
@@ -1614,6 +1615,7 @@ enums:
     3: 'Connection Error'
     4: 'Resource Error'
     5: 'Unknown Error'
+    6: 'Unavailable'
 
   CALL_LIST_FRAGMENT_TYPES:
     0: 'begin'
