@@ -33,7 +33,7 @@
 # as those licenses appear in the file LICENSE-OPENSSL.
 
 info:
-  identifier: "org.projectclearwater.20150324"
+  identifier: "org.projectclearwater.20150401"
 
 events:
   #
@@ -832,6 +832,14 @@ events:
     summary: "The request was rejected because the current application server failed"
     details: |
       The request was rejected because the current application server failed to respond to an initial SIP request, and the iFCs specify that the server should not be bypassed.
+    level: 80
+
+  0x8100E6:
+    summary: "The request was rejected because the Session-Expires header was invalid"
+    details: |
+      The request was rejected because the requested value for the Session-Expires header was invalid.
+      Requested value: {{ static_data[0] }}
+      Maximum allowed value: {{ static_data[1] }}
     level: 80
 
   #
