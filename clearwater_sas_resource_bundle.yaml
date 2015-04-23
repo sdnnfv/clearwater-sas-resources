@@ -33,7 +33,7 @@
 # as those licenses appear in the file LICENSE-OPENSSL.
 
 info:
-  identifier: "org.projectclearwater.20150324"
+  identifier: "org.projectclearwater.20150401"
 
 events:
   #
@@ -907,6 +907,21 @@ events:
     details: |
       The request was rejected because the current application server failed to respond to an initial SIP request, and the iFCs specify that the server should not be bypassed.
     level: 80
+
+  0x8100E6:
+    summary: "The request was rejected because the Session-Expires header was invalid"
+    details: |
+      The request was rejected because the requested value for the Session-Expires header was invalid.
+      Requested value: {{ static_data[0] }}
+      Maximum allowed value: {{ static_data[1] }}
+    level: 80
+
+  0x8100F0:
+    summary: "No Rf billing ACR was sent because there was no destination CCF"
+    details: |
+      The server constructed an Accounting Request (ACR) billing message, but could not identify which Charging Collection Function (CCF) it should be sent to, so it dropped it.  The Charging Collection Function is normally identified from the P-Charging-Function-Address SIP header.
+    level: 80
+
 
   #
   # Homestead events (0x820000 - 0x82FFFF)
