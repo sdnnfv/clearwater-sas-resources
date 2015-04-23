@@ -842,6 +842,13 @@ events:
       Maximum allowed value: {{ static_data[1] }}
     level: 80
 
+  0x8100F0:
+    summary: "No Rf billing ACR was sent because there was no destination CCF"
+    details: |
+      The server constructed an Accounting Request (ACR) billing message, but could not identify which Charging Collection Function (CCF) it should be sent to, so it dropped it.  The Charging Collection Function is normally identified from the P-Charging-Function-Address SIP header.
+    level: 80
+
+
   #
   # Homestead events (0x820000 - 0x82FFFF)
   #
