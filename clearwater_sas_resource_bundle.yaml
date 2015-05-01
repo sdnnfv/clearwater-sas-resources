@@ -626,7 +626,8 @@ events:
 
   0x81008A:
     summary: 'Deregistration with an application server as part of a RTR failed'
-    details: Unable to deregister with an application server as part of a Registration Termination Request. Served User: '{{ var_data[0] }}'
+    details: |
+      Unable to deregister with an application server as part of a Registration Termination Request. Served User: '{{ var_data[0] }}'
     level:   80
 
   0x810090:
