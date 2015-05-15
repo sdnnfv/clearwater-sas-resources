@@ -33,7 +33,7 @@
 # as those licenses appear in the file LICENSE-OPENSSL.
 
 info:
-  identifier: "org.projectclearwater.20150401"
+  identifier: "org.projectclearwater.20150507"
 
 events:
   #
@@ -538,7 +538,7 @@ events:
     level:   80
 
   0x810042:
-    summary: "Authentication failed as the downstream node didn't return an authentication vector"
+    summary: "Authentication failed as the challenge response was incorrect (wrong password or authentication realm)"
     level:   80
 
   0x810043:
@@ -573,6 +573,10 @@ events:
   0x81004A:
     summary: "Authentication timer pop ignored: the registration completed successfully and did not time out"
     level:   40
+
+  0x81004B:
+    summary: "Authentication failed as the downstream node didn't return an authentication vector"
+    level:   80
 
   0x810050:
     summary: 'Subscription request for "{{ var_data[0] }}"'
