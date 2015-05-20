@@ -40,11 +40,11 @@ events:
   # Common events and protocol flows (0x000000 - 0x7FFFFF).
   #
   0x000001:
-    summary: "SIP message received: {{ var_data[1] | decode_sip_summary }}"
+    summary: 'SIP message received: {{ var_data[1] | decompress: "sip" | decode_sip_summary }}'
     details: |
       SIP message received:
 
-      <sas:fixed-width-font>{{ var_data[1] | decode_sip_details }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[1] | decompress: "sip" | decode_sip_details }}</sas:fixed-width-font>
     call_flow:
       data: '{{ var_data[1] | decompress: "sip" }}'
       protocol: _SIP  # The leading underscore means that this is a builtin protocol.
@@ -53,11 +53,11 @@ events:
     level:   60
 
   0x000002:
-    summary: "SIP message sent: {{ var_data[1] | decode_sip_summary }}"
+    summary: 'SIP message sent: {{ var_data[1] | decompress: "sip" | decode_sip_summary }}'
     details: |
       SIP message sent:
 
-      <sas:fixed-width-font>{{ var_data[1] | decode_sip_details }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[1] | decompress: "sip" | decode_sip_details }}</sas:fixed-width-font>
     call_flow:
       data: '{{ var_data[1] | decompress: "sip" }}'
       protocol: _SIP  # The leading underscore means that this is a builtin protocol.
