@@ -33,34 +33,34 @@
 # as those licenses appear in the file LICENSE-OPENSSL.
 
 info:
-  identifier: "org.projectclearwater.20150507"
+  identifier: "org.projectclearwater.20150519"
 
 events:
   #
   # Common events and protocol flows (0x000000 - 0x7FFFFF).
   #
   0x000001:
-    summary: "SIP message received: {{ var_data[1] | decode_sip_summary }}"
+    summary: 'SIP message received: {{ var_data[1] | decompress: "sip" | decode_sip_summary }}'
     details: |
       SIP message received:
 
-      <sas:fixed-width-font>{{ var_data[1] | decode_sip_details }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[1] | decompress: "sip" | decode_sip_details }}</sas:fixed-width-font>
     call_flow:
-      data: "{{ var_data[1] }}"
-      protocol: sip
+      data: '{{ var_data[1] | decompress: "sip" }}'
+      protocol: _SIP  # The leading underscore means that this is a builtin protocol.
       direction: in
       remote_address: "{{var_data[0]}}:{{static_data[1]}}"
     level:   60
 
   0x000002:
-    summary: "SIP message sent: {{ var_data[1] | decode_sip_summary }}"
+    summary: 'SIP message sent: {{ var_data[1] | decompress: "sip" | decode_sip_summary }}'
     details: |
       SIP message sent:
 
-      <sas:fixed-width-font>{{ var_data[1] | decode_sip_details }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[1] | decompress: "sip" | decode_sip_details }}</sas:fixed-width-font>
     call_flow:
-      data: "{{ var_data[1] }}"
-      protocol: sip
+      data: '{{ var_data[1] | decompress: "sip" }}'
+      protocol: _SIP  # The leading underscore means that this is a builtin protocol.
       direction: out
       remote_address: "{{var_data[0]}}:{{static_data[1]}}"
     level:   60
@@ -68,39 +68,71 @@ events:
   #
   # HTTP flows.
   #
-  0x000003: &http_request_sent
+  # These events are duplicated below, but the duplicates are logged at level 40
+  # instead of level 60, and are not included in the call flow.  The two sets
+  # must be kept in sync.
+  #
+  0x000003:
     summary: 'Sent HTTP {{ var_data[3] }} to {{ var_data[4] }}'
     details: |
       Sent HTTP request to {{ var_data[0] }}:{{ static_data[0] }} from {{ var_data[1] }}:{{ static_data[1] }}
 
-      <sas:fixed-width-font>{{ var_data[2] }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[2] | decompress: "http" }}</sas:fixed-width-font>
+    call_flow:
+      data: '{{ var_data[2] | decompress: "http" }}'
+      caption: '{{ var_data[3] }}'
+      protocol: HTTP
+      direction: out
+      remote_address: '{{var_data[0]}}:{{static_data[0]}}'
+      local_address: '{{var_data[1]}}:{{static_data[1]}}'
     level: 60
 
-  0x000004: &http_request_received
+  0x000004:
     summary: 'Received HTTP {{ static_data[2] | enum: "LIBEVHTP_METHODS" }} for {{ var_data[2] }}'
     details: |
       Received HTTP request from {{ var_data[0] }}:{{ static_data[0] }} at {{ var_data[1] }}:{{ static_data[1] }}
 
-      <sas:fixed-width-font>{{ var_data[3] }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[3] | decompress: "http" }}</sas:fixed-width-font>
+    call_flow:
+      data: '{{ var_data[3] | decompress: "http" }}'
+      caption: '{{ static_data[2] | enum: "LIBEVHTP_METHODS" }}'
+      protocol: HTTP
+      direction: in
+      remote_address: '{{var_data[0]}}:{{static_data[0]}}'
+      local_address: '{{var_data[1]}}:{{static_data[1]}}'
     level: 60
 
-  0x000005: &http_response_sent
+  0x000005:
     summary: 'Sent HTTP {{ static_data[3] }} response for {{ static_data[2] | enum: "LIBEVHTP_METHODS" }} of {{ var_data[2] }}'
     details: |
       Sent HTTP response to {{ var_data[0] }}:{{ static_data[0] }} from {{ var_data[1] }}:{{ static_data[1] }}
 
-      <sas:fixed-width-font>{{ var_data[3] }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[3] | decompress: "http" }}</sas:fixed-width-font>
+    call_flow:
+      data: '{{ var_data[3] | decompress: "http" }}'
+      caption: '{{ static_data[3] }} (for {{ static_data[2] | enum: "LIBEVHTP_METHODS" }})'
+      protocol: HTTP
+      direction: out
+      remote_address: '{{var_data[0]}}:{{static_data[0]}}'
+      local_address: '{{var_data[1]}}:{{static_data[1]}}'
     level: 60
 
-  0x000006: &http_response_received
+  0x000006:
     summary: 'Received HTTP {{ static_data[2] }} response for {{ var_data[3] }} to {{ var_data[4] }}'
     details: |
       Received HTTP response from {{ var_data[0] }}:{{ static_data[0] }} at {{ var_data[1] }}:{{ static_data[1] }}
 
-      <sas:fixed-width-font>{{ var_data[2] }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[2] | decompress: "http" }}</sas:fixed-width-font>
+    call_flow:
+      data: '{{ var_data[2] | decompress: "http" }}'
+      caption: '{{ static_data[2] }} (for {{ var_data[3] }})'
+      protocol: HTTP
+      direction: in
+      remote_address: '{{var_data[0]}}:{{static_data[0]}}'
+      local_address: '{{var_data[1]}}:{{static_data[1]}}'
     level: 60
 
-  0x000007: &http_request_error
+  0x000007:
     summary: 'Error sending HTTP {{ var_data[1] }} to {{ var_data[2] }}'
     details: |
       Error sending to {{ var_data[0] }}:{{ static_data[0] }}
@@ -108,7 +140,7 @@ events:
       {{ var_data[3] }} ({{ static_data[1] }})
     level: 60
 
-  0x000008: &http_rejected_overload
+  0x000008:
     summary: 'HTTP {{ static_data[0] | enum: "LIBEVHTP_METHODS" }} to {{ var_data[0] }} rejected due to overload'
     details: |
       Response code: {{ static_data[1] }}
@@ -118,56 +150,111 @@ events:
 
     level: 60
 
-  # Duplicates of the above HTTP events, but logged at level 40 rather than 60.
+  #
+  # Duplicates of the above HTTP events, but logged at level 40 rather than 60,
+  # and not included in the call flow. The two sets must be kept in sync.
+  #
   0x000009:
-    <<: *http_request_sent
+    summary: 'Sent HTTP {{ var_data[3] }} to {{ var_data[4] }}'
+    details: |
+      Sent HTTP request to {{ var_data[0] }}:{{ static_data[0] }} from {{ var_data[1] }}:{{ static_data[1] }}
+
+      <sas:fixed-width-font>{{ var_data[2] | decompress: "http" }}</sas:fixed-width-font>
     level: 40
 
   0x00000A:
-    <<: *http_request_received
+    summary: 'Received HTTP {{ static_data[2] | enum: "LIBEVHTP_METHODS" }} for {{ var_data[2] }}'
+    details: |
+      Received HTTP request from {{ var_data[0] }}:{{ static_data[0] }} at {{ var_data[1] }}:{{ static_data[1] }}
+
+      <sas:fixed-width-font>{{ var_data[3] | decompress: "http" }}</sas:fixed-width-font>
     level: 40
 
   0x00000B:
-    <<: *http_response_sent
+    summary: 'Sent HTTP {{ static_data[3] }} response for {{ static_data[2] | enum: "LIBEVHTP_METHODS" }} of {{ var_data[2] }}'
+    details: |
+      Sent HTTP response to {{ var_data[0] }}:{{ static_data[0] }} from {{ var_data[1] }}:{{ static_data[1] }}
+
+      <sas:fixed-width-font>{{ var_data[3] | decompress: "http" }}</sas:fixed-width-font>
     level: 40
 
   0x00000C:
-    <<: *http_response_received
+    summary: 'Received HTTP {{ static_data[2] }} response for {{ var_data[3] }} to {{ var_data[4] }}'
+    details: |
+      Received HTTP response from {{ var_data[0] }}:{{ static_data[0] }} at {{ var_data[1] }}:{{ static_data[1] }}
+
+      <sas:fixed-width-font>{{ var_data[2] | decompress: "http" }}</sas:fixed-width-font>
     level: 40
 
   0x00000D:
-    <<: *http_request_error
+    summary: 'Error sending HTTP {{ var_data[1] }} to {{ var_data[2] }}'
+    details: |
+      Error sending to {{ var_data[0] }}:{{ static_data[0] }}
+
+      {{ var_data[3] }} ({{ static_data[1] }})
     level: 40
 
   0x00000E:
-    <<: *http_rejected_overload
+    summary: 'HTTP {{ static_data[0] | enum: "LIBEVHTP_METHODS" }} to {{ var_data[0] }} rejected due to overload'
+    details: |
+      Response code: {{ static_data[1] }}
+      Target latency: {{ static_data[2] }}us
+      Current latency: {{ static_data[3] }}us
+      Requests limited to a rate of {{ static_data[4] | float}}/sec
     level: 40
 
   #
   # Diameter flows.
   #
+  # The call_flow sections of these events are a bit hacky and work around the
+  # fact that SAS does not handle compressed binary messages properly in the
+  # ladder diagram. To fix this we:
+  # -  Specify the protocol as `Diameter` rather than `_Diameter` which causes
+  #    SAS to treat it as a generic protocol.
+  # -  Specify the caption and message explicitly.
+  # -  Run the data through `hex_and_ascii` before passing to the call flow.
+  #    This causes it to become valid UTF-8. This is OK - we are specifying the
+  #    caption and message so the `data` field is only used for message
+  #    matching.
+  #
   0x00000F:
-    summary: 'Sending diameter {{ var_data[2] | decode_diameter_summary }}'
+    summary: 'Sending diameter {{ var_data[2] | decompress | decode_diameter_summary }}'
     details: |
       Sending diameter message to {{ var_data[0] }}:{{ static_data[0] }} from {{ var_data[1] }}:{{ static_data[1] }}
 
-      <sas:fixed-width-font>{{ var_data[2] | decode_diameter_details }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[2] | decompress | decode_diameter_details }}</sas:fixed-width-font>
+    call_flow:
+      data: "{{ var_data[2] | decompress | hex_and_ascii }}"
+      caption: "{{ var_data[2] | decompress | decode_diameter_summary }}"
+      message: "{{ var_data[2] | decompress | decode_diameter_details }}"
+      protocol: Diameter
+      direction: out
+      remote_address: "{{var_data[0]}}:{{static_data[0]}}"
+      local_address: "{{var_data[1]}}:{{static_data[1]}}"
     level: 60
 
   0x000010:
-    summary: 'Received diameter {{ var_data[2] | decode_diameter_summary }}'
+    summary: 'Received diameter {{ var_data[2] | decompress | decode_diameter_summary }}'
     details: |
       Received diameter message from {{ var_data[0] }}:{{ static_data[0] }} at {{ var_data[1] }}:{{ static_data[1] }}
 
-      <sas:fixed-width-font>{{ var_data[2] | decode_diameter_details }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[2] | decompress | decode_diameter_details }}</sas:fixed-width-font>
+    call_flow:
+      data: "{{ var_data[2] | decompress | hex_and_ascii }}"
+      caption: "{{ var_data[2] | decompress | decode_diameter_summary }}"
+      message: "{{ var_data[2] | decompress | decode_diameter_details }}"
+      protocol: Diameter
+      direction: in
+      remote_address: "{{var_data[0]}}:{{static_data[0]}}"
+      local_address: "{{var_data[1]}}:{{static_data[1]}}"
     level: 60
 
   0x000011:
-    summary: 'Timeout sending diameter {{ var_data[0] | decode_diameter_summary }}'
+    summary: 'Timeout sending diameter {{ var_data[0] | decompress | decode_diameter_summary }}'
     details: |
       Timeout sending diameter message:
 
-      <sas:fixed-width-font>{{ var_data[0] | decode_diameter_details }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[0] | decompress | decode_diameter_details }}</sas:fixed-width-font>
     level: 60
 
   #
@@ -716,7 +803,7 @@ events:
   0x8100C4:
     summary: "Testing whether an iFC matches"
     details: |
-      iFC: {{ var_data[0] }}
+      iFC: {{ var_data[0] | decompress: "service_profile" }}
     level:   40
 
   0x8100C5:
@@ -903,7 +990,7 @@ events:
     summary: "The retrieved IMS subscription from the HSS had invalid XML"
     details: |
       The retrieved XML must be parseable, and contain one IMS subscription
-      IMS subscription: {{ var_data[0] }}
+      IMS subscription: {{ var_data[0] | decompress: "service_profile" }}
     level:   80
 
   0x8200A0:
@@ -981,7 +1068,7 @@ events:
   0x8201A0:
     summary: "Found registration data in the cache"
     details: |
-      IMS subscription: {{ var_data[0] }}
+      IMS subscription: {{ var_data[0] | decompress: "service_profile" }}
       Registration state: {{ static_data[0] | enum: "HOMESTEAD_REGISTRATION_STATES" }}
       Associated private IDs: {{ var_data[1] }}
       Charging addresses: {{ var_data[2] }}
@@ -998,7 +1085,7 @@ events:
     summary: "Caching subscriber's registration data"
     details: |
       Public ID: {{ var_data[0] }}
-      IMS subscription: {{ var_data[1] }}
+      IMS subscription: {{ var_data[1] | decompress: "service_profile" }}
       Registration state: {{ static_data[0] | enum: "HOMESTEAD_REGISTRATION_STATES" }}
       Associated private IDs: {{ var_data[2] }}
       Charging addresses: {{ var_data[3] }}
@@ -1041,7 +1128,7 @@ events:
     details: |
       The IMS subscription returned by the HSS defines an Implicit Registration Set with no SIP URIs. This is not IMS-compliant, but the call will proceed as normal.
 
-      IMS subscription: {{ var_data[0] }}
+      IMS subscription: {{ var_data[0] | decompress: "service_profile" }}
     level:   40
 
   # Push Profile Requests are difficult to work with until they have been
@@ -1571,3 +1658,16 @@ enums:
   ENABLED_DISABLED:
     0: 'Disabled'
     1: 'Enabled'
+
+compression_profiles:
+    sip:
+        # This must match PROFILE_SIP defined in https://github.com/Metaswitch/cpp-common/blob/master/include/sasevent.h
+        dictionary: "PCMUACKrportSUBSCRIBEP-Access-Network-Info: BYEusert=0 0 telephone-eventAccept: transportREGISTERSubscription-State: NOTIFYServer: m=audio RTP/AVP c=IN IP4 Expires: 200 OK\r\na=rtpmap:INVITETo: application/sdpVia: Content-Type: From: CSeq: Max-Forwards: Contact: Organization: Content-Length: Call-ID: ;tag=;branch=z9hG4bKSIP/2.0/UDP<sip:"
+
+    http:
+        # This must match PROFILE_HTTP defined in https://github.com/Metaswitch/cpp-common/blob/master/include/sasevent.h
+        dictionary: "Accept-Encoding: gzip, deflate, sdch\r\nAccept-Language:\r\nAccept: */*\r\nAuthorization: Digest username=\"\", realm=\"\", nonce=\"\", uri=\"\", response=\"\", opaque=\"\", qop=auth, nc=, cnonce=\"\"\r\nContent-Length: 0\r\nContent-Type: application/vnd.projectclearwater.call-list+xml\r\nContent-Type: application/x-www-form-urlencoded\r\nContent-Type: text/html; charset=ISO-8859-1\r\nContent-Type: text/html; charset=UTF-8\r\nContent-Type: text/plain\r\nDELETE /timers/ HTTP/1.1\r\nDate:\r\nEtag: \"\"\r\nGET /impi//registration-status?impu=&visited-network=&auth-type=DEREG HTTP/1.1\r\nGET /impu//location HTTP/1.1\r\nGET /org.etsi.ngn.simservs/users//simservs.xml HTTP/1.1\r\nGET /org.projectclearwater.call-list/users//call-list.xml HTTP/1.1\r\nHTTP/1.1 200 OK\r\nHost: http_backend\r\nLocation: /timers/\r\nPOST /call-id/ HTTP/1.1\r\nPUT /impu//reg-data HTTP/1.1\r\nPUT /impu//reg-data?private_id= HTTP/1.1\r\nServer: cyclone/1.0\r\nUser-Agent:\r\nX-SAS-HTTP-Branch-ID:\r\nX-XCAP-Asserted-Identity:\r\n\"]}}\"}}}}}]}}},\"Acct-Interim-Interval\":{\"aka\":{\"challenge\":\"\",\"Role-Of-Node\":\"}],\"Called-Party-Address\":\"\",\"Calling-Party-Address\":[\"\"}],\"Calling-Party-Address\":[\"\",\"Cause-Code\":\"],\"Cause-Code\":\",\"Content-Length\":,\"Content-Type\":\"\",\"crypt_key\":\"{\"digest\":{\"ha1\":\"{\"event\":{\"Accounting-Record-Type\":,\"Event-Timestamp\":,\"Event-Type\":{\"Expires\":\"],\"Event-Type\":{\"SIP-Method\":\"\"},\"From-Address\":\"{\"impi\":\"\",\"IMS-Charging-Identifier\":\"\",\"IMS-Visited-Network-Identifier\":\"\",\"Instance-Id\":\"\",\"integrity_key\":\"\",\"Inter-Operator-Identifier\":[{\"Originating-IOI\":\"\",\"mandatory-capabilities\":[\"}],\"Message-Body\":[{\"Content-Disposition\":\"\"}],\"Node-Functionality\":\",\"nonce\":\"],\"optional-capabilities\":[\",\"Originator\":\"}}},\"peers\":{\"ccf\":[\"\",\"qop\":\"\",\"realm\":\"{\"reqtype\":\",\"Requested-Party-Address\":\"\",\"response\":\"{\"result-code\":,\"Role-Of-Node\":\",\"Role-Of-Node\":,\"Route-Header-Received\":\",\"Route-Header-Transmitted\":\"\",\"Route-Header-Transmitted\":\",\"scscf\":\",\"Server-Capabilities\":{\"Server-Name\":[\",\"Service-Information\":{\"IMS-Information\":{\"Application-Server-Information\":[{\"Application-Server\":\",\"SIP-Method\":\",\"SIP-Request-Timestamp-Fraction\":,\"SIP-Response-Timestamp\":,\"SIP-Response-Timestamp-Fraction\":\"},\"Subscription-Id\":[{\"Subscription-Id-Data\":\"\",\"Subscription-Id-Type\":\",\"Terminating-IOI\":\"\"]},\"Time-Stamps\":{\"SIP-Request-Timestamp\":\"}},\"User-Name\":\"},\"User-Session-Id\":\"<ClearwaterRegData><RegistrationState><IMSSubscription xsi=\"http://www.w3.org/2001/XMLSchema-instance\" noNamespaceSchemaLocation=\"CxDataType.xsd\"><PrivateID><ServiceProfile><InitialFilterCriteria><TriggerPoint><ConditionTypeCNF><SPT><ConditionNegated><Group><Method><Extension/><ApplicationServer><ServerName><DefaultHandling><PublicIdentity><Identity><ChargingAddresses><CCF priority=\"\"><ECF priority=\"\"><Body present but not logged>"
+
+    service_profile:
+        # This must match PROFILE_SERVICE_PROFILE defined in https://github.com/Metaswitch/cpp-common/blob/master/include/sasevent.h
+        dictionary: "<IMSSubscription xsi=\"http://www.w3.org/2001/XMLSchema-instance\" noNamespaceSchemaLocation=\"CxDataType.xsd\"><PrivateID><ServiceProfile><InitialFilterCriteria><TriggerPoint><ConditionTypeCNF><SPT><ConditionNegated><Group><Method><Extension/><ApplicationServer><ServerName><DefaultHandling><PublicIdentity><Identity>"
