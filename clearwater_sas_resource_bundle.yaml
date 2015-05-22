@@ -250,7 +250,7 @@ events:
     level: 60
 
   0x000011:
-    summary: 'Timeout sending diameter {{ var_data[0] | decode_diameter_summary }}'
+    summary: 'Timeout sending diameter {{ var_data[0] | decompress | decode_diameter_summary }}'
     details: |
       Timeout sending diameter message:
 
