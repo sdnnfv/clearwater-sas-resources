@@ -151,18 +151,6 @@ events:
 
     level: 60
 
-  0x000012: &http_abort
-    summary: 'Fatal HTTP error encountered'
-    details: |
-      Reason: {{ var_data[0] }}
-    level: 60
-
-  0x000013: &http_abort_detail
-    summary: 'Fatal HTTP error encountered'
-    details: |
-      Reason: {{ var_data[0] }}
-    level: 60
-
   #
   # Duplicates of the above HTTP events, but logged at level 40 rather than 60,
   # and not included in the call flow. The two sets must be kept in sync.
@@ -216,12 +204,19 @@ events:
       Requests limited to a rate of {{ static_data[4] | float}}/sec
     level: 40
 
-  0x000014:
-    <<: *http_abort
-    level: 40
+  #
+  # Another HTTP event and duplicate. Here rather than above to preserve sequential ordering.
+  #
+  0x000012:
+    summary: 'Fatal HTTP error encountered'
+    details: |
+      Fatal HTTP error encountered. Reason: {{ var_data[0] }}
+    level: 60
 
-  0x000015:
-    <<: *http_abort_detail
+  0x000013:
+    summary: 'Fatal HTTP error encountered'
+    details: |
+      Fatal HTTP error encountered. Reason: {{ var_data[0] }}
     level: 40
 
   #
