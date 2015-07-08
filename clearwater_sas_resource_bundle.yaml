@@ -270,7 +270,7 @@ events:
   0x000013:
     summary: 'Fatal HTTP error encountered'
     details: |
-      Fatal HTTP error encountered. Reason: {{ var_data[0] }}
+      Fatal HTTP error encountered. Reason: {{ static_data[0] | enum: "HTTP_ERROR_RESPONSE_TYPES" }}
     level: 40
 
   #
