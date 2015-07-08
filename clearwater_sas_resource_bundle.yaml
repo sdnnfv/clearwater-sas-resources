@@ -205,21 +205,6 @@ events:
     level: 40
 
   #
-  # Another HTTP event and duplicate. Here rather than above to preserve sequential ordering.
-  #
-  0x000012:
-    summary: 'Fatal HTTP error encountered'
-    details: |
-      Fatal HTTP error encountered. Reason: {{ var_data[0] }}
-    level: 60
-
-  0x000013:
-    summary: 'Fatal HTTP error encountered'
-    details: |
-      Fatal HTTP error encountered. Reason: {{ var_data[0] }}
-    level: 40
-
-  #
   # Diameter flows.
   #
   # The call_flow sections of these events are a bit hacky and work around the
@@ -272,6 +257,21 @@ events:
 
       <sas:fixed-width-font>{{ var_data[0] | decompress | decode_diameter_details }}</sas:fixed-width-font>
     level: 60
+
+  #
+  # Another HTTP event and duplicate. Here rather than above to preserve sequential ordering.
+  #
+  0x000012:
+    summary: 'Fatal HTTP error encountered'
+    details: |
+      Fatal HTTP error encountered. Reason: {{ var_data[0] }}
+    level: 60
+
+  0x000013:
+    summary: 'Fatal HTTP error encountered'
+    details: |
+      Fatal HTTP error encountered. Reason: {{ var_data[0] }}
+    level: 40
 
   #
   # Memcached flows.
