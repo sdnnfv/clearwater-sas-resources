@@ -258,6 +258,21 @@ events:
     level: 60
 
   #
+  # Another HTTP event and duplicate. Here rather than above to preserve sequential ordering.
+  #
+  0x000012:
+    summary: 'Fatal HTTP error encountered'
+    details: |
+      Fatal HTTP error encountered. Reason: {{ static_data[0] | enum: "HTTP_ERROR_RESPONSE_TYPES" }}
+    level: 60
+
+  0x000013:
+    summary: 'Fatal HTTP error encountered'
+    details: |
+      Fatal HTTP error encountered. Reason: {{ static_data[0] | enum: "HTTP_ERROR_RESPONSE_TYPES" }}
+    level: 40
+
+  #
   # Memcached flows.
   #
 
@@ -1662,6 +1677,10 @@ enums:
   ENABLED_DISABLED:
     0: 'Disabled'
     1: 'Enabled'
+
+  HTTP_ERROR_RESPONSE_TYPES:
+    0: 'Temporary error response threshold exceeded'
+    1: 'Permanent error response received'
 
 compression_profiles:
     sip:
