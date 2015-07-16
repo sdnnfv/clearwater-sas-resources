@@ -33,7 +33,7 @@
 # as those licenses appear in the file LICENSE-OPENSSL.
 
 info:
-  identifier: "org.projectclearwater.20150519"
+  identifier: "org.projectclearwater.20150716"
 
 events:
   #
@@ -572,7 +572,7 @@ events:
     level:   80
 
   0x810047:
-    summary: "Authentication is not needed as the request wasn't a register"
+    summary: "Authentication is not needed as the request wasn't a REGISTER and had no Proxy-Authorization header"
     level:   40
 
   0x810048:
@@ -589,6 +589,10 @@ events:
 
   0x81004B:
     summary: "Authentication failed as the downstream node didn't return an authentication vector"
+    level:   80
+
+  0x81004C:
+    summary: "Authentication is needed - the request had a Proxy-Authorization header"
     level:   80
 
   0x810050:
