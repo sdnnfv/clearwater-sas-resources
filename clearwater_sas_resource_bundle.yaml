@@ -371,6 +371,12 @@ events:
       Error text: {{ var_data[0] }}
     level:   40
 
+  0x000400:
+    summary: "Failed to form quorum"
+    details: |
+      Insufficient nodes to read Cassandra at consistency level {{ static_data[0] | enum: "QUORUM_CONSISTENCY_LEVELS"}}
+    level:   60
+
   #
   # Sprout events (0x810000 - 0x81FFFF)
   #
@@ -1697,6 +1703,10 @@ enums:
   HTTP_ERROR_RESPONSE_TYPES:
     0: 'Temporary error response threshold exceeded'
     1: 'Permanent error response received'
+
+  QUORUM_CONSISTENCY_LEVELS:
+    0: 'LOCAL_QUORUM'
+    1: 'QUORUM'
 
 compression_profiles:
     sip:
