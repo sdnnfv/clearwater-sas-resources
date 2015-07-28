@@ -372,7 +372,7 @@ events:
     level:   40
 
   0x000400:
-    summary: "Failed to form quorum"
+    summary: "Cassandra operation failed due to lack of available nodes."
     details: |
       Insufficient nodes to read Cassandra at consistency level {{ static_data[0] | enum: "QUORUM_CONSISTENCY_LEVELS"}}
     level:   60
@@ -1705,8 +1705,8 @@ enums:
     1: 'Permanent error response received'
 
   QUORUM_CONSISTENCY_LEVELS:
-    0: 'LOCAL_QUORUM'
-    1: 'QUORUM'
+    2: 'QUORUM'
+    3: 'LOCAL_QUORUM'
 
 compression_profiles:
     sip:
