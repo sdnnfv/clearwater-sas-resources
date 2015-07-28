@@ -588,6 +588,8 @@ events:
 
   0x810047:
     summary: "Authentication is not needed as the request wasn't a REGISTER and had no Proxy-Authorization header"
+    details: |
+      Authentication is not needed as the request wasn't a REGISTER and had no Proxy-Authorization header. The current configuration means the request would have been challenged if it had contained the header.
     level:   40
 
   0x810048:
@@ -608,6 +610,8 @@ events:
 
   0x81004C:
     summary: "Authentication is needed - the request had a Proxy-Authorization header"
+    details: |
+      Authentication is needed because the request has a Proxy-Authorization header and configuration means that non-REGISTER requests are challenged if they contain this header.
     level:   80
 
   0x81004D:
@@ -960,7 +964,7 @@ events:
     level: 80
 
   0x8100E7:
-    summary: "The application server has pre-loaded a route onto the request"
+    summary: "The application server has pre-loaded a route onto the request. Stopping further AS processing"
     details: |
       An application server has pre-loaded a route onto a request forwarded back to the S-CSCF. Application server processing for this request will be stopped, and it will be forwarded according to the supplied route headers.
     level: 80
