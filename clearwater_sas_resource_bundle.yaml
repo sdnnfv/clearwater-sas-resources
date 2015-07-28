@@ -610,6 +610,12 @@ events:
     summary: "Authentication is needed - the request had a Proxy-Authorization header"
     level:   80
 
+  0x81004D:
+    summary: "Authentication is not needed as configuration means non-REGISTER requests are never challenged"
+    details: |
+      Authentication is not needed as the request is not a REGISTER and configuration means non-REGISTER requests are never challenged
+    level:   40
+
   0x810050:
     summary: 'Subscription request for "{{ var_data[0] }}"'
     level:   80
@@ -951,6 +957,12 @@ events:
       The request was rejected because the requested value for the Session-Expires header was invalid.
       Requested value: {{ static_data[0] }}
       Maximum allowed value: {{ static_data[1] }}
+    level: 80
+
+  0x8100E7:
+    summary: "The application server has pre-loaded a route onto the request"
+    details: |
+      An application server has pre-loaded a route onto a request forwarded back to the S-CSCF. Application server processing for this request will be stopped, and it will be forwarded according to the supplied route headers.
     level: 80
 
   0x8100F0:
