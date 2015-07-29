@@ -33,7 +33,7 @@
 # as those licenses appear in the file LICENSE-OPENSSL.
 
 info:
-  identifier: "org.projectclearwater.20150728"
+  identifier: "org.projectclearwater.20150729"
 
 events:
   #
@@ -370,6 +370,12 @@ events:
     details: |
       Error text: {{ var_data[0] }}
     level:   40
+
+  0x000400:
+    summary: "Cassandra operation failed due to lack of available nodes."
+    details: |
+      Insufficient nodes to read Cassandra at consistency level {{ static_data[0] | enum: "QUORUM_CONSISTENCY_LEVELS"}}
+    level:   60
 
   #
   # Sprout events (0x810000 - 0x81FFFF)
@@ -1697,6 +1703,10 @@ enums:
   HTTP_ERROR_RESPONSE_TYPES:
     0: 'Temporary error response threshold exceeded'
     1: 'Permanent error response received'
+
+  QUORUM_CONSISTENCY_LEVELS:
+    2: 'QUORUM'
+    3: 'LOCAL_QUORUM'
 
 compression_profiles:
     sip:
