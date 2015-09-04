@@ -273,6 +273,27 @@ events:
     level: 40
 
   #
+  # Diameter peer status logs
+  #
+  0x000014:
+    summary: 'No diameter peers are currently connected'
+    details: |
+      None of the set of active diameter peers are currently connected.
+
+      If the current request fails, check network connectivity to the following peer list:
+
+      var_data[0]
+    level: 60
+
+  0x000015:
+    summary: 'No active diameter peers'
+    details: |
+      The set of active diameter peers is empty.
+
+      The DNS server might not be hosting records for the diameter realm.
+    level: 60
+
+  #
   # Memcached flows.
   #
 
