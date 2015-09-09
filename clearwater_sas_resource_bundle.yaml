@@ -276,21 +276,19 @@ events:
   # Diameter peer status logs
   #
   0x000014:
-    summary: 'No diameter peers are currently connected'
+    summary: 'No diameter peers'
     details: |
-      None of the set of active diameter peers are currently connected.
+      The set of diameter peers is empty.
 
-      If the current request fails, check network connectivity to the following peer list:
-
-      var_data[0]
+      The DNS server might not be hosting SRV records for the diameter realm.
     level: 60
 
   0x000015:
-    summary: 'No active diameter peers'
+    summary: 'No connected diameter peers'
     details: |
-      The set of active diameter peers is empty.
+      None of the diameter peers is currently connected.
 
-      The DNS server might not be hosting records for the diameter realm.
+      The peers might be uncontactable or configured with a different diameter realm (if realm-based diameter configuration is in use).
     level: 60
 
   #
