@@ -33,7 +33,7 @@
 # as those licenses appear in the file LICENSE-OPENSSL.
 
 info:
-  identifier: "org.projectclearwater.20150908"
+  identifier: "org.projectclearwater.20150923"
 
 events:
   #
@@ -271,6 +271,32 @@ events:
     details: |
       Fatal HTTP error encountered. Reason: {{ static_data[0] | enum: "HTTP_ERROR_RESPONSE_TYPES" }}
     level: 40
+
+  #
+  # Diameter peer status logs
+  #
+  0x000014:
+    summary: 'No diameter peers'
+    details: |
+      The set of diameter peers is empty. This is the most likely reason for the failure of the diameter request.
+
+      The DNS server might not be hosting SRV records for the diameter realm.
+
+      Diameter failure reason: {{ var_data[0] }}
+      Diameter realm: {{ var_data[1] }}
+    level: 60
+
+  0x000015:
+    summary: 'No connected diameter peers'
+    details: |
+      None of the diameter peers is currently connected. This is the most likely reason for the failure of the diameter request.
+
+      The peers might be uncontactable or configured with a different diameter realm from that in Clearwater Core configuration.
+
+      Diameter failure reason: {{ var_data[0] }}
+      Diameter peer: {{ var_data[1] }}
+      Diameter realm: {{ var_data[2] }}
+    level: 60
 
   #
   # Memcached flows.
