@@ -456,16 +456,16 @@ events:
     level:   80
 
   0x81000A:
-    summary: 'Request-URI translated to number portability data {{ var_data[1] }} by ENUM'
-    details: "The full URI is {{ var_data[0] }}."
+    summary: 'Request-URI translated to URI with number portability data (routing number {{ var_data[1] }}) by ENUM'
+    details: "Request-URI translated to URI {{ var_data[0] }} by ENUM. This URI contains number portability data (routing number {{ var_data[1] }}) which will take priority in routing."
     level:   80
 
   0x81000B:
-    summary: 'Request-URI translated to number portability data {{ var_data[1] }} by ENUM'
+    summary: 'Request-URI translated to URI with number portability data (routing number {{ var_data[1] }}) by ENUM'
     details: |
       The original URI contained an NPDI flag, which was ignored due to configuration.
 
-      The full URI is {{ var_data[0] }}.
+     Request-URI translated to URI {{ var_data[0] }} by ENUM. This URI contains number portability data (routing number {{ var_data[1] }}) which will take priority in routing.
     level:   80
 
   0x81000C:
