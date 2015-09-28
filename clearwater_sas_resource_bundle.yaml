@@ -465,7 +465,7 @@ events:
     details: |
       The original URI contained an NPDI flag, which was ignored due to configuration.
 
-     Request-URI translated to URI {{ var_data[0] }} by ENUM. This URI contains number portability data (routing number {{ var_data[1] }}) which will take priority in routing.
+      Request-URI translated to URI {{ var_data[0] }} by ENUM. This URI contains number portability data (routing number {{ var_data[1] }}) which will take priority in routing.
     level:   80
 
   0x81000C:
