@@ -33,7 +33,7 @@
 # as those licenses appear in the file LICENSE-OPENSSL.
 
 info:
-  identifier: "org.projectclearwater.20150923"
+  identifier: "org.projectclearwater.20150926"
 
 events:
   #
@@ -408,7 +408,7 @@ events:
   #
   0x810000:
     summary: "Starting ENUM processing for digits: {{ var_data[0] | dn }}"
-    level:   80
+    level:   60
 
   0x810001:
     summary: "An ENUM rule has translated {{ var_data[0] }} to {{ var_data[3] }}"
@@ -421,11 +421,11 @@ events:
 
   0x810002:
     summary: "ENUM processing for {{ var_data[0] | dn }} failed to find a terminal rule"
-    level:   80
+    level:   60
 
   0x810003:
     summary: "ENUM translated {{ var_data[0] | dn }} to {{ var_data[1] }}"
-    level:   80
+    level:   60
 
   0x810004:
     summary: "ENUM (DNS NAPTR) request sent for domain {{ var_data[0] }}"
@@ -449,6 +449,32 @@ events:
 
   0x810008:
     summary: 'ENUM lookup returned an invalid URI: {{ var_data[0] }}'
+    level:   60
+
+  0x810009:
+    summary: 'Request-URI translated to SIP URI {{ var_data[0] }} by ENUM'
+    level:   80
+
+  0x81000A:
+    summary: 'Request-URI translated to URI with number portability data (routing number {{ var_data[1] }}) by ENUM'
+    details: "Request-URI translated to URI {{ var_data[0] }} by ENUM. This URI contains number portability data (routing number {{ var_data[1] }}) which will take priority in routing."
+    level:   80
+
+  0x81000B:
+    summary: 'Request-URI translated to URI with number portability data (routing number {{ var_data[1] }}) by ENUM'
+    details: |
+      The original URI contained an NPDI flag, which was ignored due to configuration.
+
+      Request-URI translated to URI {{ var_data[0] }} by ENUM. This URI contains number portability data (routing number {{ var_data[1] }}) which will take priority in routing.
+    level:   80
+
+  0x81000C:
+    summary: 'Request-URI not translated by ENUM because an NPDI flag is present'
+    details: "The URI returned by ENUM was {{ var_data[0] }}."
+    level:   40
+
+  0x81000D:
+    summary: 'Request-URI translated to non-SIP URI {{ var_data[0] }} by ENUM'
     level:   80
 
   0x810010:
@@ -538,6 +564,14 @@ events:
 
   0x810029:
     summary: 'Public ID {{ var_data[0] }} is not registered'
+    level:   80
+
+  0x81002E:
+    summary: 'Routing request for phone number "{{ var_data[0] }}" to BGCF'
+    level:   80
+
+  0x81002F:
+    summary: 'Routing request for off-net SIP URI "{{ var_data[0] }}" to BGCF'
     level:   80
 
   0x810030:
