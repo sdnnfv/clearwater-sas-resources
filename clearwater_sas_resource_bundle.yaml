@@ -1022,17 +1022,23 @@ events:
     level: 80
 
   0x8100E6:
-    summary: "The request was rejected because the Session-Expires header was invalid"
+    summary: "Unable to establish a session timer as neither user-agent supports it"
     details: |
-      The request was rejected because the requested value for the Session-Expires header was invalid.
-      Requested value: {{ static_data[0] }}
-      Maximum allowed value: {{ static_data[1] }}
+      Unable to establish a session timer as neither user-agent supports it.
     level: 80
 
   0x8100E7:
     summary: "The application server has pre-loaded a route onto the request. Stopping further AS processing"
     details: |
       An application server has pre-loaded a route onto a request forwarded back to the S-CSCF. Application server processing for this request will be stopped, and it will be forwarded according to the supplied route headers.
+    level: 80
+
+  0x8100E8:
+    summary: "Unable to set the desired session timer as the minimum refresh interval is too long"
+    details: |
+      Unable to set the desired session timer as the minimum refresh interval is too long
+      Desired value: {{ static_data[0] }}
+      Minimum allowed value: {{ static_data[1] }}
     level: 80
 
   0x8100F0:
