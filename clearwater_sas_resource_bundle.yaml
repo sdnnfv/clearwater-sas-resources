@@ -1771,8 +1771,17 @@ enums:
     1: 'Permanent error response received'
 
   QUORUM_CONSISTENCY_LEVELS:
+    1: 'ONE'
     2: 'QUORUM'
     3: 'LOCAL_QUORUM'
+    4: 'EACH_QUORUM'
+    5: 'ALL'
+    6: 'ANY'
+    7: 'TWO'
+    8: 'THREE'
+    9: 'SERIAL'
+    10: 'LOCAL_SERIAL'
+    11: 'LOCAL_ONE'
 
 compression_profiles:
     sip:
