@@ -400,7 +400,7 @@ events:
   0x000400:
     summary: "Cassandra operation failed due to lack of available nodes."
     details: |
-      Insufficient nodes to read Cassandra at consistency level {{ static_data[0] | enum: "QUORUM_CONSISTENCY_LEVELS"}}
+      Insufficient nodes to read Cassandra at consistency level {{ static_data[0] | enum: "CASSANDRA_CONSISTENCY_LEVELS"}}
     level:   60
 
   #
@@ -1770,9 +1770,18 @@ enums:
     0: 'Temporary error response threshold exceeded'
     1: 'Permanent error response received'
 
-  QUORUM_CONSISTENCY_LEVELS:
+  CASSANDRA_CONSISTENCY_LEVELS:
+    1: 'ONE'
     2: 'QUORUM'
     3: 'LOCAL_QUORUM'
+    4: 'EACH_QUORUM'
+    5: 'ALL'
+    6: 'ANY'
+    7: 'TWO'
+    8: 'THREE'
+    9: 'SERIAL'
+    10: 'LOCAL_SERIAL'
+    11: 'LOCAL_ONE'
 
 compression_profiles:
     sip:
