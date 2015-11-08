@@ -33,7 +33,7 @@
 # as those licenses appear in the file LICENSE-OPENSSL.
 
 info:
-  identifier: "org.projectclearwater.20151002"
+  identifier: "org.projectclearwater.20151108"
 
 events:
   #
@@ -1039,6 +1039,20 @@ events:
       Unable to set the desired session timer as the minimum refresh interval is too long
       Desired value: {{ static_data[0] }}
       Minimum allowed value: {{ static_data[1] }}
+    level: 80
+
+  0x8100E9:
+    summary: "An application server has retargeted the request from {{ var_data[0] }} to {{ var_data[1] }}"
+    details: |
+      An application server has retargeted the request from {{ var_data[0] }} to {{ var_data[1] }}.
+      originating-cdiv (originating after call diversion) processing will now begin.
+    level: 80
+
+  0x8100EA:
+    summary: "An application server has changed the request URI from {{ var_data[0] }} to the aliased URI {{ var_data[1] }}"
+    details: |
+      An application server has changed the request URI from {{ var_data[0] }} to the aliased URI {{ var_data[1] }}.
+      As these two URIs are aliases, terminating processing will continue and originating-cdiv processing will not be performed.
     level: 80
 
   0x8100F0:
