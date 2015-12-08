@@ -1736,7 +1736,7 @@ enums:
     12: "UNLOCK"
     13: "TRACE"
     14: "CONNECT"
-    15: "PATCH,"
+    15: "PATCH"
     16: "UNKNOWN"
 
   HOMESTEAD_REGISTRATION_STATES:
