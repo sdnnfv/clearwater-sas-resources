@@ -224,10 +224,8 @@ events:
 
       <sas:fixed-width-font>{{ var_data[2] | decompress | decode_diameter_details }}</sas:fixed-width-font>
     call_flow:
-      data: "{{ var_data[2] | decompress | hex_and_ascii }}"
-      caption: "{{ var_data[2] | decompress | decode_diameter_summary }}"
-      message: "{{ var_data[2] | decompress | decode_diameter_details }}"
-      protocol: Diameter
+      data: "{{ var_data[2] | decompress | binary }}"
+      protocol: _Diameter
       direction: out
       remote_address: "{{var_data[0]}}:{{static_data[0]}}"
       local_address: "{{var_data[1]}}:{{static_data[1]}}"
@@ -240,10 +238,8 @@ events:
 
       <sas:fixed-width-font>{{ var_data[2] | decompress | decode_diameter_details }}</sas:fixed-width-font>
     call_flow:
-      data: "{{ var_data[2] | decompress | hex_and_ascii }}"
-      caption: "{{ var_data[2] | decompress | decode_diameter_summary }}"
-      message: "{{ var_data[2] | decompress | decode_diameter_details }}"
-      protocol: Diameter
+      data: "{{ var_data[2] | decompress | binary }}"
+      protocol: _Diameter
       direction: in
       remote_address: "{{var_data[0]}}:{{static_data[0]}}"
       local_address: "{{var_data[1]}}:{{static_data[1]}}"
