@@ -218,15 +218,15 @@ events:
   #    matching.
   #
   0x00000F:
-    summary: 'Sending diameter {{ var_data[2] | decompress | decode_diameter_summary }}'
+    summary: 'Sending diameter {{ var_data[2] | decompress: "lz4" | decode_diameter_summary }}'
     details: |
       Sending diameter message to {{ var_data[0] }}:{{ static_data[0] }} from {{ var_data[1] }}:{{ static_data[1] }}
 
-      <sas:fixed-width-font>{{ var_data[2] | decompress | decode_diameter_details }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[2] | decompress: "lz4" | decode_diameter_details }}</sas:fixed-width-font>
     call_flow:
-      data: "{{ var_data[2] | decompress | hex_and_ascii }}"
-      caption: "{{ var_data[2] | decompress | decode_diameter_summary }}"
-      message: "{{ var_data[2] | decompress | decode_diameter_details }}"
+      data: '{{ var_data[2] | decompress: "lz4" | hex_and_ascii }}'
+      caption: '{{ var_data[2] | decompress: "lz4" | decode_diameter_summary }}'
+      message: '{{ var_data[2] | decompress: "lz4" | decode_diameter_details }}'
       protocol: Diameter
       direction: out
       remote_address: "{{var_data[0]}}:{{static_data[0]}}"
@@ -234,15 +234,15 @@ events:
     level: 60
 
   0x000010:
-    summary: 'Received diameter {{ var_data[2] | decompress | decode_diameter_summary }}'
+    summary: 'Received diameter {{ var_data[2] | decompress: "lz4" | decode_diameter_summary }}'
     details: |
       Received diameter message from {{ var_data[0] }}:{{ static_data[0] }} at {{ var_data[1] }}:{{ static_data[1] }}
 
-      <sas:fixed-width-font>{{ var_data[2] | decompress | decode_diameter_details }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[2] | decompress: "lz4" | decode_diameter_details }}</sas:fixed-width-font>
     call_flow:
-      data: "{{ var_data[2] | decompress | hex_and_ascii }}"
-      caption: "{{ var_data[2] | decompress | decode_diameter_summary }}"
-      message: "{{ var_data[2] | decompress | decode_diameter_details }}"
+      data: '{{ var_data[2] | decompress: "lz4" | hex_and_ascii }}'
+      caption: '{{ var_data[2] | decompress: "lz4" | decode_diameter_summary }}'
+      message: '{{ var_data[2] | decompress: "lz4" | decode_diameter_details }}'
       protocol: Diameter
       direction: in
       remote_address: "{{var_data[0]}}:{{static_data[0]}}"
@@ -250,11 +250,11 @@ events:
     level: 60
 
   0x000011:
-    summary: 'Timeout sending diameter {{ var_data[0] | decompress | decode_diameter_summary }}'
+    summary: 'Timeout sending diameter {{ var_data[0] | decompress: "lz4" | decode_diameter_summary }}'
     details: |
       Timeout sending diameter message:
 
-      <sas:fixed-width-font>{{ var_data[0] | decompress | decode_diameter_details }}</sas:fixed-width-font>
+      <sas:fixed-width-font>{{ var_data[0] | decompress: "lz4" | decode_diameter_details }}</sas:fixed-width-font>
     level: 60
 
   #
@@ -1811,4 +1811,7 @@ compression_profiles:
     service_profile:
         # This must match PROFILE_SERVICE_PROFILE defined in https://github.com/Metaswitch/cpp-common/blob/master/include/sasevent.h
         dictionary: "<IMSSubscription xsi=\"http://www.w3.org/2001/XMLSchema-instance\" noNamespaceSchemaLocation=\"CxDataType.xsd\"><PrivateID><ServiceProfile><InitialFilterCriteria><TriggerPoint><ConditionTypeCNF><SPT><ConditionNegated><Group><Method><Extension/><ApplicationServer><ServerName><DefaultHandling><PublicIdentity><Identity>"
+        algorithm: "lz4"
+
+    lz4:
         algorithm: "lz4"
