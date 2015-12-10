@@ -33,7 +33,7 @@
 # as those licenses appear in the file LICENSE-OPENSSL.
 
 info:
-  identifier: "org.projectclearwater.20151108"
+  identifier: "org.projectclearwater.20151210"
 
 events:
   #
@@ -206,17 +206,6 @@ events:
   #
   # Diameter flows.
   #
-  # The call_flow sections of these events are a bit hacky and work around the
-  # fact that SAS does not handle compressed binary messages properly in the
-  # ladder diagram. To fix this we:
-  # -  Specify the protocol as `Diameter` rather than `_Diameter` which causes
-  #    SAS to treat it as a generic protocol.
-  # -  Specify the caption and message explicitly.
-  # -  Run the data through `hex_and_ascii` before passing to the call flow.
-  #    This causes it to become valid UTF-8. This is OK - we are specifying the
-  #    caption and message so the `data` field is only used for message
-  #    matching.
-  #
   0x00000F:
     summary: 'Sending diameter {{ var_data[2] | decompress | decode_diameter_summary }}'
     details: |
@@ -224,10 +213,8 @@ events:
 
       <sas:fixed-width-font>{{ var_data[2] | decompress | decode_diameter_details }}</sas:fixed-width-font>
     call_flow:
-      data: "{{ var_data[2] | decompress | hex_and_ascii }}"
-      caption: "{{ var_data[2] | decompress | decode_diameter_summary }}"
-      message: "{{ var_data[2] | decompress | decode_diameter_details }}"
-      protocol: Diameter
+      data: "{{ var_data[2] | decompress | binary }}"
+      protocol: _Diameter
       direction: out
       remote_address: "{{var_data[0]}}:{{static_data[0]}}"
       local_address: "{{var_data[1]}}:{{static_data[1]}}"
@@ -240,10 +227,8 @@ events:
 
       <sas:fixed-width-font>{{ var_data[2] | decompress | decode_diameter_details }}</sas:fixed-width-font>
     call_flow:
-      data: "{{ var_data[2] | decompress | hex_and_ascii }}"
-      caption: "{{ var_data[2] | decompress | decode_diameter_summary }}"
-      message: "{{ var_data[2] | decompress | decode_diameter_details }}"
-      protocol: Diameter
+      data: "{{ var_data[2] | decompress | binary }}"
+      protocol: _Diameter
       direction: in
       remote_address: "{{var_data[0]}}:{{static_data[0]}}"
       local_address: "{{var_data[1]}}:{{static_data[1]}}"
