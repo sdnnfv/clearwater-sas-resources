@@ -378,7 +378,7 @@ events:
     level: 40
 
   0x00010D:
-    summary: "Attempt memcached operation to host {{ var_data[0] }}"
+    summary: "Attempt memcached operation to host {{ var_data[0] }} (port {{ static_data[0] }})"
     level: 20
 
   0x000200:
